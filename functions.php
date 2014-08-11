@@ -403,6 +403,125 @@ function product_custom_columns($column){
 
   }
 }
+// ---
+// --- End of Products section
+// ---
+
+
+//----------------------------------------------
+//----------register and label tournament post type
+//----------------------------------------------
+$tournaments_labels = array(
+    'name' => _x('Tournaments', 'post type general name'),
+    'singular_name' => _x('Tournament', 'post type singular name'),
+    'add_new' => _x('Add New', 'tournament'),
+    'add_new_item' => __("Add New Tournament"),
+    'edit_item' => __("Edit Tournament"),
+    'new_item' => __("New Tournament"),
+    'view_item' => __("View Tournament"),
+    'search_items' => __("Search Tournament"),
+    'not_found' =>  __('No tournaments found'),
+    'not_found_in_trash' => __('No tournaments found in Trash'),
+    'parent_item_colon' => ''
+
+);
+$tournaments_args = array(
+    'labels' => $tournaments_labels,
+    'public' => true,
+    'publicly_queryable' => true,
+    'show_ui' => true,
+    'query_var' => true,
+    'has_archive' => true,
+    'rewrite' => true,
+    'hierarchical' => false,
+    'menu_position' => null,
+    'capability_type' => 'post',
+    'rewrite' => array('slug' => 'tournaments'),
+    'supports' => array('title', 'excerpt', 'editor', 'thumbnail'),
+    'menu_icon' => get_bloginfo('template_directory') . '/images/tournaments.png' //16x16 png if you want an icon
+);
+register_post_type('tournaments', $tournaments_args);
+
+function my_taxonomies_tournament() {
+  $labels = array(
+    'name'              => _x( 'Tournament Categories', 'taxonomy general name' ),
+    'singular_name'     => _x( 'Tournament Category', 'taxonomy singular name' ),
+    'search_items'      => __( 'Search Tournament Categories' ),
+    'all_items'         => __( 'All Tournament Categories' ),
+    'parent_item'       => __( 'Parent Tournament Category' ),
+    'parent_item_colon' => __( 'Parent Tournament Category:' ),
+    'edit_item'         => __( 'Edit Tournament Category' ),
+    'update_item'       => __( 'Update Tournament Category' ),
+    'add_new_item'      => __( 'Add New Tournament Category' ),
+    'new_item_name'     => __( 'New Tournament Category' ),
+    'menu_name'         => __( 'Tournament Categories' ),
+  );
+  $args = array(
+    'labels' => $labels,
+    'hierarchical' => true,
+  );
+
+  register_taxonomy( 'tournament_category', 'tournament', $args );
+
+}
+
+
+add_action( 'init', 'my_taxonomies_tournament', 0 );
+
+
+
+
+add_action("admin_init", "admin_init_tournament");
+
+function admin_init_tournament(){
+  add_meta_box("costs", "Costs", "costs", "tournaments", "side", "low");
+}
+
+
+function costs() {
+  global $post;
+  $custom = get_post_custom($post->ID);
+  $price = $custom["costs"][0];
+  ?>
+  <label>Costs:</label>
+  <input name="price" value="<?php echo $costs; ?>" />
+  <?php
+}
+add_action('save_post', 'save_details_tournament');
+
+function save_details_tournament(){
+  global $post;
+
+  update_post_meta($post->ID, "costs", $_POST["price"]);
+
+}
+
+add_action("manage_posts_custom_column",  "tournament_custom_columns");
+add_filter("manage_edit-tournaments_columns", "tournament_edit_columns");
+
+function tournament_edit_columns($columns){
+  $columns = array(
+    "cb" => "<input type=\"checkbox\" >",
+    'jss_post_thumb'    =>        'Thumbnail',
+    "title" => "Tournament",
+    "description" => "Description",
+    "costs" => "Costs",
+  );
+
+  return $columns;
+}
+
+function tournament_custom_columns($column){
+  global $post;
+
+  switch ($column) {
+    case "costs":
+      $custom = get_post_custom();
+      echo $custom["costs"][0];
+      break;
+
+  }
+}
 
 
 
@@ -420,7 +539,13 @@ function product_custom_columns($column){
         return $galleryimages;
     }
 
+  function load_fonts() {
+            wp_register_style('googleFonts', 'http://fonts.googleapis.com/css?family=Lato:100,300,400,700,300italic|Oswald');
 
+            wp_enqueue_style( 'googleFonts');
+        }
+
+    add_action('wp_print_styles', 'load_fonts');
 
 
 

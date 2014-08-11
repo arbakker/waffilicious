@@ -367,6 +367,7 @@ html {
   /* 1 */
   color: #222222;
   font-size: 100%;
+  font-family: "Lato", sans-serif;
   line-height: 1.4;
   box-sizing: border-box; }
 
@@ -400,6 +401,7 @@ a:focus, area:focus, button:focus, input:focus, object:focus, select:focus, text
  * 2: Prevent page breaking.
  */
 h1, h2, h3, h4, h5, h6 {
+  font-family: "Oswald", sans-serif;
   text-rendering: optimizeLegibility;
   /* 1 */
   page-break-after: avoid;
@@ -434,6 +436,9 @@ hr {
  */
 abbr {
   cursor: help; }
+
+.navbar {
+  font-family: "Oswald", sans-serif; }
 
 /**Manages width in a single place */
 .container, .modal-ajax.container,

@@ -41,7 +41,6 @@ img.aligncenter {display: block; margin-left: auto; margin-right: auto}
 .alignleft {float:left; }
 .aligncenter {display: block; margin-left: auto; margin-right: auto}
 
-.card h3{
-  height:2em;
-
+.media{
+  margin-top:1em; 
 }

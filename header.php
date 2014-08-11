@@ -53,7 +53,7 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
 <nav role="navigation" class="navbar">
         <div class="container">
             <div class="row">
-                <a href="/" rel="home">Responsive</a>
+                <a href="/" rel="home">WAF</a>
                 <button data-dropdown-target="#navigation" class="visible-xs"><span class="visuallyhidden">Toggle Navigation</span></button>
                 <div id="navigation" class="collapse">
                 <?php
@@ -90,6 +90,6 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
     </nav>
 
 <?php if(is_front_page() ) { ?>
-<div style="height:300px;background-image:url('<?php header_image(); ?>');background-size:cover;background-repeat:no-repeat;background-position:50% 50%;"></div>
+<div class="banner" style="height:300px;background-image:url('<?php header_image(); ?>');background-size:cover;background-repeat:no-repeat;background-position:50% 50%;"></div>
 <?php } ?>
 <div id="main" class="site-main">

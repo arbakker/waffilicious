@@ -24,7 +24,6 @@ get_header(); ?>
 <?php if(is_front_page() ) { ?>
 
 <main class="container" role="main">
-<section>
     <div class="row no-gutter pad-gutter">
 <?php
 	$args = array( 'numberposts' => '5', 'tax_query' => array(
@@ -45,9 +44,8 @@ get_header(); ?>
   $count=0;
 	foreach( $recent_posts as $recent ){
     $length= strlen( $recent["post_excerpt"]);
-    if ($count===6){
+    if ($count===3){
       echo '</div><div class="row">';
-      break;
     }elseif ($count===6){
       echo '</div><div class="row">';
       break;
@@ -63,7 +61,7 @@ get_header(); ?>
     if (has_post_thumbnail( $postID )){
       $image = wp_get_attachment_image_src( get_post_thumbnail_id( $postID ), 'single-post-thumbnail' );
     }
-    echo '<div class="col-s-2">'.'<a class="divlink" href="' . get_permalink($recent["ID"]).'""'.'title="'
+    echo '<div class="col-s-4">'.'<a class="divlink" href="' . get_permalink($recent["ID"]).'""'.'title="'
     .esc_attr(__($recent["ex"])).'">'. '<div class="card">'.'<h3>' .   ( __($recent["post_title"])).' </h3>'.
     '<div class=media><img src="'.$image[0].'"></div>'.'<p>'.( __($excerpt)).'</p></div></a></div> ';
 

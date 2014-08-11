@@ -67,7 +67,7 @@ get_header(); ?>
     ?>
 </header><!-- .page-header -->
 
-<?php shape_content_nav( 'nav-above' ); ?>
+<div class="navigation"><p><?php posts_nav_link(); ?></p></div>
 
 <?php /* Start the Loop */ ?>
 <?php while ( have_posts() ) : the_post(); ?>
@@ -82,7 +82,7 @@ get_header(); ?>
 
 <?php endwhile; ?>
 
-<?php shape_content_nav( 'nav-below' ); ?>
+<div class="navigation"><p><?php posts_nav_link(); ?></p></div>
 
 <?php else : ?>
 
