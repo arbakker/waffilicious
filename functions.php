@@ -1,21 +1,13 @@
 <?php
 /**
- * minim2 functions and definitions
+ * waffilicious functions and definitions
  *
- * @package minim2
- * @since minim2 1.0
- */
-
- /**
- * Set the content width based on the theme's design and stylesheet.
- *
- * @since minim2 1.0
+ * @package waffilicious
+ * @since waffilicious 1.0
  */
 add_action('wp_head', 'mbe_wp_head');
-if ( ! isset( $content_width ) )
-    $content_width = 654; /* pixels */
 
-if ( ! function_exists( 'minim2_setup' ) ):
+if ( ! function_exists( 'waffilicious_setup' ) ):
 /**
  * Sets up theme defaults and registers support for various WordPress features.
  *
@@ -23,132 +15,48 @@ if ( ! function_exists( 'minim2_setup' ) ):
  * before the init hook. The init hook is too late for some features, such as indicating
  * support post thumbnails.
  *
- * @since minim2 1.0
+ *
  */
-function minim2_setup() {
-
-    /**
-     * Custom template tags for this theme.
-     */
-    require( get_template_directory() . '/inc/template-tags.php' );
-
-    /**
-     * Custom functions that act independently of the theme templates
-     */
-    require( get_template_directory() . '/inc/tweaks.php' );
-
+function waffilicious_setup() {
     /**
      * Make theme available for translation
      * Translations can be filed in the /languages/ directory
-     * If you're building a theme based on minim2, use a find and replace
-     * to change 'minim2' to the name of your theme in all the template files
+     * If you're building a theme based on waffilicious, use a find and replace
+     * to change 'waffilicious' to the name of your theme in all the template files
      */
-    load_theme_textdomain( 'minim2', get_template_directory() . '/languages' );
-
+    load_theme_textdomain( 'waffilicious', get_template_directory() . '/languages' );
     /**
      * Add default posts and comments RSS feed links to head
      */
     add_theme_support( 'automatic-feed-links' );
-
     /**
      * Enable support for the Aside Post Format
      */
+    $args = array(
+      'flex-width'    => true,
+      'width'         => 2400,
+      'flex-width'    => true,
+      'height'        => 320,
+      'default-image' => get_template_directory_uri() . '/images/header.jpg',
+      'uploads'       => true,
+    );
     add_theme_support( 'post-formats', array( 'aside' ) );
     add_theme_support( 'post-thumbnails' );
-
-    /**
-     * This theme uses wp_nav_menu() in one location.
-     */
-    register_nav_menus( array(
-        'primary' => __( 'Primary Menu', 'minim2' ),
-    ) );
-}
-endif; // minim2_setup
-add_action( 'after_setup_theme', 'minim2_setup' );
-
-/**
- * Enqueue scripts and styles
- */
-function shape_scripts() {
-    wp_enqueue_style( 'responsive', get_template_directory_uri() . '/responsive.css' );
-    wp_enqueue_style('doc.min', get_template_directory_uri() . '/doc.min.css');
-    wp_enqueue_style('style', get_template_directory_uri() . '/custom_style.css');
-    wp_enqueue_style('font_awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css');
-    wp_enqueue_script( 'responsive.js', get_template_directory_uri() . '/responsive.js', false, false, true );
-    wp_enqueue_script( 'docs.min.js', get_template_directory_uri() . '/docs.min.js' ,false, false, true );
+    add_theme_support( 'custom-header', $args );
+    add_theme_support( 'custom-background', $args );
+    add_theme_support( 'post-thumbnails' );
 
 }
+endif; // waffilicious_setup
+
+add_action( 'after_setup_theme', 'waffilicious_setup' );
+
+include get_template_directory() .'/function/function-event.php';
+include get_template_directory() . '/function/function-product.php';
+include get_template_directory() .'/function/function-enqueuescripts.php';
+include get_template_directory() . '/function/function-userfield.php';
 
 
-function special_nav_class($classes, $item){
-     if( in_array('current-menu-item', $classes) ){
-             $classes[] = 'active ';
-     }
-     return $classes;
-}
-add_filter('nav_menu_css_class' , 'special_nav_class' , 10 , 2);
-
-function my_special_nav_class( $classes, $item ) {
-
-    if ( is_single() && $item->title == 'About' ) {
-        $classes[] = 'special-class';
-    }
-
-    return $classes;
-
-}
-
-
-
-if (!is_admin()) add_action("wp_enqueue_scripts", "my_jquery_enqueue", 11);
-function my_jquery_enqueue() {
-   wp_deregister_script('jquery');
-   wp_register_script('jquery', "http" . ($_SERVER['SERVER_PORT'] == 443 ? "s" : "") . "://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js", false, null);
-   wp_enqueue_script('jquery');
-}
-
-
-
-
-add_action( 'wp_enqueue_scripts', 'shape_scripts' );
-
-/**
- * Register widgetized area and update sidebar with default widgets
- *
- * @since Shape 1.0
- */
-function shape_widgets_init() {
-    register_sidebar( array(
-        'name' => __( 'Primary Widget Area', 'minim2' ),
-        'id' => 'sidebar-1',
-        'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-        'after_widget' => '</aside>',
-        'before_title' => '<h1 class="widget-title">',
-        'after_title' => '</h1>',
-    ) );
-
-    register_sidebar( array(
-        'name' => __( 'Secondary Widget Area', 'minim2' ),
-        'id' => 'sidebar-2',
-        'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-        'after_widget' => '</aside>',
-        'before_title' => '<h1 class="widget-title">',
-        'after_title' => '</h1>',
-    ) );
-}
-add_action( 'widgets_init', 'shape_widgets_init' );
-
-$args = array(
-	'flex-width'    => true,
-	'width'         => 2400,
-	'flex-width'    => true,
-	'height'        => 320,
-	'default-image' => get_template_directory_uri() . '/images/header.jpg',
-	'uploads'       => true,
-);
-add_theme_support( 'custom-header', $args );
-add_theme_support( 'custom-background', $args );
-add_theme_support( 'post-thumbnails' );
 
 $args = array(
 	'default-color' => 'DCDCDC'
@@ -288,241 +196,6 @@ function jss_display_post_thumbnail_column($col, $id){
   }
 }
 
-//----------------------------------------------
-//----------register and label gallery post type
-//----------------------------------------------
-$products_labels = array(
-    'name' => _x('Products', 'post type general name'),
-    'singular_name' => _x('Product', 'post type singular name'),
-    'add_new' => _x('Add New', 'product'),
-    'add_new_item' => __("Add New Product"),
-    'edit_item' => __("Edit Product"),
-    'new_item' => __("New Product"),
-    'view_item' => __("View Product"),
-    'search_items' => __("Search Product"),
-    'not_found' =>  __('No products found'),
-    'not_found_in_trash' => __('No products found in Trash'),
-    'parent_item_colon' => ''
-
-);
-$products_args = array(
-    'labels' => $products_labels,
-    'public' => true,
-    'publicly_queryable' => true,
-    'show_ui' => true,
-    'query_var' => true,
-    'has_archive' => true,
-    'rewrite' => true,
-    'hierarchical' => false,
-    'menu_position' => null,
-    'capability_type' => 'post',
-    'rewrite' => array('slug' => 'products'),
-    'supports' => array('title', 'excerpt', 'editor', 'thumbnail'),
-    'menu_icon' => get_bloginfo('template_directory') . '/images/products.png' //16x16 png if you want an icon
-);
-register_post_type('products', $products_args);
-
-function my_taxonomies_product() {
-  $labels = array(
-    'name'              => _x( 'Product Categories', 'taxonomy general name' ),
-    'singular_name'     => _x( 'Product Category', 'taxonomy singular name' ),
-    'search_items'      => __( 'Search Product Categories' ),
-    'all_items'         => __( 'All Product Categories' ),
-    'parent_item'       => __( 'Parent Product Category' ),
-    'parent_item_colon' => __( 'Parent Product Category:' ),
-    'edit_item'         => __( 'Edit Product Category' ),
-    'update_item'       => __( 'Update Product Category' ),
-    'add_new_item'      => __( 'Add New Product Category' ),
-    'new_item_name'     => __( 'New Product Category' ),
-    'menu_name'         => __( 'Product Categories' ),
-  );
-  $args = array(
-    'labels' => $labels,
-    'hierarchical' => true,
-  );
-
-  register_taxonomy( 'product_category', 'product', $args );
-
-}
-
-
-add_action( 'init', 'my_taxonomies_product', 0 );
-
-
-
-
-add_action("admin_init", "admin_init");
-
-function admin_init(){
-  add_meta_box("price", "Price", "price", "products", "side", "low");
-}
-
-
-function price() {
-  global $post;
-  $custom = get_post_custom($post->ID);
-  $price = $custom["price"][0];
-  ?>
-  <label>Price:</label>
-  <input name="price" value="<?php echo $price; ?>" />
-  <?php
-}
-add_action('save_post', 'save_details');
-
-function save_details(){
-  global $post;
-
-  update_post_meta($post->ID, "price", $_POST["price"]);
-
-}
-
-add_action("manage_posts_custom_column",  "product_custom_columns");
-add_filter("manage_edit-products_columns", "product_edit_columns");
-
-function product_edit_columns($columns){
-  $columns = array(
-    "cb" => "<input type=\"checkbox\" >",
-    'jss_post_thumb'    =>        'Thumbnail',
-    "title" => "Product",
-    "description" => "Description",
-    "price" => "Price",
-  );
-
-  return $columns;
-}
-
-function product_custom_columns($column){
-  global $post;
-
-  switch ($column) {
-
-    case "price":
-      $custom = get_post_custom();
-      echo $custom["price"][0];
-      break;
-
-  }
-}
-// ---
-// --- End of Products section
-// ---
-
-
-//----------------------------------------------
-//----------register and label tournament post type
-//----------------------------------------------
-$tournaments_labels = array(
-    'name' => _x('Tournaments', 'post type general name'),
-    'singular_name' => _x('Tournament', 'post type singular name'),
-    'add_new' => _x('Add New', 'tournament'),
-    'add_new_item' => __("Add New Tournament"),
-    'edit_item' => __("Edit Tournament"),
-    'new_item' => __("New Tournament"),
-    'view_item' => __("View Tournament"),
-    'search_items' => __("Search Tournament"),
-    'not_found' =>  __('No tournaments found'),
-    'not_found_in_trash' => __('No tournaments found in Trash'),
-    'parent_item_colon' => ''
-
-);
-$tournaments_args = array(
-    'labels' => $tournaments_labels,
-    'public' => true,
-    'publicly_queryable' => true,
-    'show_ui' => true,
-    'query_var' => true,
-    'has_archive' => true,
-    'rewrite' => true,
-    'hierarchical' => false,
-    'menu_position' => null,
-    'capability_type' => 'post',
-    'rewrite' => array('slug' => 'tournaments'),
-    'supports' => array('title', 'excerpt', 'editor', 'thumbnail'),
-    'menu_icon' => get_bloginfo('template_directory') . '/images/tournaments.png' //16x16 png if you want an icon
-);
-register_post_type('tournaments', $tournaments_args);
-
-function my_taxonomies_tournament() {
-  $labels = array(
-    'name'              => _x( 'Tournament Categories', 'taxonomy general name' ),
-    'singular_name'     => _x( 'Tournament Category', 'taxonomy singular name' ),
-    'search_items'      => __( 'Search Tournament Categories' ),
-    'all_items'         => __( 'All Tournament Categories' ),
-    'parent_item'       => __( 'Parent Tournament Category' ),
-    'parent_item_colon' => __( 'Parent Tournament Category:' ),
-    'edit_item'         => __( 'Edit Tournament Category' ),
-    'update_item'       => __( 'Update Tournament Category' ),
-    'add_new_item'      => __( 'Add New Tournament Category' ),
-    'new_item_name'     => __( 'New Tournament Category' ),
-    'menu_name'         => __( 'Tournament Categories' ),
-  );
-  $args = array(
-    'labels' => $labels,
-    'hierarchical' => true,
-  );
-
-  register_taxonomy( 'tournament_category', 'tournament', $args );
-
-}
-
-
-add_action( 'init', 'my_taxonomies_tournament', 0 );
-
-
-
-
-add_action("admin_init", "admin_init_tournament");
-
-function admin_init_tournament(){
-  add_meta_box("costs", "Costs", "costs", "tournaments", "side", "low");
-}
-
-
-function costs() {
-  global $post;
-  $custom = get_post_custom($post->ID);
-  $price = $custom["costs"][0];
-  ?>
-  <label>Costs:</label>
-  <input name="price" value="<?php echo $costs; ?>" />
-  <?php
-}
-add_action('save_post', 'save_details_tournament');
-
-function save_details_tournament(){
-  global $post;
-
-  update_post_meta($post->ID, "costs", $_POST["price"]);
-
-}
-
-add_action("manage_posts_custom_column",  "tournament_custom_columns");
-add_filter("manage_edit-tournaments_columns", "tournament_edit_columns");
-
-function tournament_edit_columns($columns){
-  $columns = array(
-    "cb" => "<input type=\"checkbox\" >",
-    'jss_post_thumb'    =>        'Thumbnail',
-    "title" => "Tournament",
-    "description" => "Description",
-    "costs" => "Costs",
-  );
-
-  return $columns;
-}
-
-function tournament_custom_columns($column){
-  global $post;
-
-  switch ($column) {
-    case "costs":
-      $custom = get_post_custom();
-      echo $custom["costs"][0];
-      break;
-
-  }
-}
-
 
 
 // get all of the images attached to the current post
@@ -553,3 +226,83 @@ function custom_excerpt_length( $length ) {
 	return 35;
 }
 add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
+
+
+
+add_action( 'save_post', 'uep_save_event_info' );
+
+class Class_Name_Walker extends Walker_Nav_Menu
+    {
+        /**
+         * Start the element output.
+         *
+         * @param  string $output Passed by reference. Used to append additional content.
+         * @param  object $item   Menu item data object.
+         * @param  int $depth     Depth of menu item. May be used for padding.
+         * @param  array $args    Additional strings.
+         * @return void
+         */
+         function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+        $indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
+
+        $class_names = $value = '';
+
+        $classes = empty( $item->classes ) ? array() : (array) $item->classes;
+        $classes[] = 'menu-item-' . $item->ID;
+
+        $class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args ) );
+        $class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
+
+        $id = apply_filters( 'nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args );
+        $id = $id ? ' id="' . esc_attr( $id ) . '"' : '';
+
+        $output .= $indent . '<li' . $id . $value .'>';
+
+        $atts = array();
+        $atts['title']  = ! empty( $item->attr_title ) ? $item->attr_title : '';
+        $atts['target'] = ! empty( $item->target )     ? $item->target     : '';
+        $atts['rel']    = ! empty( $item->xfn )        ? $item->xfn        : '';
+        $atts['href']   = ! empty( $item->url )        ? $item->url        : '';
+
+        $atts = apply_filters( 'nav_menu_link_attributes', $atts, $item, $args );
+
+        $attributes = '';
+        foreach ( $atts as $attr => $value ) {
+            if ( ! empty( $value ) ) {
+                $value = ( 'href' === $attr ) ? esc_url( $value ) : esc_attr( $value );
+                $attributes .= ' ' . $attr . '="' . $value . '"';
+            }
+        }
+        $item_output = $args->before;
+        $item_output .= '<a'. $attributes .$class_names.'>';
+        $item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
+        $item_output .= '</a>';
+        $item_output .= $args->after;
+
+        $output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
+    }
+
+    /**
+     * @see Walker::end_el()
+     * @since 3.0.0
+     *
+     * @param string $output Passed by reference. Used to append additional content.
+     * @param object $item Page data object. Not used.
+     * @param int $depth Depth of page. Not Used.
+     */
+    function end_el( &$output, $item, $depth = 0, $args = array() ) {
+        $output .= "</li>\n";
+    }
+    }
+
+
+
+function build_taxonomies() {
+register_taxonomy( 'event_categories', 'event', array( 'hierarchical' => true, 'label' => 'Event Categories', 'query_var' => true, 'rewrite' => true ) );
+}
+
+add_action( 'init', 'build_taxonomies', 0 );
+
+
+
+?>

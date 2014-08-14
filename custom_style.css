@@ -26,7 +26,7 @@ position: relative;
   color: black;
 }
 
-.divlink .card{
+.card{
   background-color: white;
 }
 
@@ -41,6 +41,7 @@ img.aligncenter {display: block; margin-left: auto; margin-right: auto}
 .alignleft {float:left; }
 .aligncenter {display: block; margin-left: auto; margin-right: auto}
 
-.media{
-  margin-top:1em; 
+img{
+
+  border-radius:1em;
 }

@@ -48,7 +48,9 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
 <![endif]-->
 <?php wp_head(); ?>
 </head>
-<body onload="creator()" <?php body_class(); ?>>
+<body  <?php body_class(); ?>>
+
+<!--onload="creator()"-->
 
 <nav role="navigation" class="navbar">
         <div class="container">
@@ -62,6 +64,7 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
               'echo'            => false,
               'items_wrap'      => '%3$s',
               'depth'           => 0,
+              'walker' => new Class_Name_Walker,
             );
 
             echo strip_tags(wp_nav_menu( $menuParameters ), '<a>' );
