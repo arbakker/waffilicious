@@ -68,21 +68,15 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
             );
 
             echo strip_tags(wp_nav_menu( $menuParameters ), '<a>' );
-            /**$menu=wp_nav_menu( $menuParameters );
+            if ( is_user_logged_in() ) {
+            global $current_user;
+            get_currentuserinfo();
+            echo "<a id='logout' href='javascript:void(0)'>Logout</a>";
+            echo "<a href='javascript:void(0)' style='position:fixed;right:0px;font-size:0.7em;'>Welcome ".$current_user->user_login ."</a>";
 
-
-            $pieces = explode("</li>", $menu);
-            foreach ($pieces as $menuitem){
-              echo $menuitem;
-              libxml_use_internal_errors(true);
-              $dom = new DOMDocument();
-              $dom->loadHTML($menuitem);
-              libxml_clear_errors();
-              $elementA = $dom->getElementsByTagName('a')->item(0);
-              echo $elementA;
             }
 
-**/
+
             ?>
 
 

@@ -5,7 +5,7 @@
  * @package waffilicious
  * @since waffilicious 1.0
  */
-add_action('wp_head', 'mbe_wp_head');
+
 
 if ( ! function_exists( 'waffilicious_setup' ) ):
 /**
@@ -45,6 +45,7 @@ function waffilicious_setup() {
     add_theme_support( 'custom-header', $args );
     add_theme_support( 'custom-background', $args );
     add_theme_support( 'post-thumbnails' );
+    add_theme_support( 'menus' );
 
 }
 endif; // waffilicious_setup
@@ -68,24 +69,63 @@ function my_add_excerpts_to_pages() {
 add_post_type_support( 'page', 'excerpt' );
 }
 
-function mbe_body_class($classes){
-    if(is_user_logged_in()){
-        $classes[] = 'body-logged-in';
-    } else{
-        $classes[] = 'body-logged-out';
-    }
-    return $classes;
-}
-
+add_action('wp_head', 'mbe_wp_head');
 function mbe_wp_head(){
     echo '<style>'.PHP_EOL;
     echo 'body{ padding-top: 36px !important; }'.PHP_EOL;
-    // Using custom CSS class name.
-    echo 'body.body-logged-in .navbar{ top: 28px !important; }'.PHP_EOL;
     // Using WordPress default CSS class name.
     echo 'body.logged-in .navbar{ top: 28px !important; }'.PHP_EOL;
     echo '</style>'.PHP_EOL;
 }
+
+function check_user_role( $role, $user_id = null ) {
+    if ( is_numeric( $user_id ) )
+	$user = get_userdata( $user_id );
+    else
+        $user = wp_get_current_user();
+
+    if ( empty( $user ) )
+	return false;
+
+    return in_array( $role, (array) $user->roles );
+}
+
+
+add_action('set_current_user', 'cc_hide_admin_bar');
+function cc_hide_admin_bar() {
+  if ( check_user_role("subscriber") or check_user_role("participant"))
+ {
+    show_admin_bar(false);
+  }
+}
+
+
+
+
+function wpse15850_body_class( $wp_classes, $extra_classes )
+{
+    // List of the only WP generated classes allowed
+    //$whitelist = array( 'home', 'blog', 'archive', 'single', 'category', 'tag', 'error404', 'logged-in', 'admin-bar' );
+
+    // List of the only WP generated classes that are not allowed
+    if ( check_user_role( "subscriber" ) or check_user_role("participant" ) ){
+    $blacklist = array( 'logged-in' );
+    // Filter the body classes
+    // Whitelist result: (comment if you want to blacklist classes)
+    //$wp_classes = array_intersect( $wp_classes, $whitelist );
+    // Blacklist result: (uncomment if you want to blacklist classes)
+    $wp_classes = array_diff( $wp_classes, $blacklist );
+    // Add the extra classes back untouched
+    return array_merge( $wp_classes, (array) $extra_classes );
+    }
+    else{
+        return $wp_classes;
+    }
+}
+add_filter( 'body_class', 'wpse15850_body_class', 10, 2 );
+
+
+
 
 if ( function_exists( 'add_theme_support')){
     add_theme_support( 'post-thumbnails' );
@@ -304,5 +344,74 @@ register_taxonomy( 'event_categories', 'event', array( 'hierarchical' => true, '
 add_action( 'init', 'build_taxonomies', 0 );
 
 
+
+add_action( 'wp_ajax_nopriv_loginCheck', 'loginCheck' );
+add_action( 'wp_ajax_loginCheck', 'loginCheck' );
+
+add_action( 'wp_ajax_logout', 'logout' );
+
+function logout(){
+
+    $return = wp_logout();
+
+
+    if ( is_wp_error( $return ) ) {
+        echo json_encode( array( 'success' => true, 'message' => 'There was an error logging you out' ) );
+        die;
+    }
+    else{
+        echo json_encode( array( 'success' => true, 'message' => 'Logout successful' ) );
+        die;
+    }
+}
+
+
+function loginCheck() {
+
+    if ( is_user_logged_in() ) {
+
+        echo json_encode( array( 'success' => true, 'message' => 'You are already logged in' ) );
+        die;
+    }
+
+    // check the nonce, if it fails the function will break
+    check_ajax_referer( 'ajax-login-nonce', 'security' );
+
+    // get the POSTed credentials
+    $creds = array();
+    $creds['user_login']    = !empty( $_POST['username'] ) ? $_POST['username'] : null;
+    $creds['user_password'] = !empty( $_POST['password'] ) ? $_POST['password'] : null;
+    $creds['remember']      = !empty( $_POST['rememberme'] ) ? $_POST['rememberme'] : null;
+
+    // check for empty fields
+    if( empty( $creds['user_login'] ) || empty( $creds['user_password'] ) ) {
+
+        echo json_encode( array( 'success' => true, 'message' => 'The username or password is cannot be empty' ) );
+        die;
+    }
+
+    // check login
+    $user = wp_signon( $creds, false );
+
+    if ( is_wp_error( $user ) ) {
+
+        if ( $user->get_error_code() == "invalid_username" || $user->get_error_code() == "incorrect_password" ) {
+
+            echo json_encode( array( 'success' => true, 'message' => 'The username or password is incorrect' ) );
+            die;
+
+        } else {
+
+            echo json_encode( array( 'success' => true, 'message' => 'There was an error logging you in' ) );
+            die;
+        }
+
+        echo json_encode( array( 'success' => true, 'message' => 'Login successful' ) );
+        die;
+    }
+
+    echo json_encode( $user );
+    die;
+}
 
 ?>

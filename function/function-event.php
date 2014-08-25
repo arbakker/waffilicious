@@ -85,7 +85,6 @@ function uep_render_event_info_metabox( $post ) {
 
     // generate a nonce field
     wp_nonce_field( basename( __FILE__ ), 'uep-event-info-nonce' );
-
     // get previously saved meta values (if any)
     $event_start_date = get_post_meta( $post->ID, 'event-start-date', true );
     $event_end_date = get_post_meta( $post->ID, 'event-end-date', true );
@@ -97,9 +96,6 @@ function uep_render_event_info_metabox( $post ) {
     //we assume that if the end date is not present, event ends on the same day
     $event_end_date = ! empty( $event_end_date ) ? $event_end_date : $event_start_date;
     $costs = ! empty( $costs ) ? $costs : "0";
-
-
-
     ?>
 
 <label for="start-date"><?php _e( 'Event Start Date:', 'uep' ); ?></label>
@@ -186,7 +182,8 @@ else{
 add_action('wp_head','my_ajaxurl');
 function my_ajaxurl() {
 $html = '<script type="text/javascript">';
-$html .= 'var ajaxurl = "' . admin_url( 'admin-ajax.php' ) . '"';
+$html .= 'var ajaxurl = "' . admin_url( 'admin-ajax.php' ) . '"'.';';
+$html .= 'var userid = "' . get_current_user_id() . '"'.';';
 $html .= '</script>';
 echo $html;
 }
@@ -195,45 +192,86 @@ echo $html;
 add_action('wp_ajax_newmember', 'newmember_ajax');
 function newmember_ajax() {
     $post_id = $_POST['id'];
-
     //Get current bid
     $members = get_post_meta($post_id, 'members', true);
-
     //Increase the bid, for example the amount here is 100€
-    $member = $_POST['member'];
-
-
+    $member = intval($_POST['member']);
+    $remove  =sanitize_text_field( $_POST['remove'])   ;
     $registered =is_user_registered ($member, $post_id) ;
-    echo "<h1>Registered -".$registered."</h1>";
-    if ($registered == "true"){
-      $members= $members;
+    $bla="";
+
+    if ($remove==="false"){
+        if ($members==''){
+          $members=$member;
+        }else{
+          $members= $members.",".$member;
+        }
     }
-      else{
-      if ($members==''){
-        $members=$member;
-      }else{
-        $members= $members.",".$member;
+    else{
+      $arr=explode(',', $members);
+      $result="";
+      for($i=0;$i<count($arr);$i++) {
+        if ($arr[$i]!=strval($member)){
+          if ($result==''){
+            $result=$arr[$i];
+          }
+          else{
+            $result= $result.",".$arr[$i];
+          }
+        }
       }
+      $members = $result;
+    }
+    $bla = "members=".$members."&postid=".$post_id;
 
+    $result=update_post_meta($post_id,'members',$members);
+
+    if ($result===true){
+      $return = array(
+			'message'	=> $bla,
+	     );
+      wp_send_json_success($return);
+    }
+    else{
+      $return = array(
+      'message'	=> $bla,
+      'members' => $members,
+       );
+      wp_send_json_error($return);
     }
 
-
-
-
-    //Update the database with the increased bid value
-    update_post_meta($post_id,'members',$members);
-    $response_array['status'] = 'success';
-    header('Content-type: application/json');
-    echo json_encode($response_array);
-
-
-
-    // In case you need to update another meta for the user, you
-    // can access the user ID with the get_current_user_id() function
-
-    // Finally sending back the updated bid so the javascript can display it
 
 }
+
+
+function add_registered_members_metabox() {
+    add_meta_box(
+        'registered-members-event-metabox',
+        __( 'Registered members', 'regmem' ),
+        'render_registered_members',
+        'event',
+        'side',
+        'core'
+    );
+  }
+add_action( 'add_meta_boxes', 'add_registered_members_metabox' );
+
+function render_registered_members( $post ) {
+
+    // get previously saved meta values (if any)
+    $members = get_post_meta($post_id, 'members', true);
+    $arr=explode(',', $members);
+    echo "<h1>".$arr[1]."</h1>";
+    echo "<table><tr><th>Member</th></tr>";
+    foreach ( $arr as $member ) {
+        echo "<tr><td>".$member."</td></tr>";
+        }
+        echo "</table>";
+    }
+
+
+
+
 
 
 

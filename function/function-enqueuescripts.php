@@ -13,6 +13,8 @@ function enqueue_scripts() {
     wp_enqueue_script( 'docs.min.js', get_template_directory_uri() . '/js/docs.min.js' ,false, false, true );
     wp_enqueue_script( 'script.js', get_template_directory_uri() . '/js/script.js' ,false, false, true );
     wp_enqueue_script('jquery-ui', get_template_directory_uri() . '/vendor/jquery-ui.js', array('jquery'));
+    wp_enqueue_script('event_button.js', get_template_directory_uri() .'/js/event_buttons.js');
+    wp_enqueue_script('login.js', get_template_directory_uri() .'/js/login.js');
 }
 
 function add_my_js(){
@@ -28,4 +30,12 @@ function fontawesome_dashboard() {
 
 add_action('admin_init', 'fontawesome_dashboard');
 
+/**
+*	Use latest jQuery release
+*/
+if( !is_admin() ){
+	wp_deregister_script('jquery');
+	wp_register_script('jquery', ("http://code.jquery.com/jquery-latest.min.js"), false, '');
+	wp_enqueue_script('jquery');
+}
 ?>

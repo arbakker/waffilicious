@@ -52,7 +52,7 @@ function show_users ( $user ) {
 <?php
  }}
 
-
+/*
 function save_events( $user_id, $slug ) {
   echo "<h1>DETERING!!!!!!!!</h1>";
   if ( !current_user_can( 'edit_user', $user_id ) ){
@@ -114,7 +114,7 @@ function show_customfield(){
   </table>
   <?php
 }
-
+*/
 
 
 
