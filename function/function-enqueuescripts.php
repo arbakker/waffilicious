@@ -35,7 +35,7 @@ add_action('admin_init', 'fontawesome_dashboard');
 */
 if( !is_admin() ){
 	wp_deregister_script('jquery');
-	wp_register_script('jquery', ("http://code.jquery.com/jquery-latest.min.js"), false, '');
+	wp_register_script('jquery', ("https://code.jquery.com/jquery-latest.min.js"), false, '');
 	wp_enqueue_script('jquery');
 }
 ?>
