@@ -253,7 +253,7 @@ function jss_display_post_thumbnail_column($col, $id){
     }
 
   function load_fonts() {
-            wp_register_style('googleFonts', 'http://fonts.googleapis.com/css?family=Lato:100,300,400,700,300italic|Oswald');
+            wp_register_style('googleFonts', 'https://fonts.googleapis.com/css?family=Lato:100,300,400,700,300italic|Oswald');
 
             wp_enqueue_style( 'googleFonts');
         }

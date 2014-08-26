@@ -25,7 +25,7 @@ function add_my_js(){
 }
 
 function fontawesome_dashboard() {
-   wp_enqueue_style('fontawesome', 'http:////netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css', '', '4.0.3', 'all');
+   wp_enqueue_style('fontawesome', 'https:////netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css', '', '4.0.3', 'all');
 }
 
 add_action('admin_init', 'fontawesome_dashboard');
