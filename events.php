@@ -53,7 +53,7 @@ if ($registered == "false"){
 else{
   $registered_string=$message_register;
   $alert= '<div id="dismiss-'.$name.'" role="alert" aria-hidden="true" class="alert alert-dismissable" ><button class="close" data-dismiss-target="#dismiss-'.$name.'" >x</button><p> %s!</p></div>';
-  $button='<button style="display:none;" class="unregister btn-inline '.$name.'">Register</button>'.'<button class="unregister btn-inline '.$name.'">Unregister</button>';
+  $button='<button style="display:none;" class="register btn-inline '.$name.'">Register</button>'.'<button class="unregister btn-inline '.$name.'">Unregister</button>';
   $message= 'You have been unregistered for ' . $title;
   $alert= sprintf( $alert, $message);
 }
