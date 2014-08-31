@@ -26,6 +26,7 @@ function enqueue_scripts() {
     wp_enqueue_script( 'jquery' );
     wp_enqueue_style('font_awesome', get_template_directory_uri() .'/css/font-awesome.css');
     wp_enqueue_style('fonts', get_template_directory_uri() .'/css/fonts.css');
+    wp_enqueue_script( 'parallax', get_template_directory_uri() . '/vendor/jquery-imageScroll.min.js', false, false, true );
 }
 
 function enqueue_scripts_admin(){

@@ -86,7 +86,8 @@ get_header(); ?>
 
 </div>
 </main>
-    </div><!-- #primary .content-area -->
+</section>
+
 <?php } else { ?>
 <h1>NO FRONTPAGE!</h1>
 <?php } ?>

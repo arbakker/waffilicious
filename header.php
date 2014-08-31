@@ -85,8 +85,15 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
     </nav>
 
 <?php if(is_front_page() ) { ?>
-<div class="banner" style="height:300px;background-image:url('<?php header_image(); ?>');background-size:cover;background-repeat:no-repeat;background-position:50% 50%;"></div>
+<!--<div class="banner" style="height:300px;background-image:url('<?php header_image(); ?>');background-size:cover;background-repeat:no-repeat;background-position:50% 50%;"></div>-->
+<div class="img-holder" data-image="<?php header_image(); ?>" data-width="1600" data-height="900"></div>
+<section>
 <?php } ?>
+
+
+
+
+
 
 
 <main class="container" role="main">
