@@ -12,8 +12,8 @@ Template Name: Index
  * E.g., it puts together the home page when no home.php file exists.
  * Learn more: http://codex.wordpress.org/Template_Hierarchy
  *
- * @package minim2
- * @since minim2 1.0
+ * @package waffilicious
+ * @since waffilicious 1.0
  */
 
 get_header(); ?>
@@ -23,7 +23,6 @@ get_header(); ?>
 
 <?php if(is_front_page() ) { ?>
 
-<main class="container" role="main">
     <div class="row no-gutter pad-gutter">
 <?php
 	$args = array( 'numberposts' => '5', 'tax_query' => array(

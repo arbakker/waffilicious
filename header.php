@@ -69,17 +69,15 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
 
             echo strip_tags(wp_nav_menu( $menuParameters ), '<a>' );
             if ( is_user_logged_in() ) {
-            global $current_user;
-            get_currentuserinfo();
-            echo "<a id='logout' href='javascript:void(0)'>Logout</a>";
-            echo "<a href='javascript:void(0)' style='position:fixed;right:0px;font-size:0.7em;'>Welcome ".$current_user->user_login ."</a>";
-
+              global $current_user;
+              get_currentuserinfo();
+              echo "<a id='logout' class='menu-item menu-item-type-post_type menu-item-object-page' href='javascript:void(0)'><i class='fa registration fa-sign-out fa-2x'></i></a>";
+              echo "<a href='javascript:void(0)' id='welcome' class='menu-item menu-item-type-post_type menu-item-object-page'>Welcome</br> ".$current_user->user_login ."</a>";
             }
-
-
+            else{
+              echo "<a id='login' class='menu-item menu-item-type-post_type menu-item-object-page' href='".site_url()."/login' ><i class='fa registration fa-sign-in fa-2x'></i></a>";
+            }
             ?>
-
-
 
                 </div>
             </div>
@@ -89,4 +87,6 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
 <?php if(is_front_page() ) { ?>
 <div class="banner" style="height:300px;background-image:url('<?php header_image(); ?>');background-size:cover;background-repeat:no-repeat;background-position:50% 50%;"></div>
 <?php } ?>
-<div id="main" class="site-main">
+
+
+<main class="container" role="main">

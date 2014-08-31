@@ -6,7 +6,7 @@
  */
 ?>
 <?php get_header(); ?>
- <main class="container" role="main">
+
  <div class="row no-gutter">
 
   <?php query_posts( 'post_type=gallery');
@@ -26,5 +26,5 @@
    </div>
  </div>
 
-
+</main>
 <?php get_footer(); ?>

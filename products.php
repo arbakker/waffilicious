@@ -6,7 +6,6 @@
  */
 ?>
 <?php get_header(); ?>
- <main class="container" role="main">
  <div class="row">
 
   <?php query_posts( 'post_type=products'); ?>
@@ -19,7 +18,7 @@
 
     ?>
    </div>
- </div>
+</main>
 
 
 <?php get_footer(); ?>

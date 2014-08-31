@@ -1,12 +1,12 @@
 jQuery().ready(function() {
-$(".card").each(function(){
+$(".row").each(function(){
 var name = $(this).attr("name");
 var id = $(this).attr("id");
 var selector = ("button.register."+name);
 var selector_unregister = ("button.unregister."+name);
 
-var message_register='<span><i class="fa registration fa-check-square-o fa-2x"></i>Registered</span>';
-var message_unregister='<span><i class="fa fa-square-o fa-2x registration"></i>Not registered</span>';
+var message_register='<p><i class="fa registration fa-check-square-o fa-2x"></i>  Registered</p>';
+var message_unregister='<p><i class="fa fa-square-o fa-2x registration"></i>  Not registered</p>';
 var alert= '<div id="dismiss-'+name+'" role="alert" aria-hidden="true" class="alert alert-dismissable" ><button class="close" data-dismiss-target="#dismiss-'+ name +'" >x</button><p> %s!</p></div>';
 var alert2 = '<div id="dismiss" role="alert" aria-hidden="true" class="alert alert-dismissable" ><button class="close" data-dismiss-target="#dismiss" >x</button><p> Sometext!</p></div>';
 
@@ -20,7 +20,7 @@ $.ajax({
 
 
 
-              $("p.registered."+name+" span").replaceWith(message_register);
+              $("p.registration."+id).replaceWith(message_register);
 
               $(alert).insertAfter("p.registered."+name);
               $("button.close").click(function()
@@ -44,7 +44,7 @@ jQuery.ajax({
        data: "action=newmember&id="+id+"&member="+userid+"&remove=true",
        success: function(data){
 
-              $("p.registered."+name+" span").replaceWith(message_unregister);
+              $("p.registration."+id).replaceWith(message_unregister);
               $(alert).insertAfter("p.registered."+name);
               $("button.close").click(function()
               {

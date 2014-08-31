@@ -10,7 +10,6 @@
 
 get_header(); ?>
 
-<main class="container" role="main">
 <div class="row">
   <div class="col-s-12">
 <?php if ( have_posts() ) : ?>
@@ -93,7 +92,7 @@ get_header(); ?>
 
   </div>
 </div>
-
+</main>
 
 
 <?php get_footer(); ?>

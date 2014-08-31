@@ -29,7 +29,7 @@ $products_args = array(
     'capability_type' => 'post',
     'rewrite' => array('slug' => 'products'),
     'supports' => array('title', 'excerpt', 'editor', 'thumbnail'),
-    'menu_icon' => get_bloginfo('template_directory') . '/images/products.png' //16x16 png if you want an icon
+    'menu_icon' => ''//16x16 png if you want an icon
 );
 register_post_type('products', $products_args);
 
@@ -55,6 +55,8 @@ function my_taxonomies_product() {
   register_taxonomy( 'product_category', 'product', $args );
 
 }
+
+
 
 
 add_action( 'init', 'my_taxonomies_product', 0 );

@@ -25,7 +25,7 @@ $args = array(
     'description'   =>   __( 'A list of upcoming events', 'uep' ),
     'public'        =>   true,
     'show_in_menu'  =>   true,
-    'menu_icon'     =>   IMAGES . 'event.svg',
+    'menu_icon'     =>   '',
     'has_archive'   =>   true,
     'rewrite'       =>   true,
     'supports'      =>   $supports
@@ -33,41 +33,29 @@ $args = array(
 
 register_post_type( 'event', $args );
 
-function uep_custom_post_type() {
-    $labels = array(
-        'name'                  =>   __( 'Events', 'uep' ),
-        'singular_name'         =>   __( 'Event', 'uep' ),
-        'add_new_item'          =>   __( 'Add New Event', 'uep' ),
-        'all_items'             =>   __( 'All Events', 'uep' ),
-        'edit_item'             =>   __( 'Edit Event', 'uep' ),
-        'new_item'              =>   __( 'New Event', 'uep' ),
-        'view_item'             =>   __( 'View Event', 'uep' ),
-        'not_found'             =>   __( 'No Events Found', 'uep' ),
-        'not_found_in_trash'    =>   __( 'No Events Found in Trash', 'uep' )
-    );
+// Display font awesome icon in admin panel
+function event_css() {
+   echo "<style type='text/css' media='screen'>
+       #adminmenu .menu-icon-event div.wp-menu-image:before {
+            font-family:  FontAwesome !important;
+            content: '\\f073'; // this is where you enter the fontaweseom font code
+        }
+        #adminmenu .menu-icon-products div.wp-menu-image:before {
+             font-family:  FontAwesome !important;
+             content: '\\f07a'; // this is where you enter the fontaweseom font code
+         }
+         #adminmenu .menu-icon-gallery div.wp-menu-image:before {
+              font-family:  FontAwesome !important;
+              content: '\\f083'; // this is where you enter the fontaweseom font code
+          }
 
-    $supports = array(
-        'title',
-        'editor',
-        'excerpt',
-        'thumbnail'
-    );
-
-    $args = array(
-        'label'         =>   __( 'Events', 'uep' ),
-        'labels'        =>   $labels,
-        'description'   =>   __( 'A list of upcoming events', 'uep' ),
-        'public'        =>   true,
-        'show_in_menu'  =>   true,
-        'menu_icon'     =>   IMAGES . 'event.svg',
-        'has_archive'   =>   true,
-        'rewrite'       =>   true,
-        'supports'      =>   $supports
-    );
-
-    register_post_type( 'event', $args );
+     </style>";
 }
-add_action( 'init', 'uep_custom_post_type' );
+add_action('admin_head', 'event_css');
+
+
+
+
 
 function uep_add_event_info_metabox() {
     add_meta_box(
@@ -88,6 +76,7 @@ function uep_render_event_info_metabox( $post ) {
     // get previously saved meta values (if any)
     $event_start_date = get_post_meta( $post->ID, 'event-start-date', true );
     $event_end_date = get_post_meta( $post->ID, 'event-end-date', true );
+    $event_deadline = get_post_meta( $post->ID, 'event-deadline', true );
     $event_venue = get_post_meta( $post->ID, 'event-venue', true );
     $price = get_post_meta($post->ID, 'price', true);
     $members = get_post_meta($post->ID, 'members', true);
@@ -95,22 +84,28 @@ function uep_render_event_info_metabox( $post ) {
     $event_start_date = ! empty( $event_start_date ) ? $event_start_date : time();
     //we assume that if the end date is not present, event ends on the same day
     $event_end_date = ! empty( $event_end_date ) ? $event_end_date : $event_start_date;
+    // if there is previously saved value then retrieve it, else set it to the event date
+    $event_deadline = ! empty( $event_deadline ) ? $event_deadline : $event_start_date;
     $costs = ! empty( $costs ) ? $costs : "0";
     ?>
 
 <label for="start-date"><?php _e( 'Event Start Date:', 'uep' ); ?></label>
-        <input class="date required widefat uep-event-date-input" id="start-date" type="text" name="uep-event-start-date" placeholder="Format: February 18, 2014" value="<?php echo date( 'F d, Y', $event_start_date ); ?>" />
+        <input class="date required widefat uep-event-date-input" id="start-date" type="text" name="uep-event-start-date" placeholder="" value="<?php echo date( 'F d, Y', $event_start_date ); ?>" />
 
 <label for="end-date"><?php _e( 'Event End Date:', 'uep' ); ?></label>
-        <input class="date required  widefat uep-event-date-input" id="end-date" type="text" name="uep-event-end-date" placeholder="Format: February 18, 2014" value="<?php echo date( 'F d, Y', $event_end_date ); ?>" />
+        <input class="date required  widefat uep-event-date-input" id="end-date" type="text" name="uep-event-end-date" placeholder="" value="<?php echo date( 'F d, Y', $event_end_date ); ?>" />
+
+<label for="deadline"><?php _e( 'Event Registration Deadline:', 'uep' ); ?></label>
+        <input class="date  widefat uep-event-date-input" id="deadline" type="text" name="uep-event-deadline" placeholder="" value="<?php echo date( 'F d, Y',   $event_deadline ); ?>" />
+
 
 <label for="venue"><?php _e( 'Event Venue:', 'uep' ); ?></label>
         <input class="widefat required" id="venue" type="text" name="uep-event-venue" placeholder="eg. Times Square" value="<?php echo $event_venue; ?>" />
 
 <label for="price">Price</label>
 <input name="price"type="text" id="price" class="widefat required" value="<?php echo $price; ?>" />
-<label for="members">Members</label>
-<input name="members"type="text" id="price" class="widefat" value="<?php echo $members; ?>" />
+<!--<label for="members">Members</label>
+<input name="members"type="text" id="price" class="widefat" value="<?php echo $members; ?>" /> -->
     <?php
     }
 
@@ -125,7 +120,7 @@ function uep_admin_script_style( $hook){
   wp_enqueue_style('jquery-ui.structure', get_template_directory_uri() . '/vendor/jquery-ui.structure.css');
   wp_enqueue_script( 'admin.js', get_template_directory_uri() . '/js/admin.js' ,false, false, true );
 }}
-add_action( 'save_post', 'uep_save_event_info' );
+
 function uep_save_event_info( $post_id ) {
 
     // checking if the post being saved is an 'event',
@@ -152,6 +147,15 @@ function uep_save_event_info( $post_id ) {
     if ( isset( $_POST['uep-event-end-date'] ) ) {
         update_post_meta( $post_id, 'event-end-date', strtotime( $_POST['uep-event-end-date'] ) );
     }
+    if ( isset( $_POST['uep-event-deadline'] ) ) {
+        if ($_POST['uep-event-deadline']){
+          update_post_meta( $post_id, 'event-deadline', strtotime( $_POST['uep-event-deadline'] ) );
+        }else{
+          update_post_meta( $post_id, 'event-deadline', strtotime( $_POST['uep-event-start-date'] ) );
+
+        }
+
+    }
 
     if ( isset( $_POST['uep-event-venue'] ) ) {
       //  echo '<h1>TRUE</h1>';
@@ -161,11 +165,13 @@ function uep_save_event_info( $post_id ) {
       //  echo '<h1>TRUE</h1>';
         update_post_meta( $post_id, 'price', sanitize_text_field( $_POST['price'] ) );
     }
-    if ( isset( $_POST['members'] ) ) {
+    // Remove members field from admin view. Perhaps add functionality to remove members from event later.
+    //if ( isset( $_POST['members'] ) ) {
       //  echo '<h1>TRUE</h1>';
-        update_post_meta( $post_id, 'members', sanitize_text_field( $_POST['members'] ) );
-    }
+      //  update_post_meta( $post_id, 'members', sanitize_text_field( $_POST['members'] ) );
+    //}
 }
+add_action( 'save_post', 'uep_save_event_info' );
 
 function is_user_registered ($user_id, $post_id) {
   $members = get_post_meta( $post_id, 'members', true );
@@ -250,30 +256,35 @@ function add_registered_members_metabox() {
         __( 'Registered members', 'regmem' ),
         'render_registered_members',
         'event',
-        'side',
+        'normal',
         'core'
     );
   }
 add_action( 'add_meta_boxes', 'add_registered_members_metabox' );
 
-function render_registered_members( $post ) {
+function render_registered_members($post ) {
 
     // get previously saved meta values (if any)
-    $members = get_post_meta($post_id, 'members', true);
+    $members = get_post_meta($post->ID, 'members', true);
     $arr=explode(',', $members);
-    echo "<h1>".$arr[1]."</h1>";
-    echo "<table><tr><th>Member</th></tr>";
-    foreach ( $arr as $member ) {
-        echo "<tr><td>".$member."</td></tr>";
-        }
-        echo "</table>";
+
+    echo "<table>";
+    echo "<tr><th>User</th><th>Email</th></tr>";
+    for($i=0;$i<count($arr);$i++) {
+      $user_id=intval($arr[$i]);
+      $user = get_userdata( $user_id );
+
+
+    echo   "<tr><td>".  $user->user_login. "</td><td>".  $user->user_email ."</td></tr>";
     }
+    echo "</table>";
+}
 
 
+function build_taxonomies() {
+register_taxonomy( 'event_categories', 'event', array( 'hierarchical' => true, 'label' => 'Event Categories', 'query_var' => true, 'rewrite' => true ) );
+}
 
-
-
-
-
+add_action( 'init', 'build_taxonomies', 0 );
 
 ?>
