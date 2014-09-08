@@ -71,15 +71,7 @@ p{
   font-size:0.5em;
 }
 
-.date{
 
-text-align: center;
-font-weight: 800;
-font-family: "Raleway";
-background-color: white;
-border-radius: 5px;
-color: gray;
-}
 
 .fa.registration{
   vertical-align: middle;
@@ -88,4 +80,57 @@ color: gray;
 h1 a{
   text-decoration:none;
   color: black;
+}
+
+
+.perfect-circle {
+			font-family: "Lato";
+			font-weight: 500;
+			background: #222;
+			text-align: center;
+			width: 4em;
+			border-radius: 50%;
+			vertical-align: middle;
+	    height: 4em;
+      margin:auto;
+
+
+		}
+		.content-circle {
+
+			position: relative;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+		}
+		.number, .text {
+			display: block;
+			color: #FFF;
+		}
+		.number {
+			font-size: 120%
+		}
+		.text {
+			font-size: 60%;
+		}
+.bg{
+  background-color: #e8e8e8;
+}
+
+body{
+  background-color:gray;
+}
+
+.imageHolder{
+  background-color: #e8e8e8;
+}
+#wpadminbar {
+position: fixed;
+}
+
+.entry-meta{
+    font-family: "Lato";
+    font-weight: 300;
+    font-style: normal;
 }

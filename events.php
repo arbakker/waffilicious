@@ -26,7 +26,7 @@ $date=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-start-date'
 $start_day=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-start-date', $postID ) ), 'j' );
 $start_month=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-start-date', $postID ) ), 'M' );
 $end_day=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-end-date', $postID ) ), 'j' );
-$emd_month=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-end-date', $postID ) ), 'M' );
+$end_month=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-end-date', $postID ) ), 'M' );
 
 
 $start_date=get_post_field( 'event-start-date', $postID );
@@ -71,11 +71,29 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
                 <?php echo $thumbnail ;?>
               </div>
               <div class="date">
-                <p>
-                <?php echo $start_day. "</br>". $start_month; ?>
-                </p>
+
+                <div class="perfect-circle">
+                  <div class="content-circle">
+		                <span class="number"><?php
+
+                        echo $start_day;
+
+
+                    ?></span>
+                    <span class="text"><?php
+
+                        echo $start_month;
+
+                    ?></span>
+                  </div>
+	              </div>
+
+
+
+
               </div>
             </div>
+
             <div class="col-xs-6 col-s-8">
              <h1 ><a href="<?php the_permalink()?>"> <?php the_title(); ?></a></h1>
              <p><?php the_excerpt(); ?></p>

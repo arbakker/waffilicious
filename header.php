@@ -95,5 +95,5 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
 
 
 
-
+<div class="bg">
 <main class="container" role="main">

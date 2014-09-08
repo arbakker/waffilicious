@@ -1,8 +1,8 @@
 jQuery().ready(function() {
 $(".img-holder").imageScroll(
 {
-    coverRatio: 0.5,
-    speed: 0.5,
+    coverRatio: 0.4,
+    speed: 0.2,
     parallax: true
 }
 );

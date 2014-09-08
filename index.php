@@ -86,6 +86,7 @@ get_header(); ?>
 
 </div>
 </main>
+</div>
 </section>
 
 <?php } else { ?>
