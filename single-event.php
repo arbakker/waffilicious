@@ -15,7 +15,7 @@
 //  if (get_post_field( 'event-deadline', $postID )<time() ){
 
 $postID = get_the_ID();
-$thumbnail=get_the_post_thumbnail( $postID, 'large' );
+$thumbnail=get_the_post_thumbnail( $postID  );
 $start_day=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-start-date', $postID ) ), 'j' );
 $start_month=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-start-date', $postID ) ), 'M' );
 $end_day=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-end-date', $postID ) ), 'j' );
@@ -31,8 +31,8 @@ $name=$post->post_name;
 
 $button_register='<button class="register btn-inline '.$name.'">Register</button>';
 $button_unregister='<button class="unregister btn-inline '.$name.'">Unregister</button>';
-$message_register='<p class="registration '.$postID.'" ><i class="fa registration fa-check-square-o fa-2x"></i>'."    Registered</p>";
-$message_unregister='<p class="registration '.$postID.'"><i class="fa fa-square-o fa-2x registration"></i>'."    Not registered</p>";
+$message_register='<p class="registration  '.$postID.'" ><i class="fa registration fa-check-square-o fa"></i>'."    Registered</p>";
+$message_unregister='<p class="registration   '.$postID.'"><i class="fa fa-square-o fa registration"></i>'."    Not registered</p>";
 
 
 $alert= '<div id="dismiss-'.$name.'" role="alert" aria-hidden="true" class="alert alert-dismissable" ><button class="close" data-dismiss-target="#dismiss-'.$name.'" >x</button><p> %s!</p></div>';
@@ -57,17 +57,19 @@ else{
 
 
 <div class="row">
-  <div class="col-s-12">
+  <div class="col-s-12 card">
   <?php while ( have_posts() ) : the_post(); ?>
 
     <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+
       <div class="row" name="<?php echo $name;?>" id="<?php echo $postID; ?>">
+
         <div class="col-m-6">
           <header class="entry-header">
-            <h1 class="entry-title"><?php the_title(); ?></h1>
+            <h1 class="entry-title same-line" ><?php the_title(); ?></h1>
+            <?php  echo $registered_string ;?>
           </header><!-- .entry-header -->
           <div class="event-date">
-
             <i class="fa fa-calendar-o  "></i>
           </space>
             <?php
@@ -78,8 +80,6 @@ else{
               echo $start_day. " / ".$start_month." - ".$end_day. " / ".$end_month  ;
             }
             ?>
-
-
           </div>
           <div class="entry-content">
               <?php the_content(); ?>
@@ -90,21 +90,19 @@ else{
           </div>
 
         </div>
-<div class="col-xs-6">
-  <div class="media">
-    <?php echo $thumbnail ;?>
-  </div>
-</div>
-        <div class="col-m-6">
-        <p><?php echo $registered_string ;?></p>
+        <div class="col-s-6">
+          <div class="media">
+            <?php echo $thumbnail ;?>
+          </div>
         </div>
-        <?php echo $button ;?>
-      </div>
+
       <div class="row">
+
         <div class="col-m-6">
-
+          <textarea rows="2" cols="50" name="comment" form="usrform"></textarea>
+          <?php echo $button ;?>
         </div>
-
+      </div>
       </div>
       <div class="row">
         <div class="col-xs-12">
@@ -115,6 +113,7 @@ else{
           ?>
           <?php edit_post_link( __( '<i class="fa registration fa-edit fa-2x"></i>'), '<span class="edit-link">', '</span>' ); ?>
         </div><!-- .entry-meta -->
+        <?php shape_content_nav(); ?>
       </div>
       </div>
     </article><!-- #post-<?php the_ID(); ?> -->

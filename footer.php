@@ -15,11 +15,13 @@
 
 
 
-<footer id="colophon" class="site-footer" role="contentinfo">
+<footer id="footer" >
+  <div class="container" role="content-info">
 
 
 <?php get_sidebar(); ?>
 
+  </div>
 </footer><!-- #colophon .site-footer -->
 </div><!-- #page .hfeed .site -->
 

@@ -7,7 +7,7 @@
 get_header(); ?>
 
 <div class="row">
-  <div class="col-s-12">
+  <div class="col-md-12">
   <?php while ( have_posts() ) : the_post(); ?>
 
       <?php get_template_part( 'content', 'single' ); ?>

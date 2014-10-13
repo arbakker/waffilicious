@@ -9,8 +9,24 @@
 
 
 <?php
-$loop = new WP_Query( array( 'post_type' => 'event', 'posts_per_page' => -1, 'orderby' => 'event-start-date', 'order' => 'DESC' ) );
-while ( $loop->have_posts() ) : $loop->the_post();
+echo '<div class="panel-group" id="accordion">';
+$query = new WP_Query( array(
+  'post_type' => 'event',
+  'posts_per_page' => -1,
+  'orderby' => 'meta_value_num',
+  'meta_key' =>'event-sort-date',
+  'order' => 'ASC' )
+);
+$posts = $query->get_posts();
+$filter_post=[];
+foreach($posts as $post) {
+    $postID=get_the_ID();
+    if (get_post_field( 'event-start-date', $postID )>time() ){
+      $filter_post[]=$post;
+}}
+
+foreach($filter_post as $post){
+
 $image = wp_get_attachment_image_src( get_post_thumbnail_id( ), 'single-post-thumbnail' );
 $user_id = get_current_user_id();
 $postID = get_the_ID();
@@ -30,8 +46,10 @@ $end_month=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-end-da
 
 
 $start_date=get_post_field( 'event-start-date', $postID );
+
 $end_date=get_post_field( 'event-end-date', $postID );
 
+$sort_date=get_post_field('event-sort-date', $postID);
 
 $deadline=get_post_field( 'event-deadline', $postID );
 $location=get_post_field( 'event-venue', $postID );
@@ -65,56 +83,71 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
     $button='<div class="alert alert-dismissable" role="alert" ><button data-dismiss-target=".alert" class="close">x</button><p>Deadline for registration has passed</p></div>';
  }
  ?>
-      <div class="row card" name="<?php echo $name;?>" id="<?php echo $postID; ?>">
-            <div class="col-xs-4 col-s-2">
-              <div class="media">
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <span class="badge alert-success">
+      <?php
+
+                      echo $start_day;
+
+
+                  ?>
+                  <?php
+
+                      echo $start_month;
+
+                  ?>
+      </span>
+
+
+
+    <h1 class="panel-title">
+
+
+      <a data-toggle="collapse" data-parent="#accordion" href="#<?php echo $postID; ?>">
+   <?php the_title(); ?>
+      </a>
+
+    </h1>
+
+  </div>
+  <div id="<?php echo $postID; ?>" class="panel-collapse collapse">
+    <div class="panel-body">
+
+      <row>
+        <div class="col-xs-4 col-md-2">
+          <div class="media">
                 <?php echo $thumbnail ;?>
               </div>
-              <div class="date">
-
-                <div class="perfect-circle">
-                  <div class="content-circle">
-		                <span class="number"><?php
-
-                        echo $start_day;
-
-
-                    ?></span>
-                    <span class="text"><?php
-
-                        echo $start_month;
-
-                    ?></span>
-                  </div>
-	              </div>
+        </div>
+        <div class="col-md-8">
+      <p>
+        <?php echo the_excerpt(); ?>
+      </p>
+    </div>
+    <div clas="col-md-2">
+      <p class="text-right">
+        sadglaoa
+      </p>
+    </div>
+    </div>
+  </div>
+</div>
 
 
 
 
-              </div>
-            </div>
-
-            <div class="col-xs-6 col-s-8">
-             <h1 ><a href="<?php the_permalink()?>"> <?php the_title(); ?></a></h1>
-             <p><?php the_excerpt(); ?></p>
-
-             <p><?php echo $registered_string ;?></p>
-            </div>
-            <div class="col-xs-2">
-              <div class="row">
-                <?php echo $button ;?>
-              </div>
-              <div class="row">
-                <p></p>
-              </div>
-            </div>
-       </div>
  <?php
 }
-endwhile; wp_reset_query();
+}
 ?>
-</tbody>
-</table>
+
+
+
+
+
+</div>
+
 
 </main>
 

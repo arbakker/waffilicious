@@ -23,63 +23,122 @@ get_header(); ?>
 
 <?php if(is_front_page() ) { ?>
 
-    <div class="row no-gutter pad-gutter">
+    <div class="row">
+      <div class="col-md-6">
+        <h1 >News and events</h1>
+        <div class="list-group latest">
 <?php
-	$args = array( 'numberposts' => '5', 'tax_query' => array(
+	$args = array( 'numberposts' => '2', 'tax_query' =>
 			array(
 				'taxonomy' => 'post_format',
 				'field' => 'slug',
 				'terms' => 'post-format-aside',
 				'operator' => 'NOT IN'
-			),
-			array(
-				'taxonomy' => 'post_format',
-				'field' => 'slug',
-				'terms' => 'post-format-image',
- 				'operator' => 'NOT IN'
 			)
-	) );
+	) ;
 	$recent_posts = wp_get_recent_posts( $args );
+  $args_events = array(
+        'numberposts' => 2,
+        'post_type' => 'event',
+        'order' => 'DESC',
+        'post_status' =>'publish'
+  ) ;
+  $recent_events = wp_get_recent_posts( $args_events);
+
+  $recent_all=array_merge( $recent_posts, $recent_events);
+
   $count=0;
-	foreach( $recent_posts as $recent ){
+	foreach( $recent_all as $recent ){
     $length= strlen( $recent["post_excerpt"]);
-    if ($count===3){
-      echo '</div><div class="row">';
-    }elseif ($count===6){
-      echo '</div><div class="row">';
-      break;
-    };
     if ($length===0){
       $excerpt=strip_shortcodes( $recent["post_content"] );
-      $excerpt=wp_trim_words($excerpt  );
+      $excerpt=wp_trim_words($excerpt, $num_words = 35 );
       }
     else{
       $excerpt=$recent["post_excerpt"];
     };
     $postID=$recent["ID"];
     if (has_post_thumbnail( $postID )){
-      $image = wp_get_attachment_image_src( get_post_thumbnail_id( $postID ), 'single-post-thumbnail' );
+      $image = get_the_post_thumbnail( $postID, 'thumbnail' );
+      //wp_get_attachment_image_src( get_post_thumbnail_id( $postID ), 'single-post-thumbnail' );
     }
-    echo '<div class="col-s-4">'.'<a class="divlink" href="' . get_permalink($recent["ID"]).'""'.'title="'
-    .esc_attr(__($recent["ex"])).'">'. '<div class="card">'.'<h3>' .   ( __($recent["post_title"])).' </h3>'.
-    '<div class=media><img src="'.$image[0].'"></div>'.'<p>'.( __($excerpt)).'</p></div></a></div> ';
+    if ($count>0){
+
+    }
+    ?>
+
+<!--
+<div class="list-group">
+  <a href="#" class="list-group-item ">
+    <h4 class="list-group-item-heading">List group item heading</h4>
+    <p class="list-group-item-text">...</p>
+  </a>
+</div>
+-->
+
+
+      <a href="<?php echo get_permalink($recent["ID"]) ;?>" title="<?php echo esc_attr(__($recent["ex"])) ;?>" class="list-group-item ">
+        <div class="media img-latest">
+        <?php echo $image; ?>
+        </div>
+        <span class="badge"><?php echo get_post_type( $postID ) ?></span>
+        <h4 class="list-group-item-heading"><?php  echo  __($recent["post_title"]) ;?></h4>
+        <p class="list-group-item-text"><?php echo $excerpt;?></p>
+      </a>
 
 
 
 
+
+
+
+
+    <!--
+  -->
+
+
+    <?php
+
+
+    //echo '<div class="row">'.'<a class="divlink" href="' . get_permalink($recent["ID"]).'""'.'title="'
+    //.esc_attr(__($recent["ex"])).'">'. '<div class="card">'.'<h3>' .   ( __($recent["post_title"])).' </h3>'.
+    //'<div style="width:100px;" class=media>'.$image.'</div>'.'<p>'.( __($excerpt)).'</p></div></a></div> ';
     $count++;
 	}
+
+
+
+
+
+
+
+
+
 ?>
-<div class="col-s-2">
-  <div class="card">
-  <h3>Social Links</h3>
+</div>
+</div>
+<div class="col-md-6">
+  <h1>About WAF</h1>
+  <?php $page = get_posts(
+    array(
+        'name'      => 'home',
+        'post_type' => 'page'
+    )
+);
+if ( $page )
+{
+    echo $page[0]->post_content;
+} ?>
+
+<!--  <div class="card">
+  <h1>Social Links</h1>
   <ul class="fa-ul">
     <li ><a href="http://www.waf.wur.nl/facebook"><i class="fa-li fa fa-facebook"></i>Facebook group</a></li>
     <li><i class="fa-li fa fa-facebook-square"></i>Facebook page</li>
     <li><i class="fa-li fa fa-rss"></i>RSS feed</li>
     <li><i class="fa-li fa fa-external-link-square"></i>NFB news</li>
   </ul>
-</div>
+</div> -->
 </div>
 
 

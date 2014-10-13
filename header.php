@@ -38,7 +38,6 @@ echo " | $site_description";
 // Add a page number if necessary:
 if ( $paged >= 2 || $page >= 2 )
 echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
-
 ?></title>
 <link rel="profile" href="http://gmpg.org/xfn/11" />
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
@@ -52,12 +51,22 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
 
 <!--onload="creator()"-->
 
-<nav role="navigation" class="navbar">
-        <div class="container">
-            <div class="row">
-                <a href="/" rel="home">WAF</a>
-                <button data-dropdown-target="#navigation" class="visible-xs"><span class="visuallyhidden">Toggle Navigation</span></button>
-                <div id="navigation" class="collapse">
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><?php echo bloginfo(); ?></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+
+
+
                 <?php
              $menuParameters = array(
               'container'       => false,
@@ -67,15 +76,25 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
               'walker' => new Class_Name_Walker,
             );
 
-            echo strip_tags(wp_nav_menu( $menuParameters ), '<a>' );
+
+
+            echo wp_nav_menu( $menuParameters ) ;
+            echo "</ul>";
             if ( is_user_logged_in() ) {
               global $current_user;
               get_currentuserinfo();
-              echo "<a id='logout' class='menu-item menu-item-type-post_type menu-item-object-page' href='javascript:void(0)'><i class='fa registration fa-sign-out fa-2x'></i></a>";
-              echo "<a href='javascript:void(0)' id='welcome' class='menu-item menu-item-type-post_type menu-item-object-page'>Welcome</br> ".$current_user->user_login ."</a>";
+
+              echo "<ul class='nav navbar-nav navbar-right'>";
+              echo "<li><a id='logout' class='menu-item menu-item-type-post_type menu-item-object-page' href='javascript:void(0)'><i class='fa registration fa-sign-out fa-2x'></i></a></li>";
+              echo "<li><a href='javascript:void(0)' id='welcome' class='menu-item menu-item-type-post_type menu-item-object-page'><i class='fa registration fa-user fa'></i>&nbsp;".$current_user->user_login ."</a></li>";
+              echo "</ul>";
+
+
             }
             else{
-              echo "<a id='login' class='menu-item menu-item-type-post_type menu-item-object-page' href='".site_url()."/login' ><i class='fa registration fa-sign-in fa-2x'></i></a>";
+              echo "<ul class='nav navbar-nav navbar-right'>";
+              echo "<li><a id='login' class='menu-item menu-item-type-post_type menu-item-object-page' href='".site_url()."/login' ><i class='fa registration fa-sign-in fa-2x'></i></a></li>";
+              echo "</ul>";
             }
             ?>
 

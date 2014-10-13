@@ -142,6 +142,8 @@ function uep_save_event_info( $post_id ) {
     // checking for the values and performing necessary actions
     if ( isset( $_POST['uep-event-start-date'] ) ) {
         update_post_meta( $post_id, 'event-start-date', strtotime( $_POST['uep-event-start-date'] ) );
+        $sortdate=  date( 'Ymd', strtotime( $_POST['uep-event-start-date'] ) );
+        update_post_meta( $post_id, 'event-sort-date', $sortdate);
     }
 
     if ( isset( $_POST['uep-event-end-date'] ) ) {

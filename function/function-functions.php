@@ -151,27 +151,20 @@ function shape_content_nav( $nav_id ) {
         $nav_class = 'site-navigation post-navigation';
 
     ?>
-    <nav role="navigation" id="<?php echo $nav_id; ?>" class="<?php echo $nav_class; ?>">
-        <h1 class="assistive-text"><?php _e( 'Post navigation', 'minim2' ); ?></h1>
-
+    <div role="navigation" id="<?php echo $nav_id; ?>" >
     <?php if ( is_single() ) : // navigation links for single posts ?>
-
-        <?php previous_post_link( '<div class="nav-previous">%link</div>', '<span class="meta-nav">' . _x( '&larr;', 'Previous post link', 'minim2' ) . '</span> %title' ); ?>
-        <?php next_post_link( '<div class="nav-next">%link</div>', '%title <span class="meta-nav">' . _x( '&rarr;', 'Next post link', 'minim2' ) . '</span>' ); ?>
-
+        <?php previous_post_link( '<div class="nav-previous">%link</div>', '<span class="meta-nav">' . _x( '<i class="fa registration fa-arrow-left fa-1x"></i>', 'Previous post link', 'waf' ) . '</span> %title' ); ?>
+        <?php next_post_link( '<div class="nav-next">%link</div>', '%title <span class="meta-nav">' . _x( '<i class="fa registration fa-arrow-right fa-1x"></i>', 'Next post link', 'waf' ) . '</span>' ); ?>
     <?php elseif ( $wp_query->max_num_pages > 1 && ( is_home() || is_archive() || is_search() ) ) : // navigation links for home, archive, and search pages ?>
-
         <?php if ( get_next_posts_link() ) : ?>
         <div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'minim2' ) ); ?></div>
         <?php endif; ?>
-
         <?php if ( get_previous_posts_link() ) : ?>
         <div class="nav-next"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'minim2' ) ); ?></div>
         <?php endif; ?>
-
     <?php endif; ?>
 
-    </nav><!-- #<?php echo $nav_id; ?> -->
+  </div><!-- #<?php echo $nav_id; ?> -->
     <?php
 }
 endif; // shape_content_nav
@@ -219,6 +212,26 @@ function custom_taxonomies_terms_links(){
   }
   return implode('', $out );
 }
+
+function breezer_addDivToImage( $content ) {
+   // A regular expression of what to look for.
+   $pattern = '/(<img([^>]*)>)/i';
+   // What to replace it with. $1 refers to the content in the first 'capture group', in parentheses above
+   $replacement = '<div class="col-s-3"><div class="media">$1</div></div>';
+   $pattern2 = '/(align*)/i';
+   $content=preg_replace($pattern2, "", $content);
+   // run preg_replace() on the $content
+   $content = preg_replace( $pattern, $replacement, $content );
+   // return the processed content
+   return $content;
+}
+
+add_filter( 'the_content', 'breezer_addDivToImage' );
+
+
+
+
+
 
 
 
