@@ -99,7 +99,7 @@ function waf_wp_head(){
     echo '<style>'.PHP_EOL;
     echo '@media(max-width:48em) { '.PHP_EOL;
     echo 'body{ padding-top: 22px !important; }'.PHP_EOL;
-    echo 'body.logged-in .navbar{ top: 38px !important; }'.PHP_EOL;
+    echo 'body.logged-in .navbar{ top: 46px !important; }'.PHP_EOL;
     echo '}' . PHP_EOL;
     echo '@media(min-width:48em) { '.PHP_EOL;
     echo 'body{ padding-top: 36px !important; }'.PHP_EOL;

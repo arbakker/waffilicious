@@ -6,4 +6,7 @@ $(".img-holder").imageScroll(
     parallax: true
 }
 );
+$("#registration-input").tooltip({'trigger':'focus', 'title': 'Optional details for registration'});
+
+
 });

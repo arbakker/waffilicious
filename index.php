@@ -125,9 +125,15 @@ get_header(); ?>
         'post_type' => 'page'
     )
 );
+  $postid=$page[0]->ID;
+  $thumbnail=get_the_post_thumbnail( $postID, 'large' );
+  $thumbnail=str_replace( 'class="', 'class="img-rounded img-responsive ', $thumbnail );
+
+
 if ( $page )
 {
     echo $page[0]->post_content;
+    echo $thumbnail;
 } ?>
 
 <!--  <div class="card">

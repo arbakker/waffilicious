@@ -1,5 +1,5 @@
 jQuery().ready(function() {
-$(".row").each(function(){
+$(".panel").each(function(){
 var name = $(this).attr("name");
 var id = $(this).attr("id");
 var selector = ("button.register."+name);
@@ -8,6 +8,8 @@ var message_register='<p class="registration '+id+'"><i class="fa registration f
 var message_unregister='<p class="registration '+id+'"><i class="fa fa-square-o fa-2x registration"></i>  Not registered</p>';
 var alert= '<div id="dismiss-'+name+'" role="alert" aria-hidden="true" class="alert alert-dismissable" ><button class="close" data-dismiss-target="#dismiss-'+ name +'" >x</button><p> %s!</p></div>';
 var alert2 = '<div id="dismiss" role="alert" aria-hidden="true" class="alert alert-dismissable" ><button class="close" data-dismiss-target="#dismiss" >x</button><p> Sometext!</p></div>';
+
+$("input").tooltip({'trigger':'focus', 'title': 'Optional details for registration'});
 
 $(selector).click(function() {
 $.ajax({

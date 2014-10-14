@@ -1,5 +1,7 @@
+/*
+SECTION: index.php
+*/
 .img-latest{
-
     float: left;
     margin-right: 1em;
     border-radius: 0.5em;
@@ -7,11 +9,32 @@
 
 .latest .list-group-item{
   height: 102px;
-
 }
 
-footer{
+/*
+SECTION: general
+*/
+.top1 { margin-top:1em; }
+.top2 { margin-top:2em; }
+.top3 { margin-top:3em; }
+.top5 { margin-top:5em; }
+.top7 { margin-top:7em; }
+.top10 { margin-top:10em; }
+.top15 { margin-top:15em; }
+.top17 { margin-top:17em; }
+.top30 { margin-top:30em; }
 
+.bottom1 { margin-bottom:1em; }
+.bottom2 { margin-bottom:2em; }
+.bottom3 { margin-bottom:3em; }
+.bottom5 { margin-bottom:5em; }
+.bottom7 { margin-bottom:7em; }
+.bottom10 { margin-bottom:10em; }
+.bottom15 { margin-bottom:15em; }
+.bottom17 { margin-bottom:17em; }
+.bottom30 { margin-bottom:30em; }
+
+footer{
 padding-top: 30px;
 padding-bottom: 30px;
 background-color: #563D7C;
@@ -21,20 +44,50 @@ height: 180px;
 }
 
 main{
-
   padding-top: 40px;
 }
 
-.panel-heading .badge{
-  float:left;
+#wpadminbar{
+  position:fixed;
+}
+
+
+/*
+SECTION: events.php
+*/
+.panel-title i{
+    float: right;
+    display: inline-block;
+    position: relative;
+    top: -4px;
+}
+
+.panel-title .fa-square-o{
+  margin-right: 0.6em;
+}
+
+.panel-title .fa-check-square-o{
+  margin-right: 0.5em;
+}
+
+.panel-title  a{
+  margin-left: 1em;
+}
+
+.details{
+  font-size:small;
+}
+
+.img-event{
+  margin: 0 auto;
 
 }
 
-.panel-heading .panel-title > a{
-  margin-left: 2em;
-
+.registered{
+  color: #5CB85C;
 }
 
-.inactive{
-  
+.btn-unregister{
+  display:block;
+  float:right; clear:right;
 }
