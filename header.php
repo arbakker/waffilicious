@@ -24,20 +24,21 @@
 * Print the <title> tag based on what is being viewed.
 */
 global $page, $paged;
-
-wp_title( '|', true, 'right' );
-
-// Add the blog name.
-bloginfo( 'name' );
-
-// Add the blog description for the home/front page.
+wp_title( '', true );
+// Add the site title for the home/front page.
 $site_description = get_bloginfo( 'description', 'display' );
-if ( $site_description && ( is_home() || is_front_page() ) )
-echo " | $site_description";
+if ( $site_description && ( is_home() || is_front_page() ) ){
 
+echo $site_description;
+}
+elseif ( is_home() || is_front_page() )
+{
+  wp_title( '', true );
+}
 // Add a page number if necessary:
-if ( $paged >= 2 || $page >= 2 )
+if ( $paged >= 2 || $page >= 2 ){
 echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
+}
 ?></title>
 <link rel="profile" href="http://gmpg.org/xfn/11" />
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
@@ -105,7 +106,7 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
 
 <?php if(is_front_page() ) { ?>
 <!--<div class="banner" style="height:300px;background-image:url('<?php header_image(); ?>');background-size:cover;background-repeat:no-repeat;background-position:50% 50%;"></div>-->
-<div class="img-holder" data-image="<?php header_image(); ?>" data-width="1600" data-height="900"></div>
+<div class="img-holder" data-image="<?php header_image(); ?>" data-width="6211" data-height="4862" data-extra-height="0" ></div>
 <section>
 <?php } ?>
 

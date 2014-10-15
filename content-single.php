@@ -2,7 +2,7 @@
       <?php
         $postID=get_the_ID();
         $thumbnail=get_the_post_thumbnail( $postID, 'medium' );
-        $thumbnail=str_replace( 'class="', 'class="img-rounded img-responsive img-post ', $thumbnail );
+        $thumbnail=str_replace( 'class="', 'class="img-thumbnail img-responsive img-post ', $thumbnail );
       ?>
       <div class="row">
         <div class="col-md-4 bottomdot5">

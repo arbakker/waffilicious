@@ -61,6 +61,7 @@ get_header(); ?>
     if (has_post_thumbnail( $postID )){
       $image = get_the_post_thumbnail( $postID, 'thumbnail' );
       //wp_get_attachment_image_src( get_post_thumbnail_id( $postID ), 'single-post-thumbnail' );
+      $image="<span>".str_replace( 'class="', 'class="img-rounded pull-left ', $image )."</span>";
     }
     if ($count>0){
 
@@ -77,10 +78,10 @@ get_header(); ?>
 -->
 
 
-      <a href="<?php echo get_permalink($recent["ID"]) ;?>" title="<?php echo esc_attr(__($recent["ex"])) ;?>" class="list-group-item ">
-        <div class="media img-latest">
+      <a href="<?php echo get_permalink($recent["ID"]) ;?>" title="<?php echo esc_attr(__($recent["ex"])) ;?>" class="list-group-item clearfix ">
+
         <?php echo $image; ?>
-        </div>
+
         <span class="badge"><?php
         if (get_post_type( $postID ) == "post"){
           echo "news";
@@ -88,8 +89,10 @@ get_header(); ?>
           echo get_post_type( $postID );
         }
          ?></span>
+         <div >
         <h4 class="list-group-item-heading"><?php  echo  __($recent["post_title"]) ;?></h4>
         <p class="list-group-item-text"><?php echo $excerpt;?></p>
+      </div>
       </a>
 
 

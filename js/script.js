@@ -7,6 +7,4 @@ $(".img-holder").imageScroll(
 }
 );
 $("#registration-input").tooltip({'trigger':'focus', 'title': 'Optional details for registration'});
-
-
 });

@@ -37,7 +37,7 @@ $form="";
 $script="";
 
 $thumbnail=get_the_post_thumbnail( $postID, 'medium' );
-$thumbnail=str_replace( 'class="', 'class="img-rounded img-responsive img-event ', $thumbnail );
+$thumbnail=str_replace( 'class="', 'class="img-thumbnail img-responsive img-event ', $thumbnail );
 $date=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-start-date', $postID ) ), 'F j, Y' );
 
 
@@ -65,17 +65,7 @@ $button_unregister='<button class="unregister btn-inline '.$name.'">Unregister</
 $message_register='<i class="fa text-right registered  '.$postID.'  fa-check-square-o fa-lg"></i>';
 $message_unregister='<i class="fa text-right notregistered  '.$postID.' fa-square-o fa-lg "></i>';
 
-if ($start_date!=$end_date){
-  if ($start_month===$end_month){
-    $fulldate=$start_day."-".$end_day." ".$end_month_full;
-  }else{
-    $fulldate=$start_day." ".$start_month_full."-".$end_day." ".$end_month_full;
-  }
-
-
-}else{
-  $fulldate=$start_day." ".$start_month_full;
-}
+$fulldate=get_event_date_string($start_date,$start_day,$start_month_full,$end_date,$end_day,$end_month_full);
 
 
 

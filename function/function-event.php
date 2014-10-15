@@ -290,4 +290,18 @@ register_taxonomy( 'event_categories', 'event', array( 'hierarchical' => true, '
 
 add_action( 'init', 'build_taxonomies', 0 );
 
+
+function get_event_date_string($start_date,$start_day,$start_month, $end_date,$end_day,$end_month){
+  if ($start_date!=$end_date){
+    if ($start_month===$end_month){
+      return $start_day."-".$end_day." ".$end_month;
+    }else{
+      return $fulldate=$start_day." ".$start_month."-".$end_day." ".$end_month;
+    }
+  }else{
+    return $fulldate=$start_day." ".$start_month;
+  }
+}
+
+
 ?>
