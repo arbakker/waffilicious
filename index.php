@@ -81,7 +81,13 @@ get_header(); ?>
         <div class="media img-latest">
         <?php echo $image; ?>
         </div>
-        <span class="badge"><?php echo get_post_type( $postID ) ?></span>
+        <span class="badge"><?php
+        if (get_post_type( $postID ) == "post"){
+          echo "news";
+        }else{
+          echo get_post_type( $postID );
+        }
+         ?></span>
         <h4 class="list-group-item-heading"><?php  echo  __($recent["post_title"]) ;?></h4>
         <p class="list-group-item-text"><?php echo $excerpt;?></p>
       </a>

@@ -9,14 +9,14 @@
 */
 ?>
 
-</div><!-- #main .site-main -->
-
+</main><!-- #main .site-main -->
+</div>
 
 
 
 
 <footer id="footer" >
-  <div class="container" role="content-info">
+  <div class="container " role="content-info">
 
 
 <?php get_sidebar(); ?>

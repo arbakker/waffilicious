@@ -192,6 +192,7 @@ function my_ajaxurl() {
 $html = '<script type="text/javascript">';
 $html .= 'var ajaxurl = "' . admin_url( 'admin-ajax.php' ) . '"'.';';
 $html .= 'var userid = "' . get_current_user_id() . '"'.';';
+$html .= 'var siteurl = "' . site_url() . '"'.';';
 $html .= '</script>';
 echo $html;
 }

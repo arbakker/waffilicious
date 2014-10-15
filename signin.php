@@ -1,7 +1,7 @@
 
 <?php
 /**
- * Template Name: Login page
+ * Template Name: Sign in page
  *
  */
 get_header();

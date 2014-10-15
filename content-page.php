@@ -8,16 +8,20 @@
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-    <div class="entry-content">
       <?php
         $postID=get_the_ID();
         $thumbnail=get_the_post_thumbnail( $postID, 'medium' );
+        $thumbnail=str_replace( 'class="', 'class="img-rounded img-responsive img-page ', $thumbnail );
       ?>
       <div class="row">
-        <div class="col-sm-4">
-          <div class="media" >
+        <div class="col-md-4">
+          <h1 class="single-page-title">
+          <?php the_title(); ?>
+
+        </h1>
+<?php edit_post_link( __( '<i class="fa registration fa-edit fa-lg"></i>'), '<span class="edit-link">', '</span>' );?>
             <?php echo $thumbnail; ?>
-          </div>
+
         </div>
       <div class="col-md-8">
 
@@ -28,10 +32,5 @@
 
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-12">
-              <?php edit_post_link( __( '<i class="fa registration fa-edit fa-2x"></i>'), '<span class="edit-link">', '</span>' );?>
-      </div>
-    </div>
-    </div><!-- .entry-content -->
+
 </article><!-- #post-<?php the_ID(); ?> -->

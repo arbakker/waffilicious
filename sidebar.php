@@ -11,10 +11,10 @@
 
 <ul   class= "list-inline">
 
-  <li><a href="http://www.waf.wur.nl/facebook" title="Facebook group WAF"><i class="fa fa-facebook fa-3x"></i></a></li>
-  <li><a href="http://www.waf.wur.nl/facebook" title="Facebook page WAF"><i class=" fa fa-facebook-square fa-3x"></i></a></li>
-  <li><a href="#"><i class=" fa fa-rss fa-3x" title="RSS Feed WAF"></i></a></li>
-  <li><a href="http://www.frisbeesport.nl" title="Nederlandse Frisbee Bond"><i class=" fa fa-external-link-square fa-3x"></i></a></li>
+  <li><a href="http://www.waf.wur.nl/facebook" title="Facebook group WAF"><i class="fa fa-facebook fa-3x footer"></i></a></li>
+  <li><a href="http://www.waf.wur.nl/facebook" title="Facebook page WAF"><i class=" fa fa-facebook-square fa-3x footer"></i></a></li>
+  <li><a href="#"><i class=" fa fa-rss fa-3x footer" title="RSS Feed WAF"></i></a></li>
+  <li><a href="http://www.frisbeesport.nl" title="Nederlandse Frisbee Bond"><i class=" fa fa-external-link-square fa-3x footer"></i></a></li>
 </ul>
 
 </div>
@@ -22,7 +22,7 @@
 </div>
 <div class="row">
 <div class="col-md-12">
-  <p class="text-right">
+  <p class="text-right footer">
     WAF - Wageningen Algemene Frisbee Club
   </p>
 </div>

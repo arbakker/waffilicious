@@ -71,13 +71,9 @@ return $link;
  * @since Shape 1.0
  */
 function waf_posted_on() {
-    printf( __( 'Posted on <a href="%1$s" title="%2$s" rel="bookmark"><time class="entry-date" datetime="%3$s" pubdate>%4$s</time></a><span class="byline"> by <span class="author vcard"><a class="url fn n" href="%5$s" title="%6$s" rel="author">%7$s</a></span></span>', 'minim2' ),
-        esc_url( get_permalink() ),
+    printf( __( 'Posted on <time class="entry-date" datetime="%1$s" pubdate>%2$s</time><span class="byline"> by <span class="author vcard">%3$s</span></span>', 'minim2' ),
         esc_attr( get_the_time() ),
-        esc_attr( get_the_date( 'c' ) ),
         esc_html( get_the_date() ),
-        esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
-        esc_attr( sprintf( __( 'View all posts by %s', 'minim2' ), get_the_author() ) ),
         esc_html( get_the_author() )
     );
 }
@@ -190,7 +186,7 @@ function custom_taxonomies_terms_links(){
       $out[] = "";
       $counter=0;
       foreach ( $terms as $term ) {
-        if (count($terms) -1==$counter)
+        if (count($terms)==$counter)
         {
           $out[] = " & ";
         }
@@ -200,18 +196,41 @@ function custom_taxonomies_terms_links(){
           }
         }
         $out[] =
-          ' <a href="'
+         ' <a href="'
         .    get_term_link( $term->slug, $taxonomy_slug ) .'">'
-        .    $term->name
-        . "</a>";
+        . $term->name .
+        "</a>";
         $counter=$counter+1;
-
       $out[] = "";
     }
   }
   }
   return implode('', $out );
 }
+
+function custom_taxonomies_term(){
+  // get post by post id
+  $post = get_post( $post->ID );
+  // get post type by post
+  $post_type = $post->post_type;
+  // get post type taxonomies
+  $taxonomies = get_object_taxonomies( $post_type, 'objects' );
+  $out = array();
+  foreach ( $taxonomies as $taxonomy_slug => $taxonomy ){
+    // get the terms related to post
+    $terms = get_the_terms( $post->ID, $taxonomy_slug );
+    if ( !empty( $terms ) ) {
+      $out[] = "";
+      foreach ( $terms as $term ) {
+        $out[] = $term->name;
+        break;
+    }
+  }
+  }
+  return implode('', $out );
+}
+
+
 
 function breezer_addDivToImage( $content ) {
    // A regular expression of what to look for.
@@ -228,11 +247,76 @@ function breezer_addDivToImage( $content ) {
 
 add_filter( 'the_content', 'breezer_addDivToImage' );
 
+/* Kill attachment, search, author, daily archive pages */
+add_action('template_redirect', 'bwp_template_redirect');
+function bwp_template_redirect()
+{
+	global $wp_query, $post;
+
+	if (is_author() || is_attachment() || is_day() || is_search())
+	{
+		$wp_query->set_404();
+	}
+
+	if (is_feed())
+	{
+		$author 	= get_query_var('author_name');
+		$attachment = get_query_var('attachment');
+		$attachment = (empty($attachment)) ? get_query_var('attachment_id') : $attachment;
+		$day		= get_query_var('day');
+		$search		= get_query_var('s');
+
+		if (!empty($author) || !empty($attachment) || !empty($day) || !empty($search))
+		{
+			$wp_query->set_404();
+			$wp_query->is_feed = false;
+		}
+	}
+}
 
 
 
+  function news_pagination($page, $max_num, $the_query){
+
+$older= explode('"', get_next_posts_link( 'Older Entries', $the_query->max_num_pages ))[1];
+$newer= explode('"', get_previous_posts_link( 'Newer Entries' ))[1];
+
+$url=get_site_url()."/news/page/";
+if ($page==0){
+  $page++;
+}
+if ($page==1){
+echo '<ul class="pagination"><li class="disabled"><a href="'. $newer.'">&lt;</a></li>';
+}else{
+  echo '<ul class="pagination"><li ><a href="'. $newer.'">&lt;</a></li>';
+}
+$lower=$page-2;
+$upper=$page+2;
+
+if ($lower<1){
+  $lower=1;
+  $upper=5;
+}
+if ($upper>$max_num){
+  $upper=$max_num;
+  $lower=$upper-4;
+}
+
+for ($x=$lower; $x<=$upper ; $x++) {
+  if ($page==$x){
+    echo  '<li class="active"><a href="'.$url.$x.'">'. $x.'</a></li>';
+  }else{
+  echo  '<li><a href="'.$url.$x.'">'. $x.'</a></li>';
+}
+}
+if ($page==$max_num){
+echo '<li class="disabled" ><a href="'. $older.'">&gt;</a></li></ul> ';
+}else{
+echo '<li><a href="'. $older.'">&gt;</a></li></ul> ';
+}
 
 
+}
 
 
 

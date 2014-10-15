@@ -14,6 +14,25 @@ SECTION: index.php
 /*
 SECTION: general
 */
+
+a{
+  color: #0C9AF7;
+}
+
+
+*{
+  font-family: lato;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 300;
+}
+
 .top1 { margin-top:1em; }
 .top2 { margin-top:2em; }
 .top3 { margin-top:3em; }
@@ -24,6 +43,7 @@ SECTION: general
 .top17 { margin-top:17em; }
 .top30 { margin-top:30em; }
 
+.bottomdot5 { margin-bottom:0.5em; }
 .bottom1 { margin-bottom:1em; }
 .bottom2 { margin-bottom:2em; }
 .bottom3 { margin-bottom:3em; }
@@ -37,11 +57,12 @@ SECTION: general
 footer{
 padding-top: 30px;
 padding-bottom: 30px;
-background-color: #563D7C;
-margin-top: 50px;
-color: #EFEFEF;
+background-color: #0C9AF7;
+color: #383838  ;
 height: 180px;
+margin-top: 1em;
 }
+
 
 main{
   padding-top: 40px;
@@ -59,7 +80,7 @@ SECTION: events.php
     float: right;
     display: inline-block;
     position: relative;
-    top: -4px;
+    top: 3px;
 }
 
 .panel-title .fa-square-o{
@@ -90,4 +111,197 @@ SECTION: events.php
 .btn-unregister{
   display:block;
   float:right; clear:right;
+}
+
+html, body {
+  height: 100%;
+}
+
+.bg {
+  width:100%;
+  background-color:white;
+  padding-bottom: 2em;
+}
+
+body{
+  background-color:#0C9AF7;
+}
+
+/*
+SECTION: posts.php
+
+*/
+.single-post-h1{
+  margin-top:0px;
+}
+
+.img-post{
+  margin-top:0.5em;
+
+}
+
+.img-news{
+  float:left;
+  margin-right:1em;
+}
+
+.list-group-news{
+  height:7.2em;
+}
+
+.entry-meta{
+    font-size: small;
+  color: #563D7C;
+  font-weight: 200;
+
+}
+
+.single-page-title{
+  margin-top:0px;
+
+  display:inline;
+}
+
+.img-page{
+  margin-top:1em;
+}
+
+.footer{
+  color:white;
+}
+
+.navbar-default {
+  background-color: #0C9AF7;
+  border-color:rgba(255, 255, 255, 0);
+}
+.menu-item, .navbar-brand
+{color:white !important;}
+
+.navbar-default .navbar-toggle {
+    border-color: #DDD;
+    background-color: white;
+}
+
+
+.header-events{
+  margin-top:0em;
+  margin-bottom:0.5em;
+}
+
+
+/*
+SECTION: login.php
+*/
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/*
+
+*/
+.form-signin
+{
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.form-signin .form-signin-heading, .form-signin .checkbox
+{
+    margin-bottom: 10px;
+}
+.form-signin .checkbox
+{
+    font-weight: normal;
+    position: relative;
+    left: 1.3em;
+}
+.form-signin .form-control
+{
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.form-signin .form-control:focus
+{
+    z-index: 2;
+}
+.form-signin input[type="text"]
+{
+    margin-bottom: -1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.form-signin input[type="password"]
+{
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.account-wall
+{
+    margin-top: 20px;
+    padding: 40px 0px 20px 0px;
+    background-color: #f7f7f7;
+  }
+.login-title
+{
+    color: #555;
+    font-size: 18px;
+    font-weight: 400;
+    display: block;
+}
+.profile-img
+{
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 10px;
+    display: block;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+}
+.need-help
+{
+    margin-top: 10px;
+}
+.new-account
+{
+    display: block;
+    margin-top: 10px;
 }

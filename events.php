@@ -9,6 +9,7 @@
 
 
 <?php
+echo '<h1 class="header-events">Upcoming events</h1>';
 echo '<div class="panel-group" id="accordion">';
 $query = new WP_Query( array(
   'post_type' => 'event',
@@ -61,8 +62,8 @@ $price=get_post_field( 'price', $postID );
 
 $button_register='<button class="register btn-inline '.$name.'">Register</button>';
 $button_unregister='<button class="unregister btn-inline '.$name.'">Unregister</button>';
-$message_register='<i class="fa text-right registered  '.$postID.'  fa-check-square-o fa-2x"></i>';
-$message_unregister='<i class="fa text-right notregistered  '.$postID.' fa-square-o fa-2x "></i>';
+$message_register='<i class="fa text-right registered  '.$postID.'  fa-check-square-o fa-lg"></i>';
+$message_unregister='<i class="fa text-right notregistered  '.$postID.' fa-square-o fa-lg "></i>';
 
 if ($start_date!=$end_date){
   if ($start_month===$end_month){
@@ -97,18 +98,18 @@ else{
 
 if ($daystodeadline<0){
   $alert='<div class="alert  alert-danger fade in" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-  <strong>Holy guacamole!</strong> Registration deadline has passed!
+  Registration deadline has passed!
 </div>';
-$button='<button  class="btn btn-default top1 btn-unregister">Unregister</button>';
+$button='<button  class="btn btn-default btn-unregister">Unregister</button>';
 
 
 
 }else{
   $alert='<div class="alert  alert-success fade in" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-  <strong> '.$daystodeadline.'</strong> days left to sign up for '.$title.'!
+  <strong> '.$daystodeadline.'</strong> days left to sign up!
 </div>';
   $button='
-  <div class="input-group bottom1 top1">
+  <div class="input-group ">
     <input type="text" id="registration-input" class="form-control">
     <span class="input-group-btn">
       <button class="btn btn-default  register '.$name.'" type="button">Register</button>
@@ -138,11 +139,11 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
       <a data-toggle="collapse" data-parent="#accordion" href="#<?php echo $postID; ?>">
     <?php the_title(); ?>
       </a>
-    <?php if ($daystodeadline<0) { ?>
+  <!--  <?php if ($daystodeadline<0) { ?>
       <span class="label label-danger">Closed</span><?php
     }else{ ?>
       <span class="label label-success"><?php echo intval(($deadline - time())/(3600*24)) ;?>  days left</span>
-    <?php } ?>
+    <?php } ?> -->
     <?php echo $registered_string ;?>
     </h1>
   </div>
@@ -160,7 +161,7 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
               </div>
             </div>
           </div>
-          <div class="row top2">
+          <div class="row top1">
             <div class="col-md-12">
               <div>
                 <ul class="list-group">
@@ -178,8 +179,8 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
         </div>
           <div class="col-xs-8 col-md-10">
             <ul class="nav nav-tabs" role="tablist">
-              <li class="active"><a href="#event_<?php echo $name; ?>" role="tab" data-toggle="tab">Event</a></li>
-              <li><a href="#people_<?php echo $name; ?>" role="tab" data-toggle="tab">People</a></li>
+              <li class="active"><a href="#event_<?php echo $name; ?>" role="tab" data-toggle="tab"><?php echo custom_taxonomies_term();?></a></li>
+              <li><a href="#people_<?php echo $name; ?>" role="tab" data-toggle="tab">People <span class="badge">42</span></a></li>
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
@@ -188,11 +189,20 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
                   <div class="col-md-12">
                   <?php
                   $content = get_post_field('post_content', $my_postid);
-                  echo $alert;
                   echo $content;
+
+                  ?>
+                  <hr>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <?php
+                      echo $alert;
+                      ?>
+                  <?php
                   echo $button;
                   ?>
-
+                    </div>
+                  </div>
                 </div>
                 </div>
               </div>
