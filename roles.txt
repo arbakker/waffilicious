@@ -1,0 +1,43 @@
+Roles WAF website:
+
+
+-----------
+Non-members
+      - View unrestricted areas (everyhing, except event registration, selected talks, and user page)
+
+-------
+Members
+      - register for events
+      - create selectedtalks
+      - view status registration (own status, and who else registered)
+
+------------------
+Activity committee
+      - change user event registration (subcribe, unsubscribe, edit details) [activity]
+
+------
+Board
+      - change user details
+      - change user event registration (subcribe, unsubscribe, edit details) [tournament,competition,activity]
+      - create posts
+      - create events
+      - create products
+
+------
+Admin
+      - change user roles
+
+
+TODO:
+
+  - forward user to event page after loggin in
+  - register details for events
+  - show details on registration page
+  - update events page after registration/unregistration
+  - create single event page
+  - add users to event (admin page)
+  - export users to csv (admin page)
+  - create forgot password screen
+  - add user details (adress, telephonenr,sportcardnr,dob,membersince,nomemberfrom)
+  - create user detail page
+  - modal login page

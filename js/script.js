@@ -1,4 +1,8 @@
 jQuery().ready(function() {
+
+
+$('[data-toggle="tooltip"]').tooltip();
+
 $(".img-holder").imageScroll(
 {
     coverRatio: 0.4,

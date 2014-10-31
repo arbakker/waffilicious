@@ -23,6 +23,7 @@ get_header(); ?>
 
 <?php if(is_front_page() ) { ?>
 
+
     <div class="row">
       <div class="col-md-6">
         <h1 >News and events</h1>
@@ -135,14 +136,14 @@ get_header(); ?>
     )
 );
   $postid=$page[0]->ID;
-  $thumbnail=get_the_post_thumbnail( $postID, 'large' );
-  $thumbnail=str_replace( 'class="', 'class="img-rounded img-responsive ', $thumbnail );
+  $page_thumbnail=get_the_post_thumbnail( $postid, 'large' );
+  $page_thumbnail=str_replace( 'class="', 'class="img-rounded img-responsive ', $page_thumbnail );
 
 
 if ( $page )
 {
     echo $page[0]->post_content;
-    echo $thumbnail;
+    echo $page_thumbnail;
 } ?>
 
 <!--  <div class="card">
@@ -155,9 +156,13 @@ if ( $page )
   </ul>
 </div> -->
 </div>
-
-
-
+</div>
+<div class="row">
+  <?php if ( is_active_sidebar( 'home_right_1' ) ) : ?>
+	<div id="primary-sidebar" class="primary-sidebar widget-area col-md-12" role="complementary">
+		<?php dynamic_sidebar( 'home_right_1' ); ?>
+	</div><!-- #primary-sidebar -->
+	<?php endif; ?>
 </div>
 </main>
 </div>

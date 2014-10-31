@@ -32,6 +32,7 @@ h6 {
   font-weight: 300;
 }
 
+.topdot5 {margin-top:0.5em;}
 .top1 { margin-top:1em; }
 .top2 { margin-top:2em; }
 .top3 { margin-top:3em; }
@@ -75,6 +76,12 @@ main{
 /*
 SECTION: events.php
 */
+
+.panel-heading .badge{
+
+  width: 53px;
+}
+
 .panel-title i{
     display: inline-block;
     position: relative;
@@ -107,9 +114,8 @@ SECTION: events.php
   color: #5CB85C;
 }
 
-.btn-unregister{
-  display:block;
-  float:right; clear:right;
+.btn .unregister{
+  margin-top:0.5em;
 }
 
 html, body {
@@ -124,6 +130,10 @@ html, body {
 
 body{
   background-color:#0C9AF7;
+}
+
+.btn-edit-details, .btn-group-details{
+  margin-bottom: .5em;
 }
 
 /*
@@ -155,7 +165,7 @@ SECTION: posts.php
 
 .entry-meta{
     font-size: small;
-  color: #563D7C;
+
   font-weight: 200;
 
 }
@@ -163,7 +173,6 @@ SECTION: posts.php
 .single-page-title{
   margin-top:0px;
 
-  display:inline;
 }
 
 .img-page{

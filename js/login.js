@@ -2,7 +2,7 @@
 // TODO: Check to load this file only on the login page
 
 jQuery().ready(function() {
-var menu ="<ul class='nav navbar-nav navbar-right'><li><a id='login' class='menu-item menu-item-type-post_type menu-item-object-page' href='"+siteurl+"/sign-in' ><i class='fa registration fa-sign-in fa-lg'></i></a></li></ul>";
+var menu ="<ul class='nav navbar-nav navbar-right'><li data-original-title='Sign in' data-toggle='tooltip' ><a id='login' class='menu-item menu-item-type-post_type menu-item-object-page' href='"+siteurl+"/sign-in' ><i class='fa registration fa-sign-in fa-lg'></i></a></li></ul>";
 
 $('#logout').click(function() {
     var data = {
@@ -18,6 +18,7 @@ $('#logout').click(function() {
         success: function(data) {
           $( "main" ).prepend(alert_logout );
           $(".navbar-right").replaceWith(menu);
+          $('[data-toggle="tooltip"]').tooltip({'placement': 'bottom'});
         }
 });
 });

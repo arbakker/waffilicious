@@ -86,15 +86,15 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
               get_currentuserinfo();
 
               echo "<ul class='nav navbar-nav navbar-right'>";
-              echo "<li><a id='logout' class='menu-item menu-item-type-post_type menu-item-object-page' href='javascript:void(0)'><i class='fa registration fa-sign-out fa-lg'></i></a></li>";
-              echo "<li><a href='javascript:void(0)' id='welcome' class='menu-item menu-item-type-post_type menu-item-object-page'><i class='fa registration fa-user fa'></i>&nbsp;&nbsp;".$current_user->user_login ."</a></li>";
+              echo "<li data-original-title='Sign out' data-toggle='tooltip' ><a id='logout'  class='menu-item menu-item-type-post_type menu-item-object-page' href='#'><i class='fa registration fa-sign-out fa-lg'></i></a></li>";
+              echo "<li><a href='javascript:void(0)' id='welcome' class='menu-item menu-item-type-post_type menu-item-object-page'><i class='fa registration fa-paw fa'></i>&nbsp;&nbsp;".$current_user->user_login ."</a></li>";
               echo "</ul>";
 
 
             }
             else{
               echo "<ul class='nav navbar-nav navbar-right'>";
-              echo "<li><a id='login' class='menu-item menu-item-type-post_type menu-item-object-page' href='".site_url()."/sign-in' ><i class='fa registration fa-sign-in fa-lg'></i></a></li>";
+              echo "<li data-original-title='Sign in' data-toggle='tooltip'><a id='login' class='menu-item menu-item-type-post_type menu-item-object-page' href='".site_url()."/sign-in' ><i class='fa registration fa-sign-in fa-lg'></i></a></li>";
               echo "</ul>";
             }
             ?>

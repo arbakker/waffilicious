@@ -31,7 +31,7 @@ $name=$post->post_name;
 
 $button_register='<button class="register btn-inline '.$name.'">Register</button>';
 $button_unregister='<button class="unregister btn-inline '.$name.'">Unregister</button>';
-$message_register='<p class="registration  '.$postID.'" ><i class="fa registration fa-check-square-o fa"></i>'."    Registered</p>";
+$icon_register='<p class="registration  '.$postID.'" ><i class="fa registration fa-check-square-o fa"></i>'."    Registered</p>";
 $message_unregister='<p class="registration   '.$postID.'"><i class="fa fa-square-o fa registration"></i>'."    Not registered</p>";
 
 
@@ -43,7 +43,7 @@ if ($registered == "false"){
   $alert= sprintf($alert, $message);
 }
 else{
-  $registered_string=$message_register;
+  $registered_string=$icon_register;
   $alert= '<div id="dismiss-'.$name.'" role="alert" aria-hidden="true" class="alert alert-dismissable" ><button class="close" data-dismiss-target="#dismiss-'.$name.'" >x</button><p> %s!</p></div>';
   $button='<button style="display:none;" class="register btn-inline '.$name.'">Register</button>'.'<button class="unregister btn-inline '.$name.'">Unregister</button>';
   $message= 'You have been unregistered for ' . $title;

@@ -116,6 +116,8 @@ function uep_admin_script_style( $hook){
 //  wp_enqueue_script('my_validate', 'path/to/jquery.validate.min.js', array('jquery'));
   wp_enqueue_script('jquery-ui', get_template_directory_uri() . '/vendor/jquery-ui.js', array('jquery'));
   wp_enqueue_style('jquery-ui.min', get_template_directory_uri() . '/vendor/jquery-ui.css');
+  wp_enqueue_script('chosen.jquery', get_template_directory_uri() . '/vendor/chosen.jquery.min.js', array('jquery'));
+  wp_enqueue_style('chosen', get_template_directory_uri() . '/vendor/chosen.css');
   wp_enqueue_style('jquery-ui.theme', get_template_directory_uri() . '/vendor/jquery-ui.theme.css');
   wp_enqueue_style('jquery-ui.structure', get_template_directory_uri() . '/vendor/jquery-ui.structure.css');
   wp_enqueue_script( 'admin.js', get_template_directory_uri() . '/js/admin.js' ,false, false, true );
@@ -141,6 +143,8 @@ function uep_save_event_info( $post_id ) {
 
     // checking for the values and performing necessary actions
     if ( isset( $_POST['uep-event-start-date'] ) ) {
+
+        $time = new DateTime($_POST['uep-event-start-date']);
         update_post_meta( $post_id, 'event-start-date', strtotime( $_POST['uep-event-start-date'] ) );
         $sortdate=  date( 'Ymd', strtotime( $_POST['uep-event-start-date'] ) );
         update_post_meta( $post_id, 'event-sort-date', $sortdate);
@@ -189,67 +193,164 @@ else{
 
 add_action('wp_head','my_ajaxurl');
 function my_ajaxurl() {
+global $current_user;
+get_currentuserinfo();
 $html = '<script type="text/javascript">';
 $html .= 'var ajaxurl = "' . admin_url( 'admin-ajax.php' ) . '"'.';';
-$html .= 'var userid = "' . get_current_user_id() . '"'.';';
+$html .= 'var userid = "' . $current_user->ID . '"'.';';
+$html .= 'var username = "' . $current_user->display_name . '"'.';';
+$html .= 'var useremail = "' . $current_user->user_email . '"'.';';
 $html .= 'var siteurl = "' . site_url() . '"'.';';
 $html .= '</script>';
 echo $html;
 }
 
+add_action('wp_ajax_addmembers', 'addmembers_ajax');
+function addmembers_ajax() {
+  $post_id = $_POST['id'];
+  $members = intval($_POST['members']);
+  $registered_members = get_post_meta($post_id, 'members', true);
 
-add_action('wp_ajax_newmember', 'newmember_ajax');
-function newmember_ajax() {
-    $post_id = $_POST['id'];
-    //Get current bid
-    $members = get_post_meta($post_id, 'members', true);
-    //Increase the bid, for example the amount here is 100€
-    $member = intval($_POST['member']);
-    $remove  =sanitize_text_field( $_POST['remove'])   ;
-    $registered =is_user_registered ($member, $post_id) ;
-    $bla="";
-
-    if ($remove==="false"){
-        if ($members==''){
-          $members=$member;
-        }else{
-          $members= $members.",".$member;
-        }
-    }
-    else{
-      $arr=explode(',', $members);
-      $result="";
-      for($i=0;$i<count($arr);$i++) {
-        if ($arr[$i]!=strval($member)){
-          if ($result==''){
-            $result=$arr[$i];
-          }
-          else{
-            $result= $result.",".$arr[$i];
-          }
-        }
+  $arr=explode(',', $members);
+  foreach ($arr as $member) {
+      $registered =is_user_registered ($member, $post_id);
+      if( $registered=='false' ){
+        $members=waf_add_member($member, $members);
       }
-      $members = $result;
-    }
-    $bla = "members=".$members."&postid=".$post_id;
+  }
+  $result=update_post_meta($post_id,'members',$members);
 
+  if ($result===true){
+    $return = array(
+    'result' => $result,
+     );
+    wp_send_json_success($return);
+  }
+  else{
+    $return = array(
+    'result'	=> $result,
+    'members' => $members,
+     );
+    wp_send_json_error($return);
+  }
+}
+
+
+add_action('wp_ajax_addmember', 'addmember_ajax');
+function addmember_ajax() {
+    $post_id = $_POST['id'];
+    $members = get_post_meta($post_id, 'members', true);
+    $member = intval($_POST['member']);
+    $registered =is_user_registered ($member, $post_id);
+    $details = sanitize_text_field($_POST['details']);
+
+    $details_meta = get_post_meta( $post_id, 'details', true );
+
+    if (is_null($details_meta)){
+      $details_meta=array();
+    }
+    $details_meta["$member"]=$details;
+
+
+    $result2=update_post_meta($post_id,'details',$details_meta);
+
+    $message="";
+
+    if( $registered=='false' ){
+      $members=waf_add_member($member, $members);
+      }
+    $message = "members=".$members."&postid=".$post_id;
     $result=update_post_meta($post_id,'members',$members);
 
     if ($result===true){
       $return = array(
-			'message'	=> $bla,
+        'sanitized_details' => sanitize_text_field($_POST['details']),
+        'post_details'=>$_POST['details'],
+        'details_meta' => $details_meta[$member],
+        'result2' => $result2,
+        'result' => $result,
+			'message'	=> $message,
+      'details' => $details_meta
 	     );
       wp_send_json_success($return);
     }
     else{
       $return = array(
-      'message'	=> $bla,
+      'message'	=> $message,
+      'members' => $members,
+
+       );
+      wp_send_json_error($return);
+    }
+}
+
+add_action('wp_ajax_removemember', 'removemember_ajax');
+
+function removemember_ajax() {
+    $post_id = $_POST['id'];
+    $members = get_post_meta($post_id, 'members', true);
+    $member = intval($_POST['member']);
+
+    $registered =is_user_registered ($member, $post_id) ;
+    $message="";
+
+    $members=waf_remove_member($member, $members);
+
+    $result=update_post_meta($post_id,'members',$members);
+
+    if ($result===true){
+      $return = array(
+      'message'	=> $message,
+       );
+      wp_send_json_success($return);
+    }
+    else{
+      $return = array(
+      'message'	=> $message,
       'members' => $members,
        );
       wp_send_json_error($return);
     }
+}
 
 
+function waf_remove_member($member, $members){
+  $arr=explode(',', $members);
+  $result="";
+  for($i=0;$i<count($arr);$i++) {
+    if ($arr[$i]!=strval($member)){
+      if ($result==''){
+        $result=$arr[$i];
+      }
+      else{
+        $result= $result.",".$arr[$i];
+      }
+    }
+  }
+
+  $members = $result;
+  return $members;
+}
+
+function waf_add_member($member, $members){
+  if ($members==''){
+    $members=$member;
+  }else{
+    $members= $members.",".$member;
+  }
+  return $members;
+}
+
+function waf_get_details($member,$post_id){
+  $details_meta = get_post_meta( $post_id, 'details', true );
+  return $details_meta["$member"];
+}
+
+function waf_remove_details($member, $post_id){
+  //unset($array['key-here']);
+  $details_meta = get_post_meta( $post_id, 'details', true );
+  unset($details_meta["$member"]);
+  update_post_meta($post_id,'details',$details_meta);
 }
 
 
@@ -271,16 +372,28 @@ function render_registered_members($post ) {
     $members = get_post_meta($post->ID, 'members', true);
     $arr=explode(',', $members);
 
-    echo "<table>";
-    echo "<tr><th>User</th><th>Email</th></tr>";
+    echo '<select id="select-members" data-placeholder="Choose a name..." style="width:350px;" multiple class="chosen">';
+
+    $blogusers = get_users( );
+// Array of WP_User objects.
+    foreach ( $blogusers as $user ) {
+	     echo '<option value="'.$user->ID.'">'.$user->display_name .'</option>';
+    }
+    echo '</select>';
+
+    echo "<button type='button' id='add-members' postid=".get_the_ID().">Add</button>";
+
+
+    echo "<table style='border-collapse: collapse;'><thead>";
+    echo "<tr><th style='border: 1px solid #999;padding: 0.5rem;'>User</th><th style='border: 1px solid #999;padding: 0.5rem;' >Email</th><th style='border: 1px solid #999;padding: 0.5rem;' >Details</th></tr></thead><tbody>";
     for($i=0;$i<count($arr);$i++) {
       $user_id=intval($arr[$i]);
       $user = get_userdata( $user_id );
 
 
-    echo   "<tr><td>".  $user->user_login. "</td><td>".  $user->user_email ."</td></tr>";
+    echo   "<tr><td style='border: 1px solid #999;padding: 0.5rem;''>".  $user->user_login. "</td><td style='border: 1px solid #999;padding: 0.5rem;''>".  $user->user_email ."</td><td style='border: 1px solid #999;padding: 0.5rem;''>". get_post_meta( $post->ID, 'details', true )["$user_id"]."</td></tr>";
     }
-    echo "</table>";
+    echo "</tbody></table>";
 }
 
 

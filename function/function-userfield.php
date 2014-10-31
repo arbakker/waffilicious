@@ -31,8 +31,8 @@ function yoursite_save_extra_user_profile_fields( $user_id ) {
   return true;
 }
 
-add_action( 'show_user_profile', 'show_users' );
-add_action( 'edit_user_profile', 'show_users' );
+//add_action( 'show_user_profile', 'show_users' );
+//add_action( 'edit_user_profile', 'show_users' );
 
 
 function show_users ( $user ) {

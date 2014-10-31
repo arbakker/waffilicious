@@ -11,10 +11,10 @@
       <?php
         $postID=get_the_ID();
         $thumbnail=get_the_post_thumbnail( $postID, 'medium' );
-        $thumbnail=str_replace( 'class="', 'class="img-thumbnail img-responsive img-page ', $thumbnail );
+        $thumbnail=str_replace( 'class="', 'class="img-thumbnail  img-page ', $thumbnail );
       ?>
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-sm-4 col-md-4">
           <h1 class="single-page-title">
           <?php the_title(); ?>
 
@@ -23,7 +23,7 @@
             <?php echo $thumbnail; ?>
 
         </div>
-      <div class="col-md-8">
+      <div class="col-sm-8 col-md-8">
 
         <?php the_content(); ?>
         <?php //wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', 'minim2' ), 'after' => '</div>' ) ); ?>
