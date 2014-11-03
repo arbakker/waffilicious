@@ -208,31 +208,37 @@ echo $html;
 add_action('wp_ajax_addmembers', 'addmembers_ajax');
 function addmembers_ajax() {
   $post_id = $_POST['id'];
-  $members = intval($_POST['members']);
+  $members = $_POST['members'];
   $registered_members = get_post_meta($post_id, 'members', true);
 
   $arr=explode(',', $members);
-  foreach ($arr as $member) {
+
+  foreach ($arr as &$member) {
       $registered =is_user_registered ($member, $post_id);
       if( $registered=='false' ){
-        $members=waf_add_member($member, $members);
+        $registered_members=waf_add_member($member, $registered_members);
       }
   }
-  $result=update_post_meta($post_id,'members',$members);
+
+  $registered_members=waf_remove_empty($registered_members);
+
+  $result=update_post_meta($post_id,'members',$registered_members);
 
   if ($result===true){
     $return = array(
     'result' => $result,
+    'registered_members' => $registered_members,
      );
     wp_send_json_success($return);
   }
   else{
     $return = array(
-    'result'	=> $result,
-    'members' => $members,
+    'registered_members' => $registered_members,
      );
     wp_send_json_error($return);
   }
+
+
 }
 
 
@@ -259,6 +265,7 @@ function addmember_ajax() {
     if( $registered=='false' ){
       $members=waf_add_member($member, $members);
       }
+    $members=waf_remove_empty($members);
     $message = "members=".$members."&postid=".$post_id;
     $result=update_post_meta($post_id,'members',$members);
 
@@ -295,6 +302,7 @@ function removemember_ajax() {
     $message="";
 
     $members=waf_remove_member($member, $members);
+    $members=waf_remove_empty($members);
 
     $result=update_post_meta($post_id,'members',$members);
 
@@ -330,6 +338,24 @@ function waf_remove_member($member, $members){
 
   $members = $result;
   return $members;
+}
+
+function waf_remove_empty($members){
+  $arr=explode(',', $members);
+
+  $result="";
+
+  foreach ($arr as &$member){
+
+    if ( empty($member)==false ){
+      if ($result==""){
+        $result=$member;
+      }else{
+      $result= $result.",".$member;
+      }
+    }
+  }
+  return $result;
 }
 
 function waf_add_member($member, $members){
@@ -381,18 +407,28 @@ function render_registered_members($post ) {
     }
     echo '</select>';
 
-    echo "<button type='button' id='add-members' postid=".get_the_ID().">Add</button>";
+    echo "<button style='height: 2.2em;width: 4em;' type='button' id='add-members' postid=".get_the_ID().">Add</button>";
 
-
-    echo "<table style='border-collapse: collapse;'><thead>";
-    echo "<tr><th style='border: 1px solid #999;padding: 0.5rem;'>User</th><th style='border: 1px solid #999;padding: 0.5rem;' >Email</th><th style='border: 1px solid #999;padding: 0.5rem;' >Details</th></tr></thead><tbody>";
+    echo "<table id='registered-members' style='border-collapse: collapse;margin-top:0.5em;'><thead>";
+    echo "<tr>
+    <th style='border: 1px solid #999;padding: 0.5rem;'>User</th>
+    <th style='border: 1px solid #999;padding: 0.5rem;' >Email</th>
+    <th style='border: 1px solid #999;padding: 0.5rem;' >Details</th>
+    <th style='border: 1px solid #999;padding: 0.5rem;' >Remove</th>
+    </tr></thead><tbody>";
+    if (!empty($members)){
     for($i=0;$i<count($arr);$i++) {
       $user_id=intval($arr[$i]);
       $user = get_userdata( $user_id );
 
 
-    echo   "<tr><td style='border: 1px solid #999;padding: 0.5rem;''>".  $user->user_login. "</td><td style='border: 1px solid #999;padding: 0.5rem;''>".  $user->user_email ."</td><td style='border: 1px solid #999;padding: 0.5rem;''>". get_post_meta( $post->ID, 'details', true )["$user_id"]."</td></tr>";
-    }
+    echo   "<tr class='user user-".$user_id."' id='".$user_id."'>
+    <td style='border: 1px solid #999;padding: 0.5rem;''>".  $user->user_login. "</td>
+    <td style='border: 1px solid #999;padding: 0.5rem;''>".  $user->user_email ."</td>
+    <td style='border: 1px solid #999;padding: 0.5rem;''>". get_post_meta( $post->ID, 'details', true )["$user_id"]."</td>
+    <td style='border: 1px solid #999;padding: 0.5rem;''>". "<button id='unregister-".$user_id."' style='height: 2.2em;width: 4em;' type='button'>X</button>"."</td>
+    </tr>";
+  }}
     echo "</tbody></table>";
 }
 
@@ -415,6 +451,8 @@ function get_event_date_string($start_date,$start_day,$start_month, $end_date,$e
     return $fulldate=$start_day." ".$start_month;
   }
 }
+
+
 
 
 ?>

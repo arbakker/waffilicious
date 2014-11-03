@@ -253,7 +253,7 @@ function bwp_template_redirect()
 {
 	global $wp_query, $post;
 
-	if (is_author() || is_attachment() || is_day() || is_search())
+	if ( is_attachment() || is_day() || is_search())
 	{
 		$wp_query->set_404();
 	}
@@ -274,48 +274,53 @@ function bwp_template_redirect()
 	}
 }
 
-
-
-  function news_pagination($page, $max_num, $the_query){
-
-$older= explode('"', get_next_posts_link( 'Older Entries', $the_query->max_num_pages ))[1];
-$newer= explode('"', get_previous_posts_link( 'Newer Entries' ))[1];
-
-$url=get_site_url()."/news/page/";
-if ($page==0){
-  $page++;
+function change_author_permalinks() {
+    global $wp_rewrite;
+    $wp_rewrite->author_base = 'member';
+    $wp_rewrite->author_structure = '/' . $wp_rewrite->author_base. '/%author%';
 }
-if ($page==1){
-echo '<ul class="pagination"><li class="disabled"><a href="'. $newer.'">&lt;</a></li>';
-}else{
-  echo '<ul class="pagination"><li ><a href="'. $newer.'">&lt;</a></li>';
-}
-$lower=$page-2;
-$upper=$page+2;
+add_action('init','change_author_permalinks');
 
-if ($lower<1){
-  $lower=1;
-  $upper=5;
-}
-if ($upper>$max_num){
-  $upper=$max_num;
-  $lower=$upper-4;
-}
 
-for ($x=$lower; $x<=$upper ; $x++) {
-  if ($page==$x){
-    echo  '<li class="active"><a href="'.$url.$x.'">'. $x.'</a></li>';
+
+function news_pagination($page, $max_num, $the_query){
+
+  $older= explode('"', get_next_posts_link( 'Older Entries', $the_query->max_num_pages ))[1];
+  $newer= explode('"', get_previous_posts_link( 'Newer Entries' ))[1];
+
+  $url=get_site_url()."/news/page/";
+  if ($page==0){
+    $page++;
+  }
+  if ($page==1){
+    echo '<ul class="pagination"><li class="disabled"><a href="'. $newer.'">&lt;</a></li>';
   }else{
-  echo  '<li><a href="'.$url.$x.'">'. $x.'</a></li>';
-}
-}
-if ($page==$max_num){
-echo '<li class="disabled" ><a href="'. $older.'">&gt;</a></li></ul> ';
-}else{
-echo '<li><a href="'. $older.'">&gt;</a></li></ul> ';
-}
+    echo '<ul class="pagination"><li ><a href="'. $newer.'">&lt;</a></li>';
+  }
+  $lower=$page-2;
+  $upper=$page+2;
 
+  if ($lower<1){
+    $lower=1;
+    $upper=5;
+  }
+  if ($upper>$max_num){
+    $upper=$max_num;
+    $lower=$upper-4;
+  }
 
+  for ($x=$lower; $x<=$upper ; $x++) {
+    if ($page==$x){
+      echo  '<li class="active"><a href="'.$url.$x.'">'. $x.'</a></li>';
+    }else{
+    echo  '<li><a href="'.$url.$x.'">'. $x.'</a></li>';
+  }
+  }
+  if ($page==$max_num){
+    echo '<li class="disabled" ><a href="'. $older.'">&gt;</a></li></ul> ';
+  }else{
+    echo '<li><a href="'. $older.'">&gt;</a></li></ul> ';
+  }
 }
 
 /**

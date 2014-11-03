@@ -84,10 +84,10 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
             if ( is_user_logged_in() ) {
               global $current_user;
               get_currentuserinfo();
-
+              $link_user_page=$site_url."/member/".$current_user->user_login;
               echo "<ul class='nav navbar-nav navbar-right'>";
               echo "<li data-original-title='Sign out' data-toggle='tooltip' ><a id='logout'  class='menu-item menu-item-type-post_type menu-item-object-page' href='#'><i class='fa registration fa-sign-out fa-lg'></i></a></li>";
-              echo "<li><a href='javascript:void(0)' id='welcome' class='menu-item menu-item-type-post_type menu-item-object-page'><i class='fa registration fa-paw fa'></i>&nbsp;&nbsp;".$current_user->user_login ."</a></li>";
+              echo "<li><a href='".  $link_user_page."' id='welcome' class='menu-item menu-item-type-post_type menu-item-object-page'><i class='fa registration fa-paw fa'></i>&nbsp;&nbsp;".$current_user->user_login ."</a></li>";
               echo "</ul>";
 
 

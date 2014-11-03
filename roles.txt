@@ -30,12 +30,9 @@ Admin
 
 TODO:
 
+  - check if user is admin when unregistering a different user
+  - check if user is admin when registering a different user(s)
   - forward user to event page after loggin in
-  - register details for events
-  - show details on registration page
-  - update events page after registration/unregistration
-  - create single event page
-  - add users to event (admin page)
   - export users to csv (admin page)
   - create forgot password screen
   - add user details (adress, telephonenr,sportcardnr,dob,membersince,nomemberfrom)
