@@ -43,6 +43,7 @@ $("#submit-details-"+id).click(function(){
          url: ajaxurl,
          data: "action=addmember&id="+id+"&member="+userid+"&details="+details,
          success: function(data){
+          
           $("#form-details-"+id).prop('disabled', true);
           $("#submit-details-"+id).toggle();
           $("#cancel-details-"+id).toggle();
@@ -68,6 +69,7 @@ $.ajax({
        url: ajaxurl,
        data: "action=addmember&id="+id+"&member="+userid+"&details="+details,
        success: function(data){
+        if (data.success){
               $("i.notregistered."+id).replaceWith(icon_registered);
               //$(alert).insertAfter("p.registered."+name);
               $("button.close").click(function()
@@ -85,7 +87,7 @@ $.ajax({
               $("#form-details-"+id).val(details);
               $("#form-details-"+id).prop('disabled', true);
               $(".reg-details."+id).toggle();
-
+            }
           }
      });
 });
@@ -96,6 +98,7 @@ jQuery.ajax({
        url: ajaxurl,
        data: "action=removemember&id="+id+"&member="+userid,
        success: function(data){
+         if (data.success){
               $("i.registered."+id).replaceWith(icon_notregistered);
               $("button.close").click(function()
               {
@@ -115,7 +118,7 @@ jQuery.ajax({
               }
               );
 
-
+}
        }
      });
 });

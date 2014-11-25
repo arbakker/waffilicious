@@ -6,9 +6,8 @@ Non-members
       - View unrestricted areas (everyhing, except event registration, selected talks, and user page)
 
 -------
-Members
+Members [0]
       - register for events
-      - create selectedtalks
       - view status registration (own status, and who else registered)
 
 ------------------
@@ -26,6 +25,21 @@ Board
 ------
 Admin
       - change user roles
+
+
+
+
+
+
+[0] Non member
+[1] Member; register events, manage own user info
+[2] Author; publish and manage own posts, events, etcetera
+[3] Editor; publish and manage other posts, events, etcetera + change user details
+[4] Admin; access to all user details
+
+
+
+
 
 
 TODO:

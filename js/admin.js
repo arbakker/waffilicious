@@ -70,8 +70,25 @@ jQuery().ready(function() {
            data: "action=addmembers&id="+postid+"&members="+members_string,
            success: function(data){
              members.forEach(function(entry){
-               var table_row="<tr class='user user-"+entry+"' id='"+entry+"'><td style='border: 1px solid #999;padding: 0.5rem;'>"+entry+"</td><td style='border: 1px solid #999;padding: 0.5rem;'></td><td style='border: 1px solid #999;padding: 0.5rem;'></td>\
-               <td style='border: 1px solid #999;padding: 0.5rem;' >"+"<button userid='"+entry+"' id='unregister-"+postid+"' style='height: 2.2em;width: 4em;' type='button'>X</button></td></tr>";
+              var name="";
+              var email="";
+              var details="";
+              if (users_arr[entry].name) {
+                  name = users_arr[entry].name;
+              }
+              if (users_arr[entry].email){
+                email= users_arr[entry].email;
+              }
+              if (users_arr[entry].details){
+                details=users_arr[entry].details;
+              }
+
+               var table_row="<tr class='user user-"+entry+"' id='"+entry+"'>\
+               <td style='border: 1px solid #999;padding: 0.5rem;'>"+name+"</td>\
+               <td style='border: 1px solid #999;padding: 0.5rem;'>"+email+"</td>\
+               <td style='border: 1px solid #999;padding: 0.5rem;'>"+details+"</td>\
+               <td style='border: 1px solid #999;padding: 0.5rem;' >"+"<button userid='"+entry+"' id='unregister-"+postid+"' style='height: 2.2em;width: 4em;' type='button'>X</button></td>\
+               </tr>";
                jQuery(table_row).appendTo("#registered-members");
              });
 
@@ -87,10 +104,10 @@ jQuery().ready(function() {
                      }
                    });
             });
-
-
-
            }
          });
     });
+
+
+
 });
