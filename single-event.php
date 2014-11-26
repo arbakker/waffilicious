@@ -10,7 +10,9 @@
 <?php
 
 $user_id = get_current_user_id();
+
 $postID = get_the_ID();
+
 $registered=is_user_registered ($user_id, $postID);
 $name=$post->post_name;
 $title=$post->post_title;
@@ -44,12 +46,17 @@ $fulldate=get_event_date_string($start_date,$start_day,$start_month_full,$end_da
 
 $membersstring = get_post_meta($post->ID, 'members', true);
 
+
+
+
 if (!empty($membersstring)){
     $members=explode(',', $membersstring);
     $nr_members = count($members);
 }else{
   $nr_members = 0;
 }
+
+
 
 if ($registered=='false'){
   if (! is_user_logged_in()){
@@ -64,6 +71,7 @@ if ($registered=='false'){
             </div>';
   }else{
     if (is_user_logged_in()){
+
     $button='<button style="display:none;" class="btn btn-default unregister  topdot5 '.$name.' pull-right" name="'.$name.'">Unregister</button>'.
             '<div class="input-group  '.$name.'">
             <input type="text" id="registration-input-'.$name.'" class="form-control">
@@ -77,6 +85,7 @@ if ($registered=='false'){
 
     $weeks = floor($daystodeadline/7);
     $days= $daystodeadline % 7;
+    
 
     $alert_string=waf_alert_string($days,$weeks);
 
@@ -84,6 +93,7 @@ if ($registered=='false'){
     $alert='<div class="alert  alert-success fade in" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
             '.    $alert_string .'
             </div>';
+
   }
 }else{
   if (! is_user_logged_in()){
@@ -107,6 +117,7 @@ if ($registered=='false'){
             </div>';
   }
 }
+
 
 // Do not show event when start date of event has already passed
 if (get_post_field( 'event-start-date', $postID )>time() ){

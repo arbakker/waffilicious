@@ -88,7 +88,7 @@ add_filter( 'login_redirect', 'redirect_sub_to_home', 10, 3 );
 // not sure what the function of this function is
 function restrict_admin()
 {
-  if ( ! current_user_can( 'manage_options' ) && '/wp-admin/admin-ajax.php' != $_SERVER['PHP_SELF'] ) {
+  if ( ! current_user_can( 'edit_posts' ) && '/wp-admin/admin-ajax.php' != $_SERVER['PHP_SELF'] ) {
                 wp_redirect( site_url() );
   }
 }

@@ -8,35 +8,6 @@
 <?php
 get_header();
 
-function waf_alert_string($days, $weeks){
-if ($weeks==0){
-  // Case final day
-  if ($days==0){
-  $message="Hurry with the speed of a laser disc, final day to sign up!";
-  }elseif($days==1){
-  $message="Scooberdabadoo, second last day to sign up!";
-  }elseif($days>1){
-  $message= '<strong> '.$days.'</strong> days left to sign up!';
-  }
-}elseif ($weeks=1){
-  if ($days==0){
-    $message='<strong> '.$weeks.'</strong> week left to sign up!';
-  }elseif ($days==1){
-    $message='<strong> '.$weeks.'</strong> week and <strong>'.$days.'</strong> day left to sign up!';
-  }elseif ($days>1){
-    $message='<strong> '.$weeks.'</strong> week and <strong>'.$days.'</strong> days left to sign up!';
-  }
-}elseif ($weeks>1){
-  if ($days==0){
-    $message='<strong> '.$weeks.'</strong> weeks left to sign up!';
-  }elseif ($days==1){
-    $message='<strong> '.$weeks.'</strong> weeks and <strong>'.$days.'</strong> day left to sign up!';
-  }elseif ($days>1){
-    $message='<strong> '.$weeks.'</strong> weeks and <strong>'.$days.'</strong> days left to sign up!';
-  }
-}
-return $message ;
-}
 
 
 

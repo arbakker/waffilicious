@@ -19,6 +19,8 @@ $supports = array(
     'thumbnail'
 );
 
+
+
 $args = array(
     'label'         =>   __( 'Events', 'uep' ),
     'labels'        =>   $labels,
@@ -28,7 +30,7 @@ $args = array(
     'menu_icon'     =>   '',
     'has_archive'   =>   true,
     'rewrite'       =>   true,
-    'supports'      =>   $supports
+    'supports'      =>   $supports,
 );
 
 register_post_type( 'event', $args );
@@ -253,6 +255,11 @@ function addmembers_ajax() {
 
 add_action('wp_ajax_addmember', 'addmember_ajax');
 function addmember_ajax() {
+
+    $nonce = $_POST['nextNonce'];
+    if ( ! wp_verify_nonce( $nonce, 'myajax-next-nonce' ))
+    die ( 'Busted!');
+
     // Check current user
     $current_user = wp_get_current_user();
     $roles=$user->roles;
@@ -288,6 +295,7 @@ function addmember_ajax() {
       $return = array(
         'result' => $result,
 			  'message'	=> $message,
+        'nonce' => $nonce,
 	     );
       wp_send_json_success($return);
     }
@@ -397,6 +405,7 @@ function waf_remove_details($member, $post_id){
 }
 
 function add_registered_members_metabox() {
+
     add_meta_box(
         'registered-members-event-metabox',
         __( 'Registered members', 'regmem' ),
@@ -409,7 +418,7 @@ function add_registered_members_metabox() {
 add_action( 'add_meta_boxes', 'add_registered_members_metabox' );
 
 function render_registered_members($post ) {
-
+if (current_user_can('edit_post', $post->ID )){
     $members = get_post_meta($post->ID, 'members', true);
     $arr=explode(',', $members);
 
@@ -446,6 +455,7 @@ function render_registered_members($post ) {
     </tr>";
   }}
     echo "</tbody></table>";
+  }
 }
 
 function build_taxonomies() {
@@ -465,4 +475,36 @@ function get_event_date_string($start_date,$start_day,$start_month, $end_date,$e
     return $fulldate=$start_day." ".$start_month;
   }
 }
+
+function waf_alert_string($days, $weeks){
+  if ($weeks==0){
+    // Case final day
+    if ($days==0){
+      $message="Hurry with the speed of a laser disc, final day to sign up!";
+    }elseif($days==1){
+      $message="Scooberdabadoo, second last day to sign up!";
+    }elseif($days>1){
+      $message= '<strong> '.$days.'</strong> days left to sign up!';
+    }
+  }elseif ($weeks=1){
+    if ($days==0){
+      $message='<strong> '.$weeks.'</strong> week left to sign up!';
+    }elseif ($days==1){
+      $message='<strong> '.$weeks.'</strong> week and <strong>'.$days.'</strong> day left to sign up!';
+    }elseif ($days>1){
+      $message='<strong> '.$weeks.'</strong> week and <strong>'.$days.'</strong> days left to sign up!';
+    }
+  }elseif ($weeks>1){
+    if ($days==0){
+      $message='<strong> '.$weeks.'</strong> weeks left to sign up!';
+    }elseif ($days==1){
+      $message='<strong> '.$weeks.'</strong> weeks and <strong>'.$days.'</strong> day left to sign up!';
+    }elseif ($days>1){
+      $message='<strong> '.$weeks.'</strong> weeks and <strong>'.$days.'</strong> days left to sign up!';
+    }
+  }
+  return $message ;
+}
+
+
 ?>

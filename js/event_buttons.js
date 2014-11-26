@@ -40,10 +40,10 @@ $("#submit-details-"+id).click(function(){
   var details = $('#form-details-'+id).val();
   $.ajax({
          type: "POST",
-         url: ajaxurl,
-         data: "action=addmember&id="+id+"&member="+userid+"&details="+details,
+         url: PT_Ajax.ajaxurl,
+         data: "action=addmember&id="+id+"&member="+userid+"&details="+details+"&nextNonce=" + PT_Ajax.nextNonce,
          success: function(data){
-          
+
           $("#form-details-"+id).prop('disabled', true);
           $("#submit-details-"+id).toggle();
           $("#cancel-details-"+id).toggle();
@@ -66,8 +66,8 @@ var name = $(this).attr("name");
 var details = $('#registration-input-'+name).val();
 $.ajax({
        type: "POST",
-       url: ajaxurl,
-       data: "action=addmember&id="+id+"&member="+userid+"&details="+details,
+       url: PT_Ajax.ajaxurl,
+       data: "action=addmember&id="+id+"&member="+userid+"&details="+details+"&nextNonce=" +PT_Ajax.nextNonce,
        success: function(data){
         if (data.success){
               $("i.notregistered."+id).replaceWith(icon_registered);

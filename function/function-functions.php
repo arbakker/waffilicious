@@ -340,4 +340,12 @@ function arphabet_widgets_init() {
 }
 add_action( 'widgets_init', 'arphabet_widgets_init' );
 
+add_action( 'admin_footer', 'catlist2radio' );
+function catlist2radio(){
+  echo '<script type="text/javascript">';
+  echo 'jQuery("#categorychecklist input, #categorychecklist-pop input, .cat-checklist input, #event_categorieschecklist input")';
+  echo '.each(function(){this.type="radio"});</script>';
+}
+
+
 ?>

@@ -27,7 +27,9 @@ get_header(); ?>
     <div class="row">
       <div class="col-md-6">
         <h1 >News and events</h1>
+        <p><?php $user= wp_get_current_user(); foreach( $user->roles as &$role){echo $role;}; ?></p>
         <div class="list-group latest">
+
 <?php
 	$args = array( 'numberposts' => '2', 'tax_query' =>
 			array(
