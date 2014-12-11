@@ -40,8 +40,8 @@ $("#submit-details-"+id).click(function(){
   var details = $('#form-details-'+id).val();
   $.ajax({
          type: "POST",
-         url: PT_Ajax.ajaxurl,
-         data: "action=addmember&id="+id+"&member="+userid+"&details="+details+"&nextNonce=" + PT_Ajax.nextNonce,
+         url: Events.ajaxurl,
+         data: "action=addmember&id="+id+"&member="+userid+"&details="+details+"&addmemberNonce=" + Events.addmemberNonce,
          success: function(data){
 
           $("#form-details-"+id).prop('disabled', true);
@@ -66,8 +66,8 @@ var name = $(this).attr("name");
 var details = $('#registration-input-'+name).val();
 $.ajax({
        type: "POST",
-       url: PT_Ajax.ajaxurl,
-       data: "action=addmember&id="+id+"&member="+userid+"&details="+details+"&nextNonce=" +PT_Ajax.nextNonce,
+       url: Events.ajaxurl,
+       data: "action=addmember&id="+id+"&member="+userid+"&details="+details+"&addmemberNonce=" +Events.addmemberNonce,
        success: function(data){
         if (data.success){
               $("i.notregistered."+id).replaceWith(icon_registered);
@@ -95,8 +95,8 @@ $.ajax({
 $(selector_unregister).click(function() {
 jQuery.ajax({
        type: "POST",
-       url: ajaxurl,
-       data: "action=removemember&id="+id+"&member="+userid,
+       url: Events.ajaxurl,
+       data: "action=removemember&id="+id+"&member="+userid+"&removememberNonce=" +Events.removememberNonce,
        success: function(data){
          if (data.success){
               $("i.registered."+id).replaceWith(icon_notregistered);

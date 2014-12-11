@@ -13,14 +13,12 @@ if (is_user_logged_in()){
     $userinfo = get_userdata( $user_id );
     $username = $userinfo->user_login;
     $display_name= $userinfo->display_name;
-    $first_name = $userinfo->first_name;
-    $last_name = $userinfo->last_name;
     $user_pass =   $userinfo->user_pass;
     $user_email=   $userinfo->user_email;
     $author_registered = $userinfo->user_registered;
+
+
     $phone_nr= get_the_author_meta( 'phone',   $user_id  );
-
-
     $veggie = get_the_author_meta( 'veggie',   $user_id  );
     $adress = get_the_author_meta( 'adress',   $user_id  );
     $allergies = get_the_author_meta( 'allergies',   $user_id  );
@@ -44,6 +42,14 @@ if (is_user_logged_in()){
 
     <script type="text/javascript">
     var display_name="<?php echo $display_name; ?>";
+    var email="<?php echo $user_email; ?>";
+    var password="<?php echo $user_password; ?>";
+    var phone_nr="<?php echo $phone_nr; ?>";
+    var adress="<?php echo $adress; ?>";
+    var WBA_ID="<?php echo $WBA_ID; ?>";
+    var display_name="<?php echo $display_name; ?>";
+
+
     </script>
 
 <div class="container">
@@ -52,7 +58,7 @@ if (is_user_logged_in()){
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
               <div class="panel panel-info">
             <div class="panel-heading">
-              <h3 class="panel-title"><?php echo $first_name." ".$last_name;?>  <a href="edit.html" data-original-title="Edit this user" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" type="button" class=" btn btn-default "><i class="fa fa-edit"></i></a></h3>
+              <h3 class="panel-title"><?php echo $display_name;?>  <a href="edit.html" data-original-title="Edit this user" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" type="button" class=" btn btn-default "><i class="fa fa-edit"></i></a></h3>
 
             </div>
             <div class="panel-body">
@@ -132,7 +138,7 @@ if (is_user_logged_in()){
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">Edit: <?php echo $first_name." ".$last_name;?></h4>
+        <h4 class="modal-title" id="myModalLabel">Edit: <?php echo $display_name;?></h4>
       </div>
       <div class="modal-body">
         <form>

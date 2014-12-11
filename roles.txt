@@ -56,7 +56,7 @@ TODO:
 
 ### User fields
 
-- Display name
+
 - Vegetarian
 - Full name
 - Adress
@@ -66,3 +66,4 @@ TODO:
 - WUR Registration nr.
 - Institution
 - Food allergies
+- Student/Phd

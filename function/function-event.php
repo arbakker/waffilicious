@@ -107,41 +107,6 @@ function uep_render_event_info_metabox( $post ) {
     <?php
     }
 
-add_action( 'admin_enqueue_scripts', 'uep_admin_script_style' );
-
-function uep_admin_script_style( $hook){
-  if ( 'post.php' == $hook || 'post-new.php' == $hook ) {
-//  wp_enqueue_script('my_validate', 'path/to/jquery.validate.min.js', array('jquery'));
-  wp_enqueue_script('jquery-ui', get_template_directory_uri() . '/vendor/jquery-ui.js', array('jquery'));
-  wp_enqueue_style('jquery-ui.min', get_template_directory_uri() . '/vendor/jquery-ui.css');
-  wp_enqueue_script('chosen.jquery', get_template_directory_uri() . '/vendor/chosen.jquery.min.js', array('jquery'));
-  wp_enqueue_style('chosen', get_template_directory_uri() . '/vendor/chosen.css');
-  wp_enqueue_style('jquery-ui.theme', get_template_directory_uri() . '/vendor/jquery-ui.theme.css');
-  wp_enqueue_style('jquery-ui.structure', get_template_directory_uri() . '/vendor/jquery-ui.structure.css');
-  wp_enqueue_script( 'admin.js', get_template_directory_uri() . '/js/admin.js' ,false, false, true );
-  wp_register_script(
-       'user-details',
-       get_template_directory_uri() . '/js/your-script.js',
-       array( /* dependencies*/ ),
-       1.0,
-       true
-   );
-   $users_arr=array();
-   global $post;
-   $blogusers = get_users( );
-   foreach ( $blogusers as $user ) {
-     $details=waf_get_details($user->ID,$post->ID);
-     $display_name=$user->display_name;
-     $user_email=$user->user_email;
-     $users_arr["$user->ID"]=array(name=>$display_name,email=>$user_email,details => $details);
-   }
-   wp_enqueue_script( 'user-details' );
-   $script_params = array(
-       'users' => $users_arr
-   );
-   wp_localize_script( 'user-details', 'scriptParams', $script_params );
-}}
-
 
 
 
@@ -214,6 +179,14 @@ echo $html;
 
 add_action('wp_ajax_addmembers', 'addmembers_ajax');
 function addmembers_ajax() {
+  $nonce = $_POST['addmembersNonceasfsa'];
+  if ( ! wp_verify_nonce( $nonce, 'addmembers-nonce' )){
+    $return = array(
+      'message' => "Could not add member(s), nonce could not be verified.",
+    );
+    wp_send_json_error($return);
+    exit();
+  }
   // Get ajax request post parameters
   $post_id = $_POST['id'];
   $members = $_POST['members'];
@@ -238,15 +211,12 @@ function addmembers_ajax() {
 
   if ($result===true){
     $return = array(
-    'result' => $result,
-    'registered_members' => $registered_members,
     'message' => $message,
      );
     wp_send_json_success($return);
   }
   else{
     $return = array(
-    'registered_members' => $registered_members,
     'message' => $message,
      );
     wp_send_json_error($return);
@@ -255,11 +225,11 @@ function addmembers_ajax() {
 
 add_action('wp_ajax_addmember', 'addmember_ajax');
 function addmember_ajax() {
-
-    $nonce = $_POST['nextNonce'];
-    if ( ! wp_verify_nonce( $nonce, 'myajax-next-nonce' ))
+    // Check nonce
+    $nonce = $_POST['addmemberNonce'];
+    if ( ! wp_verify_nonce( $nonce, 'addmember-nonce' )){
     die ( 'Busted!');
-
+    }
     // Check current user
     $current_user = wp_get_current_user();
     $roles=$user->roles;
@@ -313,6 +283,16 @@ function addmember_ajax() {
 add_action('wp_ajax_removemember', 'removemember_ajax');
 
 function removemember_ajax() {
+    // Check nonce
+    $nonce = $_POST['removememberNonce'];
+
+    if ( ! (wp_verify_nonce( $nonce, 'removemember-nonce' ) or wp_verify_nonce( $nonce, 'removemember2-nonce' ) ) ){
+      $return = array(
+        'message'	=> "Could not remove member, nonce could not be verified.",
+      );
+      wp_send_json_error($return);
+      exit();
+    }
     // Check current user
     $current_user = wp_get_current_user();
     $roles=$user->roles;
@@ -343,7 +323,6 @@ function removemember_ajax() {
     else{
       $return = array(
       'message'	=> $message,
-      'members' => $members,
        );
       wp_send_json_error($return);
     }

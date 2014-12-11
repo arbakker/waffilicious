@@ -9,8 +9,8 @@ jQuery().ready(function() {
 
       $.ajax({
         type: "POST",
-        url: PT_Ajax.ajaxurl,
-        data: "action=updatememberdetails&member="+userid+"&memberNonce=" + PT_Ajax.memberNonce+"&displayname="+displayname+"&email="+email+"&password="+password+"&telephone="+telephone,
+        url: Members.ajaxurl,
+        data: "action=updatememberdetails&member="+userid+"&memberNonce=" + Members.memberNonce+"&displayname="+displayname+"&email="+email+"&password="+password+"&telephone="+telephone,
         success: function(data){
         }
       });
