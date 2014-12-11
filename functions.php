@@ -14,7 +14,7 @@ include get_template_directory() . '/function/function-userfield.php';
 include get_template_directory() . '/function/function-menuwalker.php';
 include get_template_directory() . '/function/function-authentication.php';
 include get_template_directory() . '/function/function-gallery.php';
-include get_template_directory() . '/function/function-userinfo.php';
+//include get_template_directory() . '/function/function-userinfo.php';
 
 
 

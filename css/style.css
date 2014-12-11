@@ -341,3 +341,11 @@ min-height: 19.5vw;
 .error-template {padding: 40px 15px;text-align: center;}
 .error-actions {margin-top:15px;margin-bottom:15px;}
 .error-actions .btn { margin-right:10px; }
+
+.btn-edit-usr{
+  margin-top:-.5em;
+}
+
+input[type='checkbox'], select{
+  margin-top:.5em;
+}

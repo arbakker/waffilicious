@@ -227,9 +227,15 @@ add_action('wp_ajax_addmember', 'addmember_ajax');
 function addmember_ajax() {
     // Check nonce
     $nonce = $_POST['addmemberNonce'];
+
     if ( ! wp_verify_nonce( $nonce, 'addmember-nonce' )){
-    die ( 'Busted!');
+      $return = array(
+        'message'	=> "Could not add member, nonce could not be verified.",
+      );
+      wp_send_json_error($return);
+      exit();
     }
+
     // Check current user
     $current_user = wp_get_current_user();
     $roles=$user->roles;

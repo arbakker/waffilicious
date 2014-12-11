@@ -36,6 +36,10 @@ while ($the_query->have_posts()) : $the_query->the_post();
 
 $image = get_the_post_thumbnail( $post->ID, 'thumbnail' );
 $image=str_replace( 'class="', 'class="img-rounded img-responsive img-news ', $image );
+if (! $image){
+  // TODO: Replace placeholder image with WAF image
+  $image='<img src="http://placehold.it/80X80" class="img-rounded img-responsive img-news attachment-thumbnail wp-post-image"  height="80" width="80">';
+}
 $ID=$post->ID;
 $time=get_the_date();
 $excerpt=get_the_excerpt();?>

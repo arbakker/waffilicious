@@ -43,7 +43,7 @@ $("#submit-details-"+id).click(function(){
          url: Events.ajaxurl,
          data: "action=addmember&id="+id+"&member="+userid+"&details="+details+"&addmemberNonce=" + Events.addmemberNonce,
          success: function(data){
-
+          if (data.success) {
           $("#form-details-"+id).prop('disabled', true);
           $("#submit-details-"+id).toggle();
           $("#cancel-details-"+id).toggle();
@@ -51,7 +51,13 @@ $("#submit-details-"+id).click(function(){
           if ($("#form-details-"+id).val()===""){
             $("#form-details-"+id).val("None");
           }
-         }
+          }else{
+            alert(data.data.message);
+          }
+        },
+        error: function(){
+          alert("Server connection error: could not update details for event, please try again later.");
+        }
        });
      });
 
@@ -87,7 +93,12 @@ $.ajax({
               $("#form-details-"+id).val(details);
               $("#form-details-"+id).prop('disabled', true);
               $(".reg-details."+id).toggle();
-            }
+            }else{
+            alert(data.data.message);
+          }
+          },
+          error: function(){
+            alert("Server connection error: could not add member to event, please try again later.");
           }
      });
 });
@@ -118,7 +129,12 @@ jQuery.ajax({
               }
               );
 
-}
+          }else{
+              alert(data.data.message);
+          }
+       },
+       error: function(){
+         alert("Server connection error: could not remove member from event, please try again later.");
        }
      });
 });

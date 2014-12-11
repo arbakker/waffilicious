@@ -17,7 +17,7 @@ jQuery().ready(function() {
             }
           },
           error: function(){
-            alert("Could not remove member from event, please try again later.");
+            alert("Server connection error: could not remove member from event, please try again later.");
           }
         });
         });
@@ -53,7 +53,7 @@ jQuery().ready(function() {
       var postid = jQuery("#add-members").attr('postid');
       var members=jQuery("#select-members").val();
       var members_string ="";
-      members.forEach(function(entry){
+        members.forEach(function(entry){
         members_string+=entry+",";
       });
 
@@ -101,7 +101,7 @@ jQuery().ready(function() {
                        }
                        },
                        error: function(){
-                         alert("Could not remove member from event, please try again later.");
+                         alert("Server connection error: could not remove member from event, please try again later.");
                        }
                      });
               });
@@ -110,7 +110,7 @@ jQuery().ready(function() {
             }
            },
            error: function(){
-             alert("Could not add member to event, please try again later.");
+             alert("Server connection error: could not add member to event, please try again later.");
            }
            }
            );

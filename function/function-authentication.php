@@ -21,11 +21,13 @@ function loginCheck() {
     // check the nonce, if it fails the function will break
     check_ajax_referer( 'ajax-login-nonce', 'security' );
 
+
     // get the POSTed credentials
     $creds = array();
     $creds['user_login']    = !empty( $_POST['username'] ) ? $_POST['username'] : null;
     $creds['user_password'] = !empty( $_POST['password'] ) ? $_POST['password'] : null;
     $creds['remember']      = !empty( $_POST['rememberme'] ) ? $_POST['rememberme'] : null;
+    //$creds['security']      = !empty( $_POST['security'] ) ? $_POST['security'] : null;
 
     // check for empty fields
     if( empty( $creds['user_login'] ) || empty( $creds['user_password'] ) ) {
@@ -36,16 +38,23 @@ function loginCheck() {
     $user = wp_signon( $creds, false );
     if ( is_wp_error( $user ) ) {
         if ( $user->get_error_code() == "invalid_username" || $user->get_error_code() == "incorrect_password" ) {
-            echo json_encode( array( 'success' => true, 'message' => 'The username or password is incorrect' ) );
+            echo json_encode( array(
+              'success' => false,
+               'message' => 'The username or password is incorrect' ) );
             die;
         } else {
-            echo json_encode( array( 'success' => true, 'message' => 'There was an error logging you in' ) );
+            echo json_encode( array(
+              'success' => false,
+              'message' => 'There was an error logging you in' ) );
             die;
         }
-        echo json_encode( array( 'success' => true, 'message' => 'Login successful' ) );
-        die;
     }
-    echo json_encode( $user );
+    echo json_encode( array(
+      'success' => true,
+      'message' => 'Login successful' ,
+      'nonce' => check_ajax_referer( 'ajax-login-nonce', 'security' ),
+      'user' => $user,
+    ) );
     die;
 }
 add_action( 'wp_ajax_nopriv_loginCheck', 'loginCheck' );
