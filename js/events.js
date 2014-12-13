@@ -1,4 +1,17 @@
+
+
 jQuery().ready(function() {
+
+  $(".email_addresses").focus(function()
+  {
+    $(this).select();
+  }
+  );
+
+
+
+
+
 $(".event").each(function(){
 var name = $(this).attr("name");
 var id = $(this).attr("id-event");
@@ -65,7 +78,9 @@ $("#submit-details-"+id).click(function(){
 
 //#registration-input
 
+
 $("input").tooltip({'trigger':'focus', 'title': 'Optional details for registration'});
+$(".btn-copy-email").tooltip({'trigger':'hover', 'title': 'Copy email addresses to clipboard'});
 
 $(selector).click(function() {
 var name = $(this).attr("name");

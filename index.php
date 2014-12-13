@@ -27,7 +27,7 @@ get_header(); ?>
     <div class="row">
       <div class="col-md-6">
         <h1 >News and events</h1>
-        <p><?php $user= wp_get_current_user(); foreach( $user->roles as &$role){echo $role;}; ?></p>
+
         <div class="list-group latest">
 
 <?php
@@ -159,13 +159,14 @@ if ( $page )
 </div> -->
 </div>
 </div>
-<div class="row">
+
+<!--<div class="row">
   <?php if ( is_active_sidebar( 'home_right_1' ) ) : ?>
 	<div id="primary-sidebar" class="primary-sidebar widget-area col-md-12" role="complementary">
 		<?php dynamic_sidebar( 'home_right_1' ); ?>
-	</div><!-- #primary-sidebar -->
+	</div>
 	<?php endif; ?>
-</div>
+</div>-->
 </main>
 </div>
 </section>

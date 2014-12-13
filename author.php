@@ -188,8 +188,6 @@ get_header();
       </div>
       <div class="modal-body">
         <form class="form-horizontal" id="userdetails">
-
-
           <div class="form-group">
             <LABEL class="control-label col-md-4 col-xs-4" for="displayname">Full Name</LABEL>
             <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="text" id="displayname" value="<?php echo $display_name; ?>"></div>
@@ -225,16 +223,12 @@ get_header();
             <LABEL class="control-label col-md-4 col-xs-4" for="WBA_ID">WBA ID</LABEL>
             <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="text" id="WBA_ID" value="<?php echo $WBA_ID;?>"></div>
             </div>
-
-
-          <div class="form-group">
+                      <div class="form-group">
             <LABEL class="control-label col-md-4 col-xs-4" for="member_type">
               Type of member
             </LABEL>
             <div class="col-md-6 col-xs-6"><select id='member_type'>
-
-
-              <option <?php if ($member_type=="Student" or $member_type==="") echo 'selected="selected"'; ?>>Student</option>
+            <option <?php if ($member_type=="Student" or $member_type==="") echo 'selected="selected"'; ?>>Student</option>
               <option <?php if ($member_type=="PHD") echo 'selected="selected"'; ?>>PHD</option>
               <option <?php if ($member_type=="Clubcard") echo 'selected="selected"'; ?>>Clubcard</option>
               <option <?php if ($member_type=="Trainer") echo 'selected="selected"'; ?>>Trainer</option>
@@ -262,19 +256,6 @@ get_header();
             <LABEL class="control-label col-md-4 col-xs-4" for="allergies">Allergies</LABEL>
             <div class="col-md-6 col-xs-6"><input class="form-control" type="text" id="allergies" value="<?php echo $allergies;?>"></div>
           </div>
-
-
-
-
-
-          <?php
-          /* TODO: implement radioboxes in form for:
-          - $veggie = get_the_author_meta( 'veggie',   $user_id  );
-          - $institution = get_the_author_meta( 'institution',   $user_id  );
-          */
-          ?>
-
-
       </form
       </div>
       <div class="modal-footer">

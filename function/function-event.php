@@ -78,6 +78,7 @@ function uep_render_event_info_metabox( $post ) {
     $event_venue = get_post_meta( $post->ID, 'event-venue', true );
     $price = get_post_meta($post->ID, 'price', true);
     $members = get_post_meta($post->ID, 'members', true);
+    $guest_players = get_post_meta($post->ID, 'guest_players', true);
     // if there is previously saved value then retrieve it, else set it to the current time
     $event_start_date = ! empty( $event_start_date ) ? $event_start_date : time();
     //we assume that if the end date is not present, event ends on the same day
@@ -106,8 +107,6 @@ function uep_render_event_info_metabox( $post ) {
 <input name="members"type="text" id="price" class="widefat" value="<?php echo $members; ?>" /> -->
     <?php
     }
-
-
 
 
 function uep_save_event_info( $post_id ) {
@@ -151,18 +150,6 @@ function uep_save_event_info( $post_id ) {
 }
 add_action( 'save_post', 'uep_save_event_info' );
 
-function is_user_registered ($user_id, $post_id) {
-  $members = get_post_meta( $post_id, 'members', true );
-  $user_id="{$user_id}";
-  $pos = strpos($members,$user_id);
-  if($pos === false) {
-    return "false";
-  }
-else{
-    return "true";
-}
-}
-
 add_action('wp_head','my_ajaxurl');
 function my_ajaxurl() {
 global $current_user;
@@ -179,7 +166,7 @@ echo $html;
 
 add_action('wp_ajax_addmembers', 'addmembers_ajax');
 function addmembers_ajax() {
-  $nonce = $_POST['addmembersNonceasfsa'];
+  $nonce = $_POST['addmembersNonce'];
   if ( ! wp_verify_nonce( $nonce, 'addmembers-nonce' )){
     $return = array(
       'message' => "Could not add member(s), nonce could not be verified.",
@@ -192,17 +179,16 @@ function addmembers_ajax() {
   $members = $_POST['members'];
   $registered_members = get_post_meta($post_id, 'members', true);
 
+
   if (current_user_can('edit_post', $post_id )){
     $arr=explode(',', $members);
 
-    foreach ($arr as &$member) {
-        $registered =is_user_registered ($member, $post_id);
-        if( $registered=='false' ){
-          $registered_members=waf_add_member($member, $registered_members);
-        }
+    foreach ($arr as $member) {
+        $details="";
+        $registered_members_new=waf_add_member($member,$details, $registered_members);
     }
-    $registered_members=waf_remove_empty($registered_members);
-    $result=update_post_meta($post_id,'members',$registered_members);
+
+    $result=update_post_meta($post_id,'members',$registered_members_new);
     $message="Succesfully added members to event.";
   }else{
     $message="You do not have rights to add members to this event";
@@ -216,11 +202,21 @@ function addmembers_ajax() {
     wp_send_json_success($return);
   }
   else{
+    if ($registered_members_new==$registered_members){
+      $message="Could not add member, member already registered.";
+    }else{
+      $message="Server errror: could not add members to event.";
+    }
     $return = array(
     'message' => $message,
      );
     wp_send_json_error($return);
   }
+}
+
+function is_user_registered($userid,$postid){
+  $members = get_post_meta($postid, 'members', true);
+  return array_key_exists($userid,$members);
 }
 
 add_action('wp_ajax_addmember', 'addmember_ajax');
@@ -244,23 +240,17 @@ function addmember_ajax() {
     $post_id = $_POST['id'];
     $members = get_post_meta($post_id, 'members', true);
     $member = intval($_POST['member']);
-    $registered =is_user_registered ($member, $post_id);
+
     $details = sanitize_text_field($_POST['details']);
 
     // Check if member edits own userdetails or has rights to edit post
-    if ($member==$userid or current_user_can('edit_post', $post_id ) ){
-      $details_meta = get_post_meta( $post_id, 'details', true );
-      if (is_null($details_meta)){
-        $details_meta=array();
-      }
-      $details_meta["$member"]=$details;
-      $result2=update_post_meta($post_id,'details',$details_meta);
-      $message="";
-      if( $registered=='false' ){
-        $members=waf_add_member($member, $members);
-        }
-      $members=waf_remove_empty($members);
+    $deadline=get_post_field( 'event-deadline', $post_id );
+    $daystodeadline=intval(($deadline - time())/(3600*24));
+    if (($member==$userid and $daystodeadline>-1) or current_user_can('edit_post', $post_id ) ){
+
+      $members=waf_add_member($member,$details, $members);
       $result=update_post_meta($post_id,'members',$members);
+
       $message = "You have succesfully registered user "+strval($member)+" for event "+strval($post_id)+".";
     }else{
       $result=false;
@@ -272,6 +262,7 @@ function addmember_ajax() {
         'result' => $result,
 			  'message'	=> $message,
         'nonce' => $nonce,
+        'details' => $details,
 	     );
       wp_send_json_success($return);
     }
@@ -311,10 +302,9 @@ function removemember_ajax() {
 
     // Check if member edits own userdetails or has rights to edit post
     if ($member==$userid or current_user_can('edit_post', $post_id ) ){
-      $registered =is_user_registered ($member, $post_id) ;
-      $message="";
+
       $members=waf_remove_member($member, $members);
-      $members=waf_remove_empty($members);
+
       $result=update_post_meta($post_id,'members',$members);
     }else{
       $message="You are not allowed to create, update or delete registrations for other users than yourself for this event.";
@@ -334,63 +324,127 @@ function removemember_ajax() {
     }
 }
 
-function waf_remove_member($member, $members){
-  $arr=explode(',', $members);
-  $result="";
-  for($i=0;$i<count($arr);$i++) {
-    if ($arr[$i]!=strval($member)){
-      if ($result==''){
-        $result=$arr[$i];
+
+add_action('wp_ajax_addguest', 'addguest_ajax');
+function addguest_ajax() {
+  // Check nonce
+  $nonce = $_POST['addguestNonce'];
+  if ( ! wp_verify_nonce( $nonce, 'addguest-nonce' )){
+    $return = array(
+      'message'	=> "Could not add guest player, nonce could not be verified.",
+    );
+    wp_send_json_error($return);
+    exit();
+  }
+  // Get ajax request post parameters
+  $post_id = intval($_POST['id']);
+  $guest_player = sanitize_text_field($_POST['guest_player']);
+  $guest_email = sanitize_text_field($_POST['guest_email']);
+  $guest_players = get_post_meta($post_id, 'guest_players', true);
+  // Check if member edits own userdetails or has rights to edit post
+  if (current_user_can('edit_post', $post_id or ! empty($guest_player) ) ){
+    // $a=array();
+    // $a["b"]="c";
+    // unset($a["b"]);
+    if (!$guest_players){
+      $guest_players=array();
+    }
+    $guest_players[$guest_player]=$guest_email;
+    $result=update_post_meta($post_id,'guest_players',$guest_players);
+  }else{
+    if (empty($guest_player)){
+      $message="Server error: cannot create guest player without a name.";
+    }else{
+      $message="You are not allowed to create, update or delete registrations for other users than yourself for this event.";
+    }
+    $result=false;
+  }
+  if ($result===true){
+    $message = "You have succesfully added a guest player.";
+    $return = array(
+      'result' => $result,
+      'message'	=> $message,
+      );
+      wp_send_json_success($return);
+  }else{
+      if (empty($message)){
+        $message="Server error: could not add guest player.";
       }
-      else{
-        $result= $result.",".$arr[$i];
-      }
+      $return = array(
+      'result'	=> $result,
+      'message' => $message,
+      'guest' => $guest_player,
+      );
+      wp_send_json_error($return);
     }
   }
-  $members = $result;
+
+
+  add_action('wp_ajax_removeguest', 'removeguest_ajax');
+  function removeguest_ajax() {
+    // Check nonce
+    $nonce = $_POST['removeguestNonce'];
+    if ( ! wp_verify_nonce( $nonce, 'removeguest-nonce' )){
+      $return = array(
+        'message'	=> "Could not remove guest player, nonce could not be verified.",
+      );
+      wp_send_json_error($return);
+      exit();
+    }
+    // Get ajax request post parameters
+    $post_id = intval($_POST['id']);
+    $guest_player = sanitize_text_field($_POST['guest_player']);
+
+    $guest_players = get_post_meta($post_id, 'guest_players', true);
+    // Check if member edits own userdetails or has rights to edit post
+    if (current_user_can('edit_post', $post_id ) ){
+      // $a=array();
+      // $a["b"]="c";
+      // unset($a["b"]);
+      unset($guest_players[$guest_player]);
+      $result=update_post_meta($post_id,'guest_players',$guest_players);
+      $message = "You have succesfully removed a guest player.";
+    }else{
+      $result=false;
+      $message="You are not allowed to create, update or delete registrations for other users than yourself for this event.";
+    }
+    if ($result===true){
+      $return = array(
+        'result' => $result,
+        'message'	=> $message,
+      );
+      wp_send_json_success($return);
+    }else{
+      $return = array(
+        'result'	=> $result,
+        'message' => "Server error: could not remove guest player from event.",
+        'guest' => $guest_player,
+      );
+      wp_send_json_error($return);
+    }
+  }
+
+function waf_remove_member($member, $members){
+  unset($members[$member]);
   return $members;
 }
 
-function waf_remove_empty($members){
-  $arr=explode(',', $members);
-
-  $result="";
-
-  foreach ($arr as &$member){
-
-    if ( empty($member)==false ){
-      if ($result==""){
-        $result=$member;
-      }else{
-      $result= $result.",".$member;
-      }
-    }
+function waf_add_member($member,$details, $members){
+  if (!$members){
+    $members=array();
   }
-  return $result;
-}
-
-function waf_add_member($member, $members){
-  if ($members==''){
-    $members=$member;
-  }else{
-    $members= $members.",".$member;
-  }
+  $members[$member]=$details;
   return $members;
 }
 
 function waf_get_details($member,$post_id){
-  $details_meta = get_post_meta( $post_id, 'details', true );
-  return $details_meta["$member"];
+  $members = get_post_meta($post_id, 'members', true);
+  return $members[$member];
 }
 
-function waf_remove_details($member, $post_id){
-  $details_meta = get_post_meta( $post_id, 'details', true );
-  unset($details_meta["$member"]);
-  update_post_meta($post_id,'details',$details_meta);
-}
+
 
 function add_registered_members_metabox() {
-
     add_meta_box(
         'registered-members-event-metabox',
         __( 'Registered members', 'regmem' ),
@@ -399,14 +453,21 @@ function add_registered_members_metabox() {
         'normal',
         'core'
     );
+    add_meta_box(
+    'guest-players-event-metabox',
+    __( 'Guest players', 'regmem' ),
+    'render_guest_players',
+    'event',
+    'normal',
+    'core'
+  );
   }
 add_action( 'add_meta_boxes', 'add_registered_members_metabox' );
 
 function render_registered_members($post ) {
 if (current_user_can('edit_post', $post->ID )){
     $members = get_post_meta($post->ID, 'members', true);
-    $arr=explode(',', $members);
-
+    //update_post_meta($post->ID,'members',array());
     echo '<select id="select-members" data-placeholder="Choose a name..." style="width:350px;" multiple class="chosen">';
 
     $blogusers = get_users( );
@@ -427,9 +488,10 @@ if (current_user_can('edit_post', $post->ID )){
     <th style='border: 1px solid #999;padding: 0.5rem;' >Remove</th>
     </tr></thead><tbody>";
 
-    if (!empty($members)){
-    for($i=0;$i<count($arr);$i++) {
-      $user_id=intval($arr[$i]);
+    //update_post_meta($post->ID,'members',array());
+    foreach ($members as $key => $value){
+
+      $user_id=intval($key);
       $user = get_userdata( $user_id );
 
     echo   "<tr class='user user-".$user_id."' id='".$user_id."'>
@@ -438,9 +500,42 @@ if (current_user_can('edit_post', $post->ID )){
     <td style='border: 1px solid #999;padding: 0.5rem;''>". get_post_meta( $post->ID, 'details', true )["$user_id"]."</td>
     <td style='border: 1px solid #999;padding: 0.5rem;''>". "<button id='unregister-".$user_id."' style='height: 2.2em;width: 4em;' type='button'>X</button>"."</td>
     </tr>";
-  }}
+  }
     echo "</tbody></table>";
   }
+}
+
+function render_guest_players($post ) {
+  if (current_user_can('edit_post', $post->ID )){
+    $guest_players = get_post_meta($post->ID, 'guest_players', true);
+    ?>
+    <table id='guestPlayers' style='border-collapse: collapse;margin-top:0.5em;margin-bottom:2em;'><thead>
+    <tr>
+      <th style='border: 1px solid #999;padding: 0.5rem;'>Guest player</th>
+      <th style='border: 1px solid #999;padding: 0.5rem;' >Email</th>
+      <th style='border: 1px solid #999;padding: 0.5rem;' >Remove</th>
+    </tr></thead>
+    <tbody>
+    <?php
+    foreach ($guest_players as $key => $value){
+      ?>
+      <tr>
+        <td style='border: 1px solid #999;padding: 0.5rem;'><?php echo $key; ?></td>
+        <td style='border: 1px solid #999;padding: 0.5rem;'><?php echo $value; ?></td>
+        <td style='border: 1px solid #999;padding: 0.5rem;'><button class="removeGuest" style='height: 2.2em;width: 4em;' type="button" guest="<?php echo $key;?>">X</button></td>
+      </tr>
+
+      <?php
+    }
+
+    ?>
+    <LABEL  style="margin:0.5em;" for="studentnr">Guest player</LABEL>
+    <input   style="margin:0.5em;" type="text" id="guest_player"></input></br>
+    <LABEL  style="margin:0.5em;" for="studentnr">Email guest</LABEL>
+    <input  style="margin:0.5em;" type="email" id="guest_email"></input></br>
+    <button type="button" style="height:2.2em;margin:0.5em;" id="addGuest">Add guest player</button>
+    <?php
+}
 }
 
 function build_taxonomies() {

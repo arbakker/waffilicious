@@ -17,10 +17,6 @@ function waffilicious_setup() {
      */
     load_theme_textdomain( 'waffilicious', get_template_directory() . '/languages' );
     /**
-     * Add default posts and comments RSS feed links to head
-     */
-    add_theme_support( 'automatic-feed-links' );
-    /**
      * Enable support for the Aside Post Format
      */
     $args = array(
@@ -344,7 +340,8 @@ add_action( 'admin_footer', 'catlist2radio' );
 function catlist2radio(){
   echo '<script type="text/javascript">';
   echo 'jQuery("#categorychecklist input, #categorychecklist-pop input, .cat-checklist input, #event_categorieschecklist input")';
-  echo '.each(function(){this.type="radio"});</script>';
+  echo '.each(function(){this.type="radio"});jQuery("#in-event_categories-3").attr("checked","checked");</script>';
+
 }
 
 function curPageURL() {
@@ -358,4 +355,10 @@ function curPageURL() {
   }
   return $pageURL;
 }
+
+add_action('wp_head', 'addBackPostFeed');
+function addBackPostFeed() {
+  echo '<link rel="alternate" type="application/rss+xml" title="WAF RSS Feed" href="'.get_bloginfo('rss2_url').'" />';
+}
+
 ?>

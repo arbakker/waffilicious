@@ -25,12 +25,10 @@ $the_query = new WP_Query( 'paged=' . $paged );
 
 echo '<div class="list-group">';
 if( $the_query->have_posts() ) {
-    echo '';
-    $page = get_query_var('paged');
-    $max_num = $the_query->max_num_pages;
-    news_pagination($page, $max_num, $the_query);
 
-$i = 0;
+
+
+  $i = 0;
 
 while ($the_query->have_posts()) : $the_query->the_post();
 
@@ -78,15 +76,6 @@ news_pagination($page, $max_num, $the_query);
 
 }
 echo "</ul>";
-
-
-
-
-
-
-
-
-
 
 wp_reset_query();
 echo "</div>";

@@ -53,12 +53,15 @@ jQuery().ready(function() {
       var postid = jQuery("#add-members").attr('postid');
       var members=jQuery("#select-members").val();
       var members_string ="";
+      if (members!==null){
         members.forEach(function(entry){
         members_string+=entry+",";
       });
+    }
 
       members_string = members_string.substring(0, members_string.length - 1);
       // Ajax request to add members
+      if (members_string!==""){
       jQuery.ajax({
              type: "POST",
              url: Admin.ajaxurl,
@@ -114,8 +117,86 @@ jQuery().ready(function() {
            }
            }
            );
+         }
+
     });
 
+    jQuery("#addGuest").click(function(event) {
+      event.preventDefault();
+      var postid = jQuery("#add-members").attr('postid');
+      var guest_email=jQuery("#guest_email").val();
+      var guest_player=jQuery("#guest_player").val();
 
+      if (guest_player!==""){
+      jQuery.ajax({
+        type: "POST",
+        url: Admin.ajaxurl,
+        data: "action=addguest&id="+postid+"&guest_player="+guest_player+"&guest_email="+guest_email+"&addguestNonce="+Admin.addguestNonce,
+        success: function(data){
+          if (data.success){
+            var id='_' + Math.random().toString(36).substr(2, 9);
+            var row="<tr>\
+            <td style='border: 1px solid #999;padding: 0.5rem;'>"+guest_player+"</td>\
+            <td style='border: 1px solid #999;padding: 0.5rem;'>"+guest_email+"</td>\
+            <td style='border: 1px solid #999;padding: 0.5rem;'><button id='"+id+"' style='height: 2.2em;width: 4em;' type='button' guest='"+guest_player+"'>X</button></td>\
+            </tr>";
+            var el= jQuery("button[guest="+guest_player+"]");
+            if (el!==null){
+              el.closest("tr").remove();
+            }
+            jQuery('#guestPlayers > tbody:last').append(row);
+
+            jQuery("#"+id).click(function(event) {
+              event.preventDefault();
+              var postid = jQuery("#add-members").attr('postid');
+              var guest_player = this.getAttribute("guest");
+              var el =jQuery(this);
+              jQuery.ajax({
+                type: "POST",
+                url: Admin.ajaxurl,
+                data: "action=removeguest&id="+postid+"&guest_player="+guest_player+"&removeguestNonce="+Admin.removeguestNonce,
+                success: function(data){
+                  if (data.success){
+                    el.closest("tr").remove();
+                  } else{
+                    alert(data.data.message);
+                  }},
+                  error: function(){
+                    alert("Server connection error: could not remove member from event, please try again later.");
+                  }
+                });
+              });
+
+          } else{
+            alert(data.data.message);
+          }},
+          error: function(){
+            alert("Server connection error: could not remove member from event, please try again later.");
+          }
+    });
+  }
+  });
+
+  jQuery(".removeGuest").click(function(event) {
+    event.preventDefault();
+    var postid = jQuery("#add-members").attr('postid');
+    var guest_player = this.getAttribute("guest");
+    var el =jQuery(this);
+    jQuery.ajax({
+      type: "POST",
+      url: Admin.ajaxurl,
+      data: "action=removeguest&id="+postid+"&guest_player="+guest_player+"&removeguestNonce="+Admin.removeguestNonce,
+      success: function(data){
+        if (data.success){
+          el.closest("tr").remove();
+
+        } else{
+          alert(data.data.message);
+        }},
+        error: function(){
+          alert("Server connection error: could not remove member from event, please try again later.");
+        }
+    });
+  });
 
 });

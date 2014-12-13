@@ -93,25 +93,18 @@ function waf_admin_script_style( $hook){
       'ajaxurl' => admin_url( 'admin-ajax.php' ),
       'addmembersNonce' => wp_create_nonce( 'addmembers-nonce' ),
       'removememberNonce' => wp_create_nonce( 'removemember2-nonce' ),
+      'addguestNonce' => wp_create_nonce('addguest-nonce'),
+      'removeguestNonce' => wp_create_nonce('removeguest-nonce'),
       'users' => $users_arr,
       )
     );
-
-
-
   }
-}
-
-function enqueu_adminuser($hook) {
-  if ( 'user-edit.php' != $hook ) {
-    return;
-  }
+  if ( 'user-edit.php' == $hook || 'profile.php' == $hook ) {
+  wp_enqueue_script( 'admin_user.js', get_template_directory_uri() . '/js/admin_user.js' ,false, false, true );
   wp_enqueue_script('jquery-ui', get_template_directory_uri() . '/vendor/jquery-ui.js', array('jquery'));
   wp_enqueue_style('jquery-ui.min', get_template_directory_uri() . '/vendor/jquery-ui.css');
-
+  }
 }
-add_action( 'admin_enqueue_scripts', 'enqueu_adminuser' );
-
 
 
 

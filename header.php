@@ -40,8 +40,6 @@ if ( $paged >= 2 || $page >= 2 ){
 echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
 }
 ?></title>
-<link rel="profile" href="http://gmpg.org/xfn/11" />
-<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 <link rel="shortcut icon" href="<?php bloginfo('stylesheet_directory'); ?>/favicon.png" />
 <!--[if lt IE 9]>
 <script src="<?php echo get_template_directory_uri(); ?>/js/html5.js" type="text/javascript"></script>
@@ -61,7 +59,7 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/"><?php echo bloginfo(); ?></a>
+          <a class="navbar-brand" href="/"><img src="<?php echo get_template_directory_uri();?>/img/waf.svg" style="height:35px;position:relative;top:-3px;" alt="Kiwi standing on oval"></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -86,15 +84,31 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
               get_currentuserinfo();
               $link_user_page=$site_url."/member/".$current_user->user_login;
               echo "<ul class='nav navbar-nav navbar-right'>";
-              echo "<li data-original-title='Sign out' data-toggle='tooltip' ><a id='logout'  class='menu-item menu-item-type-post_type menu-item-object-page' href='#'><i class='fa registration fa-sign-out fa-lg'></i></a></li>";
-              echo "<li><a href='".  $link_user_page."' id='welcome' class='menu-item menu-item-type-post_type menu-item-object-page'><i class='fa registration fa-paw fa'></i>&nbsp;&nbsp;".$current_user->user_login ."</a></li>";
+              echo "<li data-original-title='Sign out' data-toggle='tooltip' ></li>";
+              echo "<li></li>";
+              ?>
+              <li class="dropdown">
+                <!--<a href='". ."' id='welcome' class=''><i class='fa registration fa-paw fa'></i>&nbsp;&nbsp;".$current_user->user_login ."</a>-->
+
+                <a href="#" class="menu-item menu-item-type-post_type menu-item-object-page dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class='fa registration fa-paw fa'></i>&nbsp;&nbsp; <?php echo $current_user->user_login; ?> <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu" >
+                  <li><a href="<?php echo  $link_user_page;?>"><i class='fa fa-user ' ></i>&nbsp;&nbsp;&nbsp;  My account</a></li>
+                  <li><a href="<?php echo site_url();?>/members/"><i class='fa fa-users ' ></i>&nbsp;&nbsp; Members list</a></li>
+                  <li class="divider"></li>
+                  <li  data-original-title='Sign out' data-toggle='tooltip'><a id='logout'  class='' href='#'><i class='fa fa-sign-out ' ></i>&nbsp;&nbsp; Sign out</a></li>
+                </ul>
+              </li>
+              <?php
+
               echo "</ul>";
 
 
             }
             else{
               echo "<ul class='nav navbar-nav navbar-right'>";
-              echo "<li data-original-title='Sign in' data-toggle='tooltip'><a id='login' class='menu-item menu-item-type-post_type menu-item-object-page' href='".site_url()."/sign-in' ><i class='fa registration fa-sign-in fa-lg'></i></a></li>";
+              echo "<li data-original-title='Sign in' data-toggle='tooltip'><a id='login' class='menu-item menu-item-type-post_type menu-item-object-page' href='".site_url()."/sign-in' ><i class='fa registration fa-sign-in fa-lg'></i>&nbsp;&nbsp; Sign in</a></li>";
+
+
               echo "</ul>";
             }
             ?>

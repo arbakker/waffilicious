@@ -6,25 +6,25 @@
 * @since Shape 1.0
 */
 ?>
+
 <div class="row">
-<div class="col-md-12">
+<div class="col-md-4">
+  <ul   class= "list-inline">
 
-<ul   class= "list-inline">
-
-  <li><a href="http://www.waf.wur.nl/facebook" title="Facebook group WAF"><i class="fa fa-facebook fa-3x footer"></i></a></li>
-  <li><a href="http://www.waf.wur.nl/facebook" title="Facebook page WAF"><i class=" fa fa-facebook-square fa-3x footer"></i></a></li>
-  <li><a href="#"><i class=" fa fa-rss fa-3x footer" title="RSS Feed WAF"></i></a></li>
-  <li><a href="http://www.frisbeesport.nl" title="Nederlandse Frisbee Bond"><i class=" fa fa-external-link-square fa-3x footer"></i></a></li>
-</ul>
+    <li><a href="http://www.waf.wur.nl/facebook" title="Facebook group WAF"><i class="fa fa-facebook fa-3x footer"></i></a></li>
+    <li><a href="http://www.waf.wur.nl/facebook" title="Facebook page WAF"><i class=" fa fa-facebook-square fa-3x footer"></i></a></li>
+    <li><a href="#"><i class=" fa fa-rss fa-3x footer" title="RSS Feed WAF"></i></a></li>
+    <li><a href="http://www.frisbeesport.nl" title="Nederlandse Frisbee Bond"><i class=" fa fa-external-link-square fa-3x footer"></i></a></li>
+  </ul>
 
 </div>
-
+<div class="col-md-4">
 </div>
-<div class="row">
-<div class="col-md-12">
-  <p class="text-right footer">
-    WAF - Wageningen Algemene Frisbee Club
-  </p>
+<div class="col-md-4">
+  <div class="row" style="height:220px;">
+    <a class="navbar-brand" href="/"><img src="<?php echo get_template_directory_uri();?>/img/WAF_FULL_OUTLINE.svg" style="height:200px;" alt="WAF Circular Logo"></a>
+  </div>
+
 </div>
 </div>
 

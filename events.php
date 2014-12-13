@@ -36,6 +36,7 @@ foreach($filter_post as $post){
 $user_id = get_current_user_id();
 $postID = get_the_ID();
 $registered=is_user_registered ($user_id, $postID);
+
 $name=$post->post_name;
 $title=$post->post_title;
 $form="";
@@ -66,16 +67,16 @@ $icon_unregister='<i class="fa text-right notregistered  '.$postID.' fa-square-o
 
 $fulldate=get_event_date_string($start_date,$start_day,$start_month_full,$end_date,$end_day,$end_month_full);
 
-$membersstring = get_post_meta($post->ID, 'members', true);
+$members = get_post_meta($post->ID, 'members', true);
+$guest_players = get_post_meta($post->ID, 'guest_players', true);
 
-if (!empty($membersstring)){
-    $members=explode(',', $membersstring);
-    $nr_members = count($members);
-}else{
-  $nr_members = 0;
-}
 
-if ($registered=='false'){
+$total_players=count($members)+count($guest_players);
+$nr_members = $total_players;
+
+
+
+if (! $registered){
   if (! is_user_logged_in()){
     $registered_string="";
   }else{
@@ -216,7 +217,7 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
                   <div class="row">
                     <div class="col-md-12">
                       <div <?php
-                        if ($registered == "false"){
+                        if (! $registered){
                       ?>
                               style="display:none"
                           <?php } ?>
@@ -244,19 +245,77 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
             </div>
             <?php
             if (is_user_logged_in()){
+
             ?>
             <div class="tab-pane" id="people_<?php echo $name; ?>">
-              <table class="table top1" >
+              <table class="table top1 table-striped" >
               <?php
-                    if ($nr_members>0){
-                      for($i=0;$i<count($members);$i++) {
-                        $user_id=intval($members[$i]);
-                        $user = get_userdata( $user_id );
-                        echo   "<tr user='".$user_id."'><td>".  $user->user_login. "</td><td>".  $user->user_email ."</td></tr>";
-                        }
-                      }
+              $all_email="";
+              foreach ($members as $key => $value){
+                $user_id=intval($key);
+                $user = get_userdata( $user_id );
+                $email=$user->user_email;
+                $all_email .= $email.";";
+
+
+                $registered_email=$registered_email+$email+';';
+
+                echo   "<tr user='".$user_id."'><td>".  $user->display_name. "</td><td>".  $user->user_email ."</td></tr>";
+              }
                   ?>
               </table>
+              <?php
+
+              if (count($guest_players)>0){
+                ?>
+                <table class="table top1 table-striped" >
+                  <caption><h4>Guest players</h4></caption>
+                  <tbody>
+                  <?php
+                  foreach ($guest_players as $key => $value){
+
+                    $all_email .= $value.";";
+
+                    echo   "<tr><td>".  $key. "</td><td>".  $value ."</td></tr>";
+                  }
+                  echo "</tbody></table>";
+
+              }
+
+              if ($total_players>0){
+              ?>
+
+
+              <a href="#"  data-target="#exampleModal_<?php echo $postID; ?>" data-toggle="modal" type="button" class=" btn btn-default btn-sm pull-right btn-copy-email"><i class="fa fa-clipboard"></i></a>
+
+
+              <div class="modal" class="exampleModal" id="exampleModal_<?php echo $postID; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                      <h4 class="modal-title" id="exampleModalLabel">Copy email addresses</h4>
+                    </div>
+                    <div class="modal-body">
+                      <form role="form">
+                        <div class="form-group">
+                          <label for="email_addresses_<?php echo $postID; ?>" class="control-label">Email addresses:</label>
+                          <textarea autofocus="autofocus"  class="form-control email_addresses" id="email_addresses_<?php echo $postID; ?>" ><?php echo $all_email; ?></textarea>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <?php
+
+            }
+            ?>
+
             </div>
             <?php }
             ?>

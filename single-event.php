@@ -14,6 +14,7 @@ $user_id = get_current_user_id();
 $postID = get_the_ID();
 
 $registered=is_user_registered ($user_id, $postID);
+
 $name=$post->post_name;
 $title=$post->post_title;
 $form="";
@@ -44,27 +45,23 @@ $icon_unregister='<i class="fa text-right notregistered  '.$postID.' fa-square-o
 
 $fulldate=get_event_date_string($start_date,$start_day,$start_month_full,$end_date,$end_day,$end_month_full);
 
-$membersstring = get_post_meta($post->ID, 'members', true);
+$members = get_post_meta($post->ID, 'members', true);
+
+$nr_members = count($members);
 
 
 
 
-if (!empty($membersstring)){
-    $members=explode(',', $membersstring);
-    $nr_members = count($members);
-}else{
-  $nr_members = 0;
-}
+if (!$registered){
 
-
-
-if ($registered=='false'){
   if (! is_user_logged_in()){
     $registered_string="";
+
   }else{
     $registered_string=$icon_unregister;
   }
   if ($daystodeadline<0){
+
     $button="";
     $alert='<div class="alert  alert-danger fade in" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
             Registration deadline has passed!
@@ -85,7 +82,7 @@ if ($registered=='false'){
 
     $weeks = floor($daystodeadline/7);
     $days= $daystodeadline % 7;
-    
+
 
     $alert_string=waf_alert_string($days,$weeks);
 
@@ -97,6 +94,7 @@ if ($registered=='false'){
   }
 }else{
   if (! is_user_logged_in()){
+
     $registered_string="";
   }else{
     $registered_string=$icon_register;
@@ -120,7 +118,7 @@ if ($registered=='false'){
 
 
 // Do not show event when start date of event has already passed
-if (get_post_field( 'event-start-date', $postID )>time() ){
+//if (get_post_field( 'event-start-date', $postID )>time() ){
   ?>
 
        <div class="row event" name="<?php echo $name;?>" id-event="<?php echo $postID;?>">
@@ -162,6 +160,7 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
               <li><a href="#people_<?php echo $name; ?>" role="tab" data-toggle="tab">People
                 <?php
                 echo '<span class="badge '.$name.'">'.$nr_members.'</span>';
+
                 ?>
               </a></li><?php
             }
@@ -187,7 +186,8 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
                   <div class="row">
                     <div class="col-md-12">
                       <div <?php
-                        if ($registered == "false"){
+
+                        if (!$registered ){
                       ?>
                               style="display:none"
                           <?php } ?>
@@ -203,7 +203,7 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
                                         </button>
                                       </div>
                                       </div>
-                                      <textarea id="form-details-<?php echo $postID; ?>" class="form-control" rows="3" disabled="disabled" data-toggle="tooltip" data-placement="top" title="Edit your registration details"><?php echo  get_post_meta( $postID, 'details', true )["$user_id"];?></textarea>
+                                      <textarea id="form-details-<?php echo $postID; ?>" class="form-control" rows="3" disabled="disabled" data-toggle="tooltip" data-placement="top" title="Edit your registration details"><?php var_dump($members); echo  $members[$user_id];?></textarea>
                       </div>
                         <?php
                         echo $button;
@@ -219,12 +219,16 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
             <div class="tab-pane" id="people_<?php echo $name; ?>">
               <table class="table top1" >
               <?php
-                    if ($nr_members>0){
-                      for($i=0;$i<count($members);$i++) {
-                        $user_id=intval($members[$i]);
+
+                    foreach ($members as $key => $value){
+
+
+
+
+                        $user_id=intval($key);
                         $user = get_userdata( $user_id );
                         echo   "<tr user='".$user_id."'><td>".  $user->user_login. "</td><td>".  $user->user_email ."</td></tr>";
-                        }
+
                       }
                   ?>
               </table>
@@ -238,7 +242,7 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
     </div>
 
  <?php
-}
+
 
 
 
