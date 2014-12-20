@@ -53,7 +53,8 @@ function loginCheck() {
       'success' => true,
       'message' => 'Login successful' ,
       'nonce' => check_ajax_referer( 'ajax-login-nonce', 'security' ),
-      'user' => $user,
+      'display_name' => $user->display_name,
+      'user_login' => $user->user_login,
     ) );
     die;
 }

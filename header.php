@@ -59,7 +59,7 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/"><img src="<?php echo get_template_directory_uri();?>/img/waf.svg" style="height:35px;position:relative;top:-3px;" alt="Kiwi standing on oval"></a>
+          <a class="navbar-brand" href="/"><img src="<?php echo get_template_directory_uri();?>/img/waf.svg" style="height:35px;position:relative;top:-3px;" alt="WAF Logo"></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -83,40 +83,90 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
               global $current_user;
               get_currentuserinfo();
               $link_user_page=$site_url."/member/".$current_user->user_login;
-              echo "<ul class='nav navbar-nav navbar-right'>";
-              echo "<li data-original-title='Sign out' data-toggle='tooltip' ></li>";
-              echo "<li></li>";
               ?>
-              <li class="dropdown">
+              <ul class='nav navbar-nav navbar-right'>
+              <li id='modal-login' style='display:none;' data-original-title='Show modal' data-toggle='tooltip'><a  class='menu-item menu-item-type-post_type menu-item-object-page' data-target="#loginmodal" data-toggle="modal"  href="#" ><i class='fa registration fa-sign-in fa-lg'></i>&nbsp;&nbsp; Sign in</a></li>
+              <li class="dropdown" id="menu-loggedin">
                 <!--<a href='". ."' id='welcome' class=''><i class='fa registration fa-paw fa'></i>&nbsp;&nbsp;".$current_user->user_login ."</a>-->
 
                 <a href="#" class="menu-item menu-item-type-post_type menu-item-object-page dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class='fa registration fa-paw fa'></i>&nbsp;&nbsp; <?php echo $current_user->user_login; ?> <span class="caret"></span></a>
-                <ul class="dropdown-menu" role="menu" >
+                <ul class="dropdown-menu" role="menu" style="color:#0C9AF7 !important;">
                   <li><a href="<?php echo  $link_user_page;?>"><i class='fa fa-user ' ></i>&nbsp;&nbsp;&nbsp;  My account</a></li>
                   <li><a href="<?php echo site_url();?>/members/"><i class='fa fa-users ' ></i>&nbsp;&nbsp; Members list</a></li>
                   <li class="divider"></li>
                   <li  data-original-title='Sign out' data-toggle='tooltip'><a id='logout'  class='' href='#'><i class='fa fa-sign-out ' ></i>&nbsp;&nbsp; Sign out</a></li>
                 </ul>
               </li>
+            </ul>
               <?php
-
-              echo "</ul>";
-
 
             }
             else{
-              echo "<ul class='nav navbar-nav navbar-right'>";
-              echo "<li data-original-title='Sign in' data-toggle='tooltip'><a id='login' class='menu-item menu-item-type-post_type menu-item-object-page' href='".site_url()."/sign-in' ><i class='fa registration fa-sign-in fa-lg'></i>&nbsp;&nbsp; Sign in</a></li>";
+              $link_user_page=$site_url."/member/";
+              ?>
+              <ul class='nav navbar-nav navbar-right'>
+              <li id='modal-login' data-original-title='Show modal' data-toggle='tooltip'><a class='menu-item menu-item-type-post_type menu-item-object-page' data-target="#loginmodal" data-toggle="modal"  href="#" ><i class='fa registration fa-sign-in fa-lg'></i>&nbsp;&nbsp; Sign in</a></li>
+              <li style="display:none;" class="dropdown" id="menu-loggedin">
+                <!--<a href='". ."' id='welcome' class=''><i class='fa registration fa-paw fa'></i>&nbsp;&nbsp;".$current_user->user_login ."</a>-->
 
-
-              echo "</ul>";
+                <a href="#" id="dropdown-button" class="menu-item menu-item-type-post_type menu-item-object-page dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"></a>
+                <ul class="dropdown-menu" role="menu" style="color:#0C9AF7 !important;">
+                  <li><a id="a-userpage" href="<?php echo  $link_user_page;?>"><i class='fa fa-user ' ></i>&nbsp;&nbsp;&nbsp;  My account</a></li>
+                  <li><a href="<?php echo site_url();?>/members/"><i class='fa fa-users ' ></i>&nbsp;&nbsp; Members list</a></li>
+                  <li class="divider"></li>
+                  <li  data-original-title='Sign out' data-toggle='tooltip'><a id='logout'  class='' href='#'><i class='fa fa-sign-out ' ></i>&nbsp;&nbsp; Sign out</a></li>
+                </ul>
+              </li>
+              </ul>
+              <?php
             }
             ?>
-
                 </div>
             </div>
         </div>
     </nav>
+    <?php
+    if (!is_user_logged_in()){
+    ?>
+    <div class="modal fade" id="loginmodal" tabindex="-1" role="dialog" aria-labelledby="loginmodal" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="loginmodal"><img src="<?php echo get_template_directory_uri();?>/img/WAFblack.svg" style="height:35px;position:relative;top:-3px;margin-right:1em" alt="WAF Logo">Sign in with your WAF account</h4>
+            </div>
+            <div class="modal-body">
+              <form class="form-horizontal" id="userdetails">
+                <div class="form-group">
+                  <LABEL class="control-label col-md-4 col-xs-4" for="username">Username</LABEL>
+                  <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="text" id="username"></div>
+                </div>
+                <div class="form-group">
+                    <LABEL class="control-label col-md-4 col-xs-4" for="password">Password</LABEL>
+                    <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="password" id="password"></div>
+                </div>
+              <div class="form-group">
+                <LABEL class="control-label col-md-4 col-xs-4 checkbox">Remember me</label>
+                <div class="col-md-6 col-xs-6"><input type="checkbox" id="rememberme" value="remember-me"></div>
+              </div>
+              <?php wp_nonce_field( 'ajax-login-nonce', 'security' ); ?>
+              </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" id="signin" class="btn btn-primary" data-dismiss="modal">Sign in</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <?php
+  }
+    ?>
+
+
 
 <?php if(is_front_page() ) { ?>
 <!--<div class="banner" style="height:300px;background-image:url('<?php header_image(); ?>');background-size:cover;background-repeat:no-repeat;background-position:50% 50%;"></div>-->
@@ -130,3 +180,4 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
 
 <div class='bg'>
 <main class="container" role="main">
+<p class="login-message"></p>

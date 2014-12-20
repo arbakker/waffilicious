@@ -8,9 +8,7 @@
    $pattern="/http:\/\/.*\/member\/(.*)\//";
    preg_match($pattern,$url,$matches);
    $author=$matches[1];
-
    $user = get_user_by( 'login', $author );
-
    $user_id = $user->ID;
    if  (!current_user_can('edit_user', $user_id )){
      $url= site_url()."/member/".wp_get_current_user()->user_login."/";
@@ -90,11 +88,13 @@ get_header();
                       </tr>
                       <tr>
                         <td>Email</td>
-                        <td><?php echo $user_email; ?></td>
+                        <td><?php echo $user_email; ?><a href="#" data-original-title="Change email address" data-toggle="modal" data-target="#modalEmail" data-toggle="tooltip" type="button" class=" btn btn-default btn-sm pull-right btn-edit-usr"><i class="fa fa-edit"></i></a></td>
+
                       </tr>
                       <tr>
                         <td>Password</td>
-                        <td><?php echo "*********" ?></td>
+                        <td><?php echo "*********" ?><a href="#" data-original-title="Change password" data-toggle="modal" data-target="#modalPassword" data-toggle="tooltip" type="button" class=" btn btn-default btn-sm pull-right btn-edit-usr"><i class="fa fa-edit"></i></a></td>
+
                       </tr>
                     </tbody>
                   </table>
@@ -172,10 +172,69 @@ get_header();
           </button>
           <span>Jay! You have succesfully updated your member details!</span>
         </div>
-
-
       </div>
-<!-- Button trigger modal -->
+
+
+      <div class="modal fade" id="modalPassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title" id="myModalLabel3">Change password</h4>
+            </div>
+            <div class="modal-body">
+              <form class="form-horizontal" id="changePassword">
+                <div class="form-group">
+                  <LABEL class="control-label col-md-4 col-xs-4" for="password-old">Current password</LABEL>
+                  <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="password" id="password-old"></div>
+                </div>
+                <div class="form-group">
+                  <LABEL class="control-label col-md-4 col-xs-4" for="password-new">New password</LABEL>
+                  <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="password-new" id="password-new"></div>
+                </div>
+                <div class="form-group">
+                  <LABEL class="control-label col-md-4 col-xs-4" for="password-new-rep">Repeat new password</LABEL>
+                  <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="password" id="password-new-rep"></div>
+                </div>
+              </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="savePassword" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Button trigger modal -->
+        <div class="modal fade" id="modalEmail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel2">Change email address</h4>
+              </div>
+              <div class="modal-body">
+                <form class="form-horizontal" id="changeEmail">
+                  <div class="form-group">
+                    <LABEL class="control-label col-md-4 col-xs-4" for="email">Email</LABEL>
+                    <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="email" id="email"></div>
+                  </div>
+                  <div class="form-group">
+                    <LABEL class="control-label col-md-4 col-xs-4" for="email-rep">Repeat email</LABEL>
+                    <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="email" id="email-rep"></div>
+                  </div>
+                </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" id="saveEmail" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
 
 
 <!-- Modal -->
@@ -192,15 +251,6 @@ get_header();
             <LABEL class="control-label col-md-4 col-xs-4" for="displayname">Full Name</LABEL>
             <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="text" id="displayname" value="<?php echo $display_name; ?>"></div>
           </div>
-          <!--
-          <div class="form-group">
-            <LABEL class="control-label col-md-4 col-xs-4" for="email">Email</LABEL>
-            <div class="col-md-6 col-xs-6"><INPUT class="form-control" type="email" id="email" value="<?php echo $user_email; ?>"></div>
-          </div>
-          <div class="form-group">
-            <LABEL class="control-label col-md-4 col-xs-4" for="password">Password</LABEL>
-            <div class="col-md-6 col-xs-6"><INPUT class="form-control" type="password" id="password" value="*********"></div>
-          </div>-->
           <div class="form-group">
             <LABEL class="control-label col-md-4 col-xs-4" for="telephone">Telephone number</LABEL>
             <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="text" id="telephone" value="<?php echo $phone_nr;?>"></div>
@@ -265,6 +315,8 @@ get_header();
     </div>
   </div>
 </div>
+
+
 
 
 
