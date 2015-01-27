@@ -65,19 +65,16 @@ $("#submit-details-"+id).click(function(){
             $("#form-details-"+id).val("None");
           }
           }else{
-            alert(data.data.message);
+            $('#danger-message').html('Oops! Something went wrong updating details for event, please try again later.');
+            $('#alert-danger').fadeIn('slow');
           }
         },
         error: function(){
-          alert("Server connection error: could not update details for event, please try again later.");
+          $('#danger-message').html("Server connection error: could not update details for event, please try again later.");
+          $('#alert-danger').fadeIn('slow');
         }
        });
      });
-
-
-
-//#registration-input
-
 
 $("input").tooltip({'trigger':'focus', 'title': 'Optional details for registration'});
 $(".btn-copy-email").tooltip({'trigger':'hover', 'title': 'Copy email addresses to clipboard'});
@@ -109,11 +106,14 @@ $.ajax({
               $("#form-details-"+id).prop('disabled', true);
               $(".reg-details."+id).toggle();
             }else{
-            alert(data.data.message);
+              $('#danger-message').html('Oops! Something went wrong registering for event, please try again later.');
+              $('#alert-danger').fadeIn('slow');
+              //alert(data.data.message);
           }
           },
           error: function(){
-            alert("Server connection error: could not add member to event, please try again later.");
+            $('#danger-message').html("Server connection error: could not register for event, please try again later.");
+            $('#alert-danger').fadeIn('slow');
           }
      });
 });
@@ -145,11 +145,15 @@ jQuery.ajax({
               );
 
           }else{
-              alert(data.data.message);
+            $('#danger-message').html('Oops! Something went wrong unregistering for event, please try again later.');
+            $('#alert-danger').fadeIn('slow');
+            //alert(data.data.message);
           }
        },
        error: function(){
-         alert("Server connection error: could not remove member from event, please try again later.");
+         $('#danger-message').html("Server connection error: could not remove member from event, please try again later.");
+         $('#alert-danger').fadeIn('slow');
+         //alert("Server connection error: could not remove member from event, please try again later.");
        }
      });
 });

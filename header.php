@@ -59,7 +59,7 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/"><img src="<?php echo get_template_directory_uri();?>/img/waf.svg" style="height:35px;position:relative;top:-3px;" alt="WAF Logo"></a>
+          <a class="navbar-brand" href="/"><img id="navbarLogo" src="<?php echo get_template_directory_uri();?>/img/waf.svg" alt="WAF Logo"></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -168,11 +168,7 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
 
 
 
-<?php if(is_front_page() ) { ?>
-<!--<div class="banner" style="height:300px;background-image:url('<?php header_image(); ?>');background-size:cover;background-repeat:no-repeat;background-position:50% 50%;"></div>-->
-<div class="img-holder" data-image="<?php header_image(); ?>" data-width="6211" data-height="4862" data-extra-height="0" ></div>
-<section>
-<?php } ?>
+
 
 
 
@@ -181,3 +177,31 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
 <div class='bg'>
 <main class="container" role="main">
 <p class="login-message"></p>
+
+<div class="alert alert-success" id="alert-success" style="display: none;">
+  <button type="button" onclick="$('.alert').hide();" class="close" >
+    <span aria-hidden="true">&times;</span>
+    <span class="sr-only">Close</span>
+  </button>
+  <div id="success-message">
+  </div>
+</div>
+
+<div class="alert alert-warning" id="alert-warning" style="display: none;">
+  <button type="button" onclick="$('.alert').hide();" class="close" >
+    <span aria-hidden="true">&times;</span>
+    <span class="sr-only">Close</span>
+  </button>
+  <div id="warning-message">
+  </div>
+</div>
+
+
+<div class="alert alert-danger" id="alert-danger" style="display: none;">
+  <button type="button" onclick="$('.alert').hide();" class="close" >
+    <span aria-hidden="true">&times;</span>
+    <span class="sr-only">Close</span>
+  </button>
+  <div id="danger-message">
+  </div>
+</div>

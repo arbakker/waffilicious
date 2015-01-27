@@ -43,27 +43,8 @@ Admin
 
 
 TODO:
-
-  - check if user is admin when unregistering a different user
-  - check if user is admin when registering a different user(s)
-  - forward user to event page after loggin in
+  - Popup dialog for error messages
+  - Front page 1 tournament, 1 activity, 1 news item, want to join?
+  - Change password dialog functional
   - export users to csv (admin page)
   - create forgot password screen
-  - add user details (adress, telephonenr,sportcardnr,dob,membersince,nomemberfrom)
-  - create user detail page
-  - modal login page
-
-
-### User fields
-
-
-- Vegetarian
-- Full name
-- Adress
-- Telephone
-- Email adress
-- WBA ID
-- WUR Registration nr.
-- Institution
-- Food allergies
-- Student/Phd

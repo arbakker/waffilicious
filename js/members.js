@@ -4,9 +4,72 @@ jQuery().ready(function() {
     dateFormat: 'dd-mm-yy',
   });
 
-  //$('#alert_template.close').click(function(e) {
-  //  $("#alert_template span").remove();
-  //});
+  $("#saveEmail").click(function(){
+
+
+    var userinfo = {};
+    userinfo.email=$("#email").val();
+
+
+    if ($("#changeEmail").valid()) {
+
+      if ($("#email").val()===$("#email-rep").val()){
+        var request="";
+        var requestinfo={};
+        for (var key in userinfo){
+          if (userinfo[key]!==window[key])
+            {
+              request+="&"+key+"="+userinfo[key];
+              requestinfo[key]=userinfo[key];
+            }
+          }
+          $.ajax({
+            type: "POST",
+            url: Members.ajaxurl,
+            data: "action=updatememberdetails&member="+currentMemberId+"&memberNonce=" + Members.memberNonce+request,
+            success: function(data){
+              if (data.success) {
+
+                for (var key in requestinfo){
+                  var html="";
+                  if (requestinfo[key]==="true"){
+                    html="Yes";
+                  }else if(requestinfo[key]==="false"){
+                    html="No";
+                  }else{
+                    html=requestinfo[key];
+                  }
+                  $("#"+key+"_display").html(html);
+                }
+                $('#success-message').html('Jay! You have succesfully updated your user details.');
+                $('#alert-success').fadeIn('slow');
+                $("#modalEmail").modal('hide');
+
+
+              }else{
+                $('#danger-message').html('Oops! Something went wrong updating your user details, please try again later.')
+                $('#alert-danger').fadeIn('slow');
+                //alert(data.data.message);
+              }
+            },
+            error: function(){
+              $('#danger-message').html('Server connection error: could not change email address, please try again later.')
+              $('#alert-danger').fadeIn('slow');
+            }
+          });
+      }else{
+
+        $('#warning-message-email').html("Email adresses do not match, please fill in the same email address twice.")
+        $('#alert-warning-email').fadeIn('slow');
+      }
+
+
+
+    }
+
+  });
+
+
 
     $("#save").click(function(){
       var userinfo = {};
@@ -22,28 +85,16 @@ jQuery().ready(function() {
       userinfo.member_type= $("#member_type").val();
       userinfo.dob= $("#dob").val();
 
-
-      if ($(".form-control").valid()) {
-
-
-
-
-
+      if ($(".input-details").valid()) {
       var request="";
       var requestinfo={};
       for (var key in userinfo){
-        // key & userinfo[key]
-        //console.log(key);
-        //console.log(userinfo[key]);
-        //console.log(window[key]);
-
         if (userinfo[key]!==window[key])
           {
             request+="&"+key+"="+userinfo[key];
             requestinfo[key]=userinfo[key];
           }
       }
-
       $.ajax({
         type: "POST",
         url: Members.ajaxurl,
@@ -60,21 +111,19 @@ jQuery().ready(function() {
                 html=requestinfo[key];
               }
               $("#"+key+"_display").html(html);
-
-
-
-
             }
-          //$("#alert_template button").after('<span>Jay! Succesfully updated your user details!</span>');
-          $('#alert_template').fadeIn('slow');
+          $('#success-message').html('Jay! You have succesfully updated your user details.');
+          $('#alert-success').fadeIn('slow');
           $("#myModal").modal('hide');
         }else{
-          alert(data.data.message);
-
+          $('#danger-message').html('Oops! Something went wrong updating your user details, please try again later.')
+          $('#alert-danger').fadeIn('slow');
         }
         },
         error: function(){
-          alert('Server connection error: could not update user details, please try again later.');
+          $('#danger-message').html('Server connection error: could not update user details, please try again later.');
+          $('#alert-danger').fadeIn('slow');
+
         }
       });
     }

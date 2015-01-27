@@ -16,7 +16,7 @@ $query = "SELECT ID, user_nicename from $wpdb->users ORDER BY user_nicename";
 $author_ids = $wpdb->get_results($query);
 ?>
 <div class="row">
-  <table class="table table-members table-striped">
+  <table class="table table-members table-striped loggedin">
     <caption><h4>Members</h4></caption>
     <tbody>
 

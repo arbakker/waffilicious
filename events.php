@@ -62,8 +62,8 @@ $daystodeadline=intval(($deadline - time())/(3600*24));
 $location=get_post_field( 'event-venue', $postID );
 $price=get_post_field( 'price', $postID );
 
-$icon_register='<i class="fa text-right registered  '.$postID.'  fa-check-square-o fa-lg"></i>';
-$icon_unregister='<i class="fa text-right notregistered  '.$postID.' fa-square-o fa-lg "></i>';
+$icon_register='<i class="fa text-right registered loggedin  '.$postID.'  fa-check-square-o fa-lg"></i>';
+$icon_unregister='<i class="fa text-right notregistered loggedin '.$postID.' fa-square-o fa-lg "></i>';
 
 $fulldate=get_event_date_string($start_date,$start_day,$start_month_full,$end_date,$end_day,$end_month_full);
 
@@ -89,8 +89,8 @@ if (! $registered){
             </div>';
   }else{
     if (is_user_logged_in()){
-    $button='<button style="display:none;" class="btn btn-default unregister  topdot5 '.$name.' pull-right" name="'.$name.'">Unregister</button>'.
-            '<div class="input-group  '.$name.'">
+    $button='<button style="display:none;" class="btn btn-default unregister  topdot5 loggedin '.$name.' pull-right" name="'.$name.'">Unregister</button>'.
+            '<div class="input-group  loggedin'.$name.'">
             <input type="text" id="registration-input-'.$name.'" class="form-control">
             <span class="input-group-btn">
             <button class="btn btn-default register '.$name.'" type="button" name="'.$name.'">Register</button>
@@ -106,7 +106,7 @@ if (! $registered){
     $alert_string=waf_alert_string($days,$weeks);
 
 
-    $alert='<div class="alert  alert-success fade in" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+    $alert='<div class="alert  alert-warning fade in" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
             '.    $alert_string .'
             </div>';
   }
@@ -123,8 +123,8 @@ if (! $registered){
     </div>';
   }else{
     $alert="";
-    $button='<button  class="btn btn-default unregister '.$name.' pull-right topdot5" name="'.$name.'" >Unregister</button>'.
-            '<div class="input-group '.$name.'" style="display:none;">
+    $button='<button  class="btn btn-default unregister loggedin '.$name.' pull-right topdot5" name="'.$name.'" >Unregister</button>'.
+            '<div class="input-group loggedin '.$name.'" style="display:none;">
             <input type="text" id="registration-input-'.$name.'" class="form-control">
             <span class="input-group-btn">
             <button class="btn btn-default register '.$name.'" type="button" name="'.$name.'">Register</button>
@@ -189,7 +189,7 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
               <?php
               if (is_user_logged_in()){
                 ?>
-              <li><a href="#people_<?php echo $name; ?>" role="tab" data-toggle="tab">People
+              <li class="loggedin"><a href="#people_<?php echo $name; ?>" role="tab" data-toggle="tab">People
                 <?php
                 echo '<span class="badge '.$name.'">'.$nr_members.'</span>';
                 ?>
@@ -224,16 +224,16 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
                                       class=" reg-details <?php echo " ".$postID;  ?>">
                                       <div class="row">
                                         <div class="col-md-12">
-                                        <div class="btn-group pull-right btn-group-details btn-group-sm">
+                                        <div class="btn-group pull-right btn-group-details btn-group-sm loggedin">
                                           <button type="button" style="display:none;" id="submit-details-<?php echo $postID; ?>" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Update your registration details">Update</button>
                                           <button type="button" style="display:none;" id="cancel-details-<?php echo $postID; ?>" class="btn btn-default">Cancel</button>
                                         </div>
-                                        <button type="button" id="edit-details-<?php echo $postID; ?>" class="btn btn-default btn-sm pull-right btn-edit-details" data-toggle="tooltip" data-placement="left" title="Click to edit your registration details">
+                                        <button type="button" id="edit-details-<?php echo $postID; ?>" class="btn btn-default btn-sm pull-right btn-edit-details loggedin" data-toggle="tooltip" data-placement="left" title="Click to edit your registration details">
                                           <i class="fa fa-pencil-square-o fa-lg"></i>
                                         </button>
                                       </div>
                                       </div>
-                                      <textarea id="form-details-<?php echo $postID; ?>" class="form-control" rows="3" disabled="disabled" data-toggle="tooltip" data-placement="top" title="Edit your registration details"><?php echo  get_post_meta( $postID, 'details', true )["$user_id"];?></textarea>
+                                      <textarea id="form-details-<?php echo $postID; ?>" class="form-control loggedin" rows="3" disabled="disabled" data-toggle="tooltip" data-placement="top" title="Edit your registration details"><?php echo  get_post_meta( $postID, 'details', true )["$user_id"];?></textarea>
                       </div>
                         <?php
                         echo $button;
@@ -247,7 +247,7 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
             if (is_user_logged_in()){
 
             ?>
-            <div class="tab-pane" id="people_<?php echo $name; ?>">
+            <div class="tab-pane loggedin" id="people_<?php echo $name; ?>">
               <table class="table top1 table-striped" >
               <?php
               $all_email="";

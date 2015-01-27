@@ -195,6 +195,10 @@ function updatememberdetails_ajax() {
     if(array_key_exists('dob', $_POST) == TRUE){
       $dob = sanitize_text_field($_POST['dob']);
       update_user_meta( $member, 'dob', $dob );}
+    if(array_key_exists('email', $_POST) == TRUE){
+      $email = sanitize_text_field($_POST['email']);
+      wp_update_user( array( 'ID' => $member,'user_email' => $email ));}
+
 
     $result=true;
     $message = "You have succesfully changed the user info";

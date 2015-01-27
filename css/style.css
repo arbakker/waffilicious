@@ -349,3 +349,103 @@ min-height: 19.5vw;
 input[type='checkbox'], select{
   margin-top:.5em;
 }
+
+#navbarLogo{
+  height: 35px;
+  position: relative;
+  top: -6px;
+  -webkit-transform: rotate(-5deg);
+  -moz-transform: rotate(2deg);
+  -o-transform: rotate(2deg);
+  -ms-transform: rotate(2deg);
+}
+
+.caption {
+  position: relative;
+  overflow: hidden;
+}
+.caption__media {
+  display: block;
+  min-width: 100%;
+  max-width: 100%;
+  height: 20em;
+}
+.caption__overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 10px;
+  color: white;
+  transform: translateY(100%);
+  transition: transform .35s ease-out;
+}
+
+.caption__gradient{
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  min-width: 100%;
+  max-width: 100%;
+  height: 20em;
+  background: -moz-linear-gradient(top,  rgba(76,76,76,0) 65%, rgba(76,76,76,0.17) 72%, rgba(44,44,44,0.53) 87%, rgba(33,33,33,0.85) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(65%,rgba(76,76,76,0)), color-stop(72%,rgba(76,76,76,0.17)), color-stop(87%,rgba(44,44,44,0.53)), color-stop(100%,rgba(33,33,33,0.85))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  rgba(76,76,76,0) 65%,rgba(76,76,76,0.17) 72%,rgba(44,44,44,0.53) 87%,rgba(33,33,33,0.85) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  rgba(76,76,76,0) 65%,rgba(76,76,76,0.17) 72%,rgba(44,44,44,0.53) 87%,rgba(33,33,33,0.85) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  rgba(76,76,76,0) 65%,rgba(76,76,76,0.17) 72%,rgba(44,44,44,0.53) 87%,rgba(33,33,33,0.85) 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  rgba(76,76,76,0) 65%,rgba(76,76,76,0.17) 72%,rgba(44,44,44,0.53) 87%,rgba(33,33,33,0.85) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#004c4c4c', endColorstr='#d9212121',GradientType=0 ); /* IE6-9 */
+
+}
+.caption:hover .caption__overlay {
+  transform: translateY(0);
+}
+.caption:hover .label__overlay{
+  display:none;
+}
+
+.label__overlay{
+  float:right;
+  margin-right:1em;
+  margin-top:1em;
+  background-color: rgba(12,154,247,0.8) ;
+  color:white;
+  padding:.2em;
+}
+
+.caption__overlay__title {
+  margin: 0;
+  padding: 0 0 12px;
+  transform: translateY( calc(-100% - 10px) ); /* +10px overlay padding */
+  transition: transform .35s ease-out;
+}
+.caption:hover .caption__overlay__title {
+  transform: translateY(0);
+}
+
+.caption::before {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: transparent;
+  transition: background .35s ease-out;
+}
+.caption:hover::before {
+  background:rgba(44,44,44,0.35) ;
+
+  /* rgba(0, 0, 0, .5);*/
+}
+
+.row.no-pad {
+  margin-right:0;
+  margin-left:0;
+}
+.row.no-pad > [class*='col-'] {
+  padding-right:0;
+  padding-left:0;
+}

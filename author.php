@@ -160,80 +160,81 @@ get_header();
             </div>
           </div>
         </div>
-
       </div>
 
 
+<div class="modal fade" id="modalPassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel3">Change password</h4>
+      </div>
+      <div class="modal-body">
 
-        <div class="alert alert-success" id="alert_template" style="display: none;">
+        <form class="form-horizontal" id="changePassword">
+          <div class="form-group">
+            <LABEL class="control-label col-md-4 col-xs-4" for="password-old">Current password</LABEL>
+            <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="password" id="password-old"></div>
+          </div>
+          <div class="form-group">
+            <LABEL class="control-label col-md-4 col-xs-4" for="password-new">New password</LABEL>
+            <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="password-new" id="password-new"></div>
+          </div>
+          <div class="form-group">
+            <LABEL class="control-label col-md-4 col-xs-4" for="password-new-rep">Repeat new password</LABEL>
+            <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="password" id="password-new-rep"></div>
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="savePassword" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="modalEmail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel2">Change email address</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="alert alert-warning" id="alert-warning-email" style="display: none;">
           <button type="button" onclick="$('.alert').hide();" class="close" >
             <span aria-hidden="true">&times;</span>
             <span class="sr-only">Close</span>
           </button>
-          <span>Jay! You have succesfully updated your member details!</span>
+          <div id="warning-message-email">
+          </div>
         </div>
+
+        <form class="form-horizontal" id="changeEmail">
+          <div class="form-group">
+            <LABEL class="control-label col-md-4 col-xs-4" for="email">Email</LABEL>
+            <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="email" id="email"></div>
+          </div>
+          <div class="form-group">
+            <LABEL class="control-label col-md-4 col-xs-4" for="email-rep">Repeat email</LABEL>
+            <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="email" id="email-rep"></div>
+          </div>
+        </form>
+
       </div>
-
-
-      <div class="modal fade" id="modalPassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-              <h4 class="modal-title" id="myModalLabel3">Change password</h4>
-            </div>
-            <div class="modal-body">
-              <form class="form-horizontal" id="changePassword">
-                <div class="form-group">
-                  <LABEL class="control-label col-md-4 col-xs-4" for="password-old">Current password</LABEL>
-                  <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="password" id="password-old"></div>
-                </div>
-                <div class="form-group">
-                  <LABEL class="control-label col-md-4 col-xs-4" for="password-new">New password</LABEL>
-                  <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="password-new" id="password-new"></div>
-                </div>
-                <div class="form-group">
-                  <LABEL class="control-label col-md-4 col-xs-4" for="password-new-rep">Repeat new password</LABEL>
-                  <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="password" id="password-new-rep"></div>
-                </div>
-              </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" id="savePassword" class="btn btn-primary">Save changes</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <!-- Button trigger modal -->
-        <div class="modal fade" id="modalEmail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="myModalLabel2">Change email address</h4>
-              </div>
-              <div class="modal-body">
-                <form class="form-horizontal" id="changeEmail">
-                  <div class="form-group">
-                    <LABEL class="control-label col-md-4 col-xs-4" for="email">Email</LABEL>
-                    <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="email" id="email"></div>
-                  </div>
-                  <div class="form-group">
-                    <LABEL class="control-label col-md-4 col-xs-4" for="email-rep">Repeat email</LABEL>
-                    <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="email" id="email-rep"></div>
-                  </div>
-                </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <button type="button" id="saveEmail" class="btn btn-primary">Save changes</button>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="saveEmail" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
@@ -246,32 +247,33 @@ get_header();
         <h4 class="modal-title" id="myModalLabel">Edit: <?php echo $display_name;?></h4>
       </div>
       <div class="modal-body">
+
         <form class="form-horizontal" id="userdetails">
           <div class="form-group">
             <LABEL class="control-label col-md-4 col-xs-4" for="displayname">Full Name</LABEL>
-            <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="text" id="displayname" value="<?php echo $display_name; ?>"></div>
+            <div class="col-md-6 col-xs-6"><INPUT class="required form-control input-details" type="text" id="displayname" value="<?php echo $display_name; ?>"></div>
           </div>
           <div class="form-group">
             <LABEL class="control-label col-md-4 col-xs-4" for="telephone">Telephone number</LABEL>
-            <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="text" id="telephone" value="<?php echo $phone_nr;?>"></div>
+            <div class="col-md-6 col-xs-6"><INPUT class="required form-control input-details" type="text" id="telephone" value="<?php echo $phone_nr;?>"></div>
           </div>
           <div class="form-group">
             <LABEL class="control-label col-md-4 col-xs-4" for="adress">Adress</LABEL>
-            <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="text" id="adress" value="<?php echo $adress;?>"></div>
+            <div class="col-md-6 col-xs-6"><INPUT class="required form-control input-details" type="text" id="adress" value="<?php echo $adress;?>"></div>
           </div>
           <div class="form-group">
             <LABEL class="control-label col-md-4 col-xs-4"  for="dob">Date of birth</LABEL>
             <div class="col-md-6 col-xs-6">
-              <INPUT class="form-control  required widefat" id="dob" type="text" value="<?php echo  $dob; ?>" />
+              <INPUT class="form-control  required input-details" id="dob" type="text" value="<?php echo  $dob; ?>" />
               </div>
             </div>
           <div class="form-group">
             <LABEL class="control-label col-md-4 col-xs-4" for="studentnr">Student number</LABEL>
-            <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="text" id="studentnr" value="<?php echo $studentnr;?>"></div>
+            <div class="col-md-6 col-xs-6"><INPUT class="required form-control input-details" type="text" id="studentnr" value="<?php echo $studentnr;?>"></div>
           </div>
           <div class="form-group">
             <LABEL class="control-label col-md-4 col-xs-4" for="WBA_ID">WBA ID</LABEL>
-            <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="text" id="WBA_ID" value="<?php echo $WBA_ID;?>"></div>
+            <div class="col-md-6 col-xs-6"><INPUT class="required form-control input-details" type="text" id="WBA_ID" value="<?php echo $WBA_ID;?>"></div>
             </div>
                       <div class="form-group">
             <LABEL class="control-label col-md-4 col-xs-4" for="member_type">
@@ -304,7 +306,7 @@ get_header();
           </div>
           <div class="form-group">
             <LABEL class="control-label col-md-4 col-xs-4" for="allergies">Allergies</LABEL>
-            <div class="col-md-6 col-xs-6"><input class="form-control" type="text" id="allergies" value="<?php echo $allergies;?>"></div>
+            <div class="col-md-6 col-xs-6"><input class="form-control  input-details" type="text" id="allergies" value="<?php echo $allergies;?>"></div>
           </div>
       </form
       </div>
