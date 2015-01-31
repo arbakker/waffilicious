@@ -44,17 +44,17 @@ $script="";
 
 $thumbnail=get_the_post_thumbnail( $postID, 'medium' );
 $thumbnail=str_replace( 'class="', 'class="img-thumbnail img-responsive img-event ', $thumbnail );
-$date=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-start-date', $postID ) ), 'F j, Y' );
+$query_start_date= get_post_field( 'event-start-date', $postID );
+$query_end_date= get_post_field( 'event-end-date', $postID );
+$date=get_date_from_gmt( date( 'Y-m-d H:i:s',$query_date ), 'F j, Y' );
 
-$start_day=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-start-date', $postID ) ), 'j' );
-$start_month=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-start-date', $postID ) ), 'M' );
-$start_month_full=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-start-date', $postID ) ), 'F' );
-$end_day=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-end-date', $postID ) ), 'j' );
-$end_month=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-end-date', $postID ) ), 'M' );
-$end_month_full=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-end-date', $postID ) ), 'F' );
+$start_day=get_date_from_gmt( date( 'Y-m-d H:i:s',$query_start_date ), 'j' );
+$start_month=get_date_from_gmt( date( 'Y-m-d H:i:s', $query_start_date ), 'M' );
+$start_month_full=get_date_from_gmt( date( 'Y-m-d H:i:s', $query_start_date ), 'F' );
+$end_day=get_date_from_gmt( date( 'Y-m-d H:i:s',$query_end_date), 'j' );
+$end_month=get_date_from_gmt( date( 'Y-m-d H:i:s', $query_end_date ), 'M' );
+$end_month_full=get_date_from_gmt( date( 'Y-m-d H:i:s', $query_end_date ), 'F' );
 
-$start_date=get_post_field( 'event-start-date', $postID );
-$end_date=get_post_field( 'event-end-date', $postID );
 $sort_date=get_post_field('event-sort-date', $postID);
 $deadline=get_post_field( 'event-deadline', $postID );
 $daystodeadline=intval(($deadline - time())/(3600*24));
@@ -65,7 +65,7 @@ $price=get_post_field( 'price', $postID );
 $icon_register='<i class="fa text-right registered loggedin  '.$postID.'  fa-check-square-o fa-lg"></i>';
 $icon_unregister='<i class="fa text-right notregistered loggedin '.$postID.' fa-square-o fa-lg "></i>';
 
-$fulldate=get_event_date_string($start_date,$start_day,$start_month_full,$end_date,$end_day,$end_month_full);
+$fulldate=get_event_date_string($query_start_date,$start_day,$start_month_full,$query_end_date,$end_day,$end_month_full);
 
 $members = get_post_meta($post->ID, 'members', true);
 $guest_players = get_post_meta($post->ID, 'guest_players', true);
@@ -90,7 +90,7 @@ if (! $registered){
   }else{
     if (is_user_logged_in()){
     $button='<button style="display:none;" class="btn btn-default unregister  topdot5 loggedin '.$name.' pull-right" name="'.$name.'">Unregister</button>'.
-            '<div class="input-group  loggedin'.$name.'">
+            '<div class="input-group  loggedin '.$name.'">
             <input type="text" id="registration-input-'.$name.'" class="form-control">
             <span class="input-group-btn">
             <button class="btn btn-default register '.$name.'" type="button" name="'.$name.'">Register</button>

@@ -23,123 +23,178 @@ get_header(); ?>
 
 <?php if(is_front_page() ) { ?>
 
-
 <div class="row no-pad">
+
+
+  <!-- Show latest news item-->
   <div class="col-md-6">
     <?php
-    $args = array( 'numberposts' => '1', 'tax_query' =>
-              array(
-                'taxonomy' => 'post_format',
-                'field' => 'slug',
-                'terms' => 'post-format-aside',
-                'operator' => 'NOT IN'
-              )
-            ) ;
-  $latest_post = wp_get_recent_posts( $args );
-  foreach( $latest_post as $latest ){
+    $args = array(
+      'posts_per_page'   => 3,
+      'orderby'          => 'post_date',
+      'order'            => 'DESC',
+      'post_type'        => 'post',
+      'post_status'      => 'publish',
+      'suppress_filters' => true );
 
-    $postID=$latest["ID"];
-    $title=$latest["post_title"];
-    if (has_post_thumbnail( $postID )){
-    $image = get_the_post_thumbnail( $postID, 'large' );
-    $pattern="/.*(http:\/\/.*\.jpg).*/";
-    preg_match($pattern,$image,$matches);
-    $url=$matches[1];
-    $length= strlen( $latest["post_excerpt"]);
-    if ($length===0){
-      $excerpt=strip_shortcodes( $latest["post_content"] );
-      $excerpt=wp_trim_words($excerpt, $num_words = 35 );
-    }
-    else{
-      $excerpt=$latest["post_excerpt"];
-    };
+    $latest_posts=get_posts( $args );
 
-    ?>
-    <article class="caption">
-      <div class="caption__media" style="background-image:url('<?php echo  $url;?>');background-size: cover;" />
-        <div class="caption__gradient"/>
-        <h3 class="label__overlay" >News</h3>
-        <div class="caption__overlay">
-          <a href="<?php echo get_permalink($latest["ID"]) ;?>"><h1 class="caption__overlay__title"><?php echo $title;?></h1></a>
-          <p class="caption__overlay__content"> <?php echo $excerpt; ?></p>
-        </div>
-      </article>
-      <?php
-}
-
-  }
-    ?>
-
-
-
-  </div>   <!-- class="col-md-6" -->
-  <div class="col-md-6" >
-    <?php
-    $args_events = array(
-      'numberposts' => 1,
+    $query = array(
       'post_type' => 'event',
-      'order' => 'DESC',
-      'post_status' =>'publish'
-    ) ;
-    $latest_event = wp_get_recent_posts( $args_events);
-
-
-  foreach( $latest_event as $latest ){
-
-    $postID=$latest["ID"];
-    $title=$latest["post_title"];
-    if (has_post_thumbnail( $postID )){
-    $image = get_the_post_thumbnail( $postID, 'large' );
-    $pattern="/.*(http:\/\/.*\.jpg).*/";
-    preg_match($pattern,$image,$matches);
-    $url=$matches[1];
-    $length= strlen( $latest["post_excerpt"]);
-    if ($length===0){
-      $excerpt=strip_shortcodes( $latest["post_content"] );
-      $excerpt=wp_trim_words($excerpt, $num_words = 35 );
+      'orderby' => 'meta_value_num',
+      'meta_key' =>'event-sort-date',
+      'order' => 'ASC',
+    );
+    $events=array();
+    $upcoming_event= wp_get_recent_posts($query);
+    foreach( $upcoming_event as $upcoming ){
+      $postID=$upcoming["ID"];
+      if (get_post_field( 'event-start-date', $postID )>time()){
+          array_push($events,$upcoming);
+      }
     }
-    else{
-      $excerpt=$latest["post_excerpt"];
-    };
 
-
-    $postTypeUrl=get_site_url()."/events/";
-    ?>
-
-
+    function fancy_smancy_item($array,$index){
+      $postID=$array[$index]->ID;
+      $title=get_the_title( $postID );
+      $image = get_the_post_thumbnail( $postID, 'large' );
+      $pattern="/.*(http:\/\/.*\.(?:jpg|png)).*/";
+      preg_match($pattern,$image,$matches);
+      $url=$matches[1];
+      $excerpt=strip_shortcodes($array[$index]->post_content );
+      $excerpt=wp_trim_words($excerpt, $num_words = 35 );
+      ?>
 
       <article class="caption">
-        <div class="caption__media" style="background-image:url('<?php echo  $url;?>');background-size: cover;" />
-        <div class="caption__gradient"/>
-        <h3 class="label__overlay" >Events</h3>
 
-        <div class="caption__overlay">
-          <a href="<?php echo get_permalink($latest["ID"]) ;?>"><h1 class="caption__overlay__title"><?php echo $title;?></h1></a>
-          <p class="caption__overlay__content"> <?php echo $excerpt; ?></p>
-          <a href="<?php echo $postTypeUrl;?>" style="position:absolute;top:15em;right:1em;color:white"><h3>more events</h3></a>
-        </div>
-      </article>
+        <div class="caption__media" style="background-image:url('<?php echo  $url;?>');background-size: cover;background-position:center;" />
+          <div class="caption__gradient"/>
+          <h3 class="label__overlay" ><?php echo "News" ;?></h3>
 
 
+          <div class="caption__overlay">
+            <a href="<?php echo get_permalink($postID) ;?>"><h1 class="caption__overlay__title"><?php echo $title;?></h1></a>
+            <p class="caption__overlay__content"> <?php echo $excerpt; ?></p>
+          </div>
+        </article>
 
+    </div>   <!-- class="col-md-6" -->
 
+      <?php
+    }
 
+    function fancy_smancy_page($object){
+      $postID=$object->ID;
+      $title=get_the_title( $postID );
+      $image = get_the_post_thumbnail( $postID, 'large' );
+      $pattern="/.*(http:\/\/.*\.(?:jpg|png)).*/";
+      preg_match($pattern,$image,$matches);
+      $url=$matches[1];
+      $excerpt=strip_shortcodes($object->post_content );
+      $excerpt=wp_trim_words($excerpt, $num_words = 35 );
+      ?>
+      <article class="caption">
+        <div class="caption__media" style="background-image:url('<?php echo  $url;?>');background-size: cover;background-position:center;" />
+          <div class="caption__gradient"/>
+          <!--<h3 class="label__overlay" ><?php //echo "News" ;?></h3>-->
+          <div class="caption__overlay">
+            <a href="<?php echo get_permalink($postID) ;?>"><h1 class="caption__overlay__title"><?php echo $title;?></h1></a>
+            <p class="caption__overlay__content"> <?php echo $excerpt; ?></p>
+          </div>
+        </article>
+    </div>   <!-- class="col-md-6" -->
 
     <?php
+    }
 
+    function fancy_smancy_event($array,$index){
+      $postID=$array[$index]["ID"];
+      $title=get_the_title( $postID );
+      $image = get_the_post_thumbnail( $postID, 'large' );
+      //echo $image;
+      $pattern="/.*(http:\/\/.*\.(?:jpg|png)).*/";
+      preg_match($pattern,$image,$matches);
+      $url=$matches[1];
+      $excerpt=strip_shortcodes($array[$index]["post_content"] );
+      $excerpt=wp_trim_words($excerpt, $num_words = 35 );
+      ?>
+      <article class="caption">
+        <div class="caption__media" style="background-image:url('<?php echo  $url;?>');background-size: cover;background-position:center;" />
+          <div class="caption__gradient"/>
+          <h3 class="label__overlay" ><?php echo  "Events";?></h3>
+          <div class="caption__overlay">
+            <a href="<?php echo get_permalink($postID) ;?>"><h1 class="caption__overlay__title"><?php echo $title;?></h1></a>
+            <p class="caption__overlay__content"> <?php echo $excerpt; ?></p>
+          </div>
+        </article>
+    </div>   <!-- class="col-md-6" -->
+      <?php
+    }
+
+
+    fancy_smancy_item($latest_posts,0);
+
+    ?>
+
+
+  <!-- Show upcoming event or second latest news item-->
+<div class="col-md-6" >
+<?php
+
+  if (count($events)<2){
+  // Show second last news item
+  fancy_smancy_item($latest_posts,1);
+  }else{
+  // Show upcoming event
+  fancy_smancy_event($events,0);
+  }
+
+function sortFunction( $a, $b ) {
+    return date($a["post_date"]) < date($b["post_date"]);
 }
 
-  }
-  ?>
-
-
-
-</div>   <!-- class="col-md-6" -->
-
+?>
 
 </div>  <!-- class="row" -->
+<div class="row no-pad">
+
+  <!-- Show "waf_frontpagepage" or last added event or third last news item-->
+  <div class="col-md-6">
+    <?php
+    usort($events, "sortFunction");
+    $option=get_option("waf_frontpagepage");
+    if ($option=="0"){
+      if (count($events)<1){
+        fancy_smancy_item($latest_posts,2);
+      }else{
+        fancy_smancy_event($events,0);
+      }
+    }else{
+      $page=get_post($option);
+      fancy_smancy_page($page);
+    }
+     ?>
 
 
+
+
+  <!-- Show "waf_frontpagepage2" or "Contact" page if not configured-->
+  <div class="col-md-6">
+    <?php
+    $option=get_option("waf_frontpagepage2");
+    if ($option=="0"){
+      $page = get_page_by_title( 'Contact' );
+      fancy_smancy_page($page);
+    }else{
+      $page=get_post($option);
+      fancy_smancy_page($page);
+    }
+    ?>
+
+
+
+
+</div>
 
 <!--<div class="row">
   <?php if ( is_active_sidebar( 'home_right_1' ) ) : ?>

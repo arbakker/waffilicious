@@ -57,10 +57,9 @@ h6 {
 footer{
 padding-top: 30px;
 padding-bottom: 30px;
-background-color: #0C9AF7;
+background-color: #8C9093;
 color: #383838  ;
 height: 180px;
-margin-top: 1em;
 }
 
 
@@ -129,7 +128,7 @@ html, body {
 }
 
 body{
-  background-color:#0C9AF7;
+  background-color:#8C9093;
 }
 
 .btn-edit-details, .btn-group-details{
@@ -353,11 +352,11 @@ input[type='checkbox'], select{
 #navbarLogo{
   height: 35px;
   position: relative;
-  top: -6px;
+  top: -4px;
   -webkit-transform: rotate(-5deg);
-  -moz-transform: rotate(2deg);
-  -o-transform: rotate(2deg);
-  -ms-transform: rotate(2deg);
+  -moz-transform: rotate(-5deg);
+  -o-transform: rotate(-5deg);
+  -ms-transform: rotate(-5deg);
 }
 
 .caption {
@@ -448,4 +447,9 @@ input[type='checkbox'], select{
 .row.no-pad > [class*='col-'] {
   padding-right:0;
   padding-left:0;
+}
+
+
+.login-message{
+  margin-bottom:0px;
 }

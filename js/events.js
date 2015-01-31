@@ -8,6 +8,8 @@ jQuery().ready(function() {
   }
   );
 
+  $(".panel.event:first>.panel-collapse").addClass("in");
+
 
 
 
