@@ -171,31 +171,6 @@ get_header();
         <h4 class="modal-title" id="myModalLabel3">Change password</h4>
       </div>
       <div class="modal-body">
-        <div class="alert alert-warning" id="alert-warning-password" style="display: none;">
-          <button type="button" onclick="$('.alert').hide();" class="close" >
-            <span aria-hidden="true">&times;</span>
-            <span class="sr-only">Close</span>
-          </button>
-          <div id="warning-message-password">
-          </div>
-        </div>
-        <div class="alert alert-warning" id="alert-error-password" style="display: none;">
-          <button type="button" onclick="$('.alert').hide();" class="close" >
-            <span aria-hidden="true">&times;</span>
-            <span class="sr-only">Close</span>
-          </button>
-          <div id="error-message-password">
-          </div>
-        </div>
-        <div class="alert alert-warning" id="alert-success-password" style="display: none;">
-          <button type="button" onclick="$('.alert').hide();" class="close" >
-            <span aria-hidden="true">&times;</span>
-            <span class="sr-only">Close</span>
-          </button>
-          <div id="success-message-password">
-          </div>
-        </div>
-
         <form class="form-horizontal" id="changePassword">
           <div class="form-group">
             <LABEL class="control-label col-md-4 col-xs-4" for="password-new">New password</LABEL>
@@ -205,12 +180,21 @@ get_header();
             <LABEL class="control-label col-md-4 col-xs-4" for="password-new-rep">Repeat new password</LABEL>
             <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="password" id="password-new-rep"></div>
           </div>
+
+          <div class="alert alert-danger" id="alert-error-password" style="display: none;">
+            <button type="button" onclick="$('.alert').hide();" class="close" >
+              <span aria-hidden="true">&times;</span>
+              <span class="sr-only">Close</span>
+            </button>
+            <div id="error-message-password">
+            </div>
+          </div>
         </form>
 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" id="savePassword" class="btn btn-primary">Save changes</button>
+        <button type="button" id="savePassword" class="btn btn-primary ladda-button" data-style="expand-left" ><span class="ladda-label">Save changes</span></button>
       </div>
     </div>
   </div>
@@ -227,14 +211,7 @@ get_header();
       </div>
       <div class="modal-body">
 
-        <div class="alert alert-warning" id="alert-warning-email" style="display: none;">
-          <button type="button" onclick="$('.alert').hide();" class="close" >
-            <span aria-hidden="true">&times;</span>
-            <span class="sr-only">Close</span>
-          </button>
-          <div id="warning-message-email">
-          </div>
-        </div>
+
 
         <form class="form-horizontal" id="changeEmail">
           <div class="form-group">
@@ -245,12 +222,20 @@ get_header();
             <LABEL class="control-label col-md-4 col-xs-4" for="email-rep">Repeat email</LABEL>
             <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="email" id="email-rep"></div>
           </div>
+          <div class="alert alert-danger" id="alert-warning-email" style="display: none;">
+            <button type="button" onclick="$('.alert').hide();" class="close" >
+              <span aria-hidden="true">&times;</span>
+              <span class="sr-only">Close</span>
+            </button>
+            <div id="warning-message-email">
+            </div>
+          </div>
         </form>
 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" id="saveEmail" class="btn btn-primary">Save changes</button>
+        <button type="button" id="saveEmail" class="btn btn-primary ladda-button" data-style="expand-left" ><span class="ladda-label">Save changes</span></button>
       </div>
     </div>
   </div>
@@ -328,11 +313,19 @@ get_header();
             <LABEL class="control-label col-md-4 col-xs-4" for="allergies">Allergies</LABEL>
             <div class="col-md-6 col-xs-6"><input class="form-control  input-details" type="text" id="allergies" value="<?php echo $allergies;?>"></div>
           </div>
+          <div class="alert alert-danger" id="alert-warning-details" style="display: none;">
+            <button type="button" onclick="$('.alert').hide();" class="close" >
+              <span aria-hidden="true">&times;</span>
+              <span class="sr-only">Close</span>
+            </button>
+            <div id="warning-message-details">
+            </div>
+          </div>
       </form
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" id="save" class="btn btn-primary">Save changes</button>
+        <button type="button" id="save" class="btn btn-primary ladda-button" data-style="expand-left" ><span class="ladda-label">Save changes</span></button>
       </div>
     </div>
   </div>

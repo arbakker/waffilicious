@@ -37,6 +37,13 @@ function enqueue_scripts() {
     wp_enqueue_script( 'jquery' );
 
     wp_enqueue_script('events.js', get_template_directory_uri() .'/js/events.js');
+
+    // enque ladda scripts (for loading state bootstrap buttons)
+    wp_enqueue_script('spin.min.js', get_template_directory_uri() .'/vendor/spin.min.js');
+    wp_enqueue_script('ladda.min.js', get_template_directory_uri() .'/vendor/ladda.min.js');
+    wp_enqueue_style('ladda-themeless.min.css', get_template_directory_uri() . '/vendor/ladda-themeless.min.css');
+
+
     wp_localize_script('events.js', 'Events', array(
       'ajaxurl' => admin_url( 'admin-ajax.php' ),
       'addmemberNonce' => wp_create_nonce( 'addmember-nonce' ),

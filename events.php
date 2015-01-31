@@ -89,11 +89,11 @@ if (! $registered){
             </div>';
   }else{
     if (is_user_logged_in()){
-    $button='<button style="display:none;" class="btn btn-default unregister  topdot5 loggedin '.$name.' pull-right" name="'.$name.'">Unregister</button>'.
+    $button='<button style="display:none;" class="btn ladda-button btn-default unregister  topdot5 loggedin '.$name.' pull-right" name="'.$name.'" data-style="expand-left" data-spinner-color="#333"><span class="ladda-label">Unregister</span></button>'.
             '<div class="input-group  loggedin '.$name.'">
             <input type="text" id="registration-input-'.$name.'" class="form-control">
             <span class="input-group-btn">
-            <button class="btn btn-default register '.$name.'" type="button" name="'.$name.'">Register</button>
+            <button class="btn ladda-button btn-default register '.$name.'" type="button" data-style="expand-left" data-spinner-color="#333" name="'.$name.'"><span class="ladda-label">Register</span></button>
             </span>
             </div>';
           }else{
@@ -123,11 +123,11 @@ if (! $registered){
     </div>';
   }else{
     $alert="";
-    $button='<button  class="btn btn-default unregister loggedin '.$name.' pull-right topdot5" name="'.$name.'" >Unregister</button>'.
+    $button='<button  class="btn ladda-button btn-default unregister loggedin '.$name.' pull-right topdot5" data-style="expand-left" data-spinner-color="#333" name="'.$name.'" ><span class="ladda-label">Unregister</span></button>'.
             '<div class="input-group loggedin '.$name.'" style="display:none;">
             <input type="text" id="registration-input-'.$name.'" class="form-control">
             <span class="input-group-btn">
-            <button class="btn btn-default register '.$name.'" type="button" name="'.$name.'">Register</button>
+            <button class="btn ladda-button btn-default register '.$name.'" type="button" data-style="expand-left" data-spinner-color="#333"  name="'.$name.'"><span class="ladda-label">Register</span></button>
             </span>
             </div>';
   }
@@ -225,7 +225,9 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
                                       <div class="row">
                                         <div class="col-md-12">
                                         <div class="btn-group pull-right btn-group-details btn-group-sm loggedin">
-                                          <button type="button" style="display:none;" id="submit-details-<?php echo $postID; ?>" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Update your registration details">Update</button>
+
+
+                                          <button type="button" style="display:none;" id="submit-details-<?php echo $postID; ?>" class="btn btn-default ladda-button update-button" data-style="expand-left"  data-spinner-color="#333" data-toggle="tooltip" data-placement="top" title="Update your registration details"><span class="ladda-label">Update</span></button>
                                           <button type="button" style="display:none;" id="cancel-details-<?php echo $postID; ?>" class="btn btn-default">Cancel</button>
                                         </div>
                                         <button type="button" id="edit-details-<?php echo $postID; ?>" class="btn btn-default btn-sm pull-right btn-edit-details loggedin" data-toggle="tooltip" data-placement="left" title="Click to edit your registration details">

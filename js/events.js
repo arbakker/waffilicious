@@ -7,6 +7,9 @@ jQuery().ready(function() {
     $(this).select();
   }
   );
+  $("input").tooltip({'trigger':'focus', 'title': 'Optional details for registration'});
+  $(".btn-copy-email").tooltip({'trigger':'hover', 'title': 'Copy email addresses to clipboard'});
+  $(".update-button").tooltip({'trigger':'hover  click'})
 
   $(".panel.event:first>.panel-collapse").addClass("in");
 
@@ -50,9 +53,12 @@ $("#cancel-details-"+id).click(function(){
   $("#edit-details-"+id).toggle();
 });
 
-$("#submit-details-"+id).click(function(){
+$("#submit-details-"+id).click(function(e){
   var name = $(this).attr("name");
   var details = $('#form-details-'+id).val();
+  e.preventDefault();
+   var l = Ladda.create(this);
+   l.start();
   $.ajax({
          type: "POST",
          url: Events.ajaxurl,
@@ -75,15 +81,19 @@ $("#submit-details-"+id).click(function(){
           $('#danger-message').html("Server connection error: could not update details for event, please try again later.");
           $('#alert-danger').fadeIn('slow');
         }
-       });
+       }).always(function(){
+          l.stop();
+          });
      });
 
-$("input").tooltip({'trigger':'focus', 'title': 'Optional details for registration'});
-$(".btn-copy-email").tooltip({'trigger':'hover', 'title': 'Copy email addresses to clipboard'});
 
-$(selector).click(function() {
+
+$(selector).click(function(e) {
 var name = $(this).attr("name");
 var details = $('#registration-input-'+name).val();
+e.preventDefault();
+ var l = Ladda.create(this);
+ l.start();
 $.ajax({
        type: "POST",
        url: Events.ajaxurl,
@@ -117,11 +127,16 @@ $.ajax({
             $('#danger-message').html("Server connection error: could not register for event, please try again later.");
             $('#alert-danger').fadeIn('slow');
           }
-     });
+     }).always(function(){
+        l.stop();
+        });
 });
 
-$(selector_unregister).click(function() {
-jQuery.ajax({
+$(selector_unregister).click(function(e) {
+  e.preventDefault();
+   var l = Ladda.create(this);
+   l.start();
+$.ajax({
        type: "POST",
        url: Events.ajaxurl,
        data: "action=removemember&id="+id+"&member="+userid+"&removememberNonce=" +Events.removememberNonce,
@@ -157,7 +172,9 @@ jQuery.ajax({
          $('#alert-danger').fadeIn('slow');
          //alert("Server connection error: could not remove member from event, please try again later.");
        }
-     });
+     }).always(function(){
+        l.stop();
+        });
 });
 
 });
