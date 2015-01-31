@@ -198,6 +198,9 @@ function updatememberdetails_ajax() {
     if(array_key_exists('email', $_POST) == TRUE){
       $email = sanitize_text_field($_POST['email']);
       wp_update_user( array( 'ID' => $member,'user_email' => $email ));}
+      if(array_key_exists('password', $_POST) == TRUE){
+        $password = sanitize_text_field($_POST['password']);
+        wp_update_user( array( 'ID' => $member,'user_pass' => $password ));}
 
 
     $result=true;
@@ -224,6 +227,8 @@ function updatememberdetails_ajax() {
       wp_send_json_error($return);
     }
   }
+
+
 
 
 

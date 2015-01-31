@@ -453,3 +453,13 @@ input[type='checkbox'], select{
 .login-message{
   margin-bottom:0px;
 }
+
+.btn-profile{
+  margin-right: .6em;
+
+}
+
+.profile-header{
+
+  margin-left: 2.5em;
+}

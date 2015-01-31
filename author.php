@@ -99,7 +99,7 @@ get_header();
                     </tbody>
                   </table>
                   <table class="table table-user-information">
-                      <caption><h4>Member details <a href="#" data-original-title="Edit this user" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" type="button" class=" btn btn-default btn-sm pull-right btn-edit-usr"><i class="fa fa-edit"></i></a></h4></caption>
+                      <caption><h4 class="profile-header">Member details <a href="#" data-original-title="Edit this user" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" type="button" class=" btn btn-default btn-sm pull-right btn-edit-usr btn-profile"><i class="fa fa-edit"></i></a></h4></caption>
                     <tbody>
 
                       <tr>
@@ -171,15 +171,35 @@ get_header();
         <h4 class="modal-title" id="myModalLabel3">Change password</h4>
       </div>
       <div class="modal-body">
+        <div class="alert alert-warning" id="alert-warning-password" style="display: none;">
+          <button type="button" onclick="$('.alert').hide();" class="close" >
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+          </button>
+          <div id="warning-message-password">
+          </div>
+        </div>
+        <div class="alert alert-warning" id="alert-error-password" style="display: none;">
+          <button type="button" onclick="$('.alert').hide();" class="close" >
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+          </button>
+          <div id="error-message-password">
+          </div>
+        </div>
+        <div class="alert alert-warning" id="alert-success-password" style="display: none;">
+          <button type="button" onclick="$('.alert').hide();" class="close" >
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+          </button>
+          <div id="success-message-password">
+          </div>
+        </div>
 
         <form class="form-horizontal" id="changePassword">
           <div class="form-group">
-            <LABEL class="control-label col-md-4 col-xs-4" for="password-old">Current password</LABEL>
-            <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="password" id="password-old"></div>
-          </div>
-          <div class="form-group">
             <LABEL class="control-label col-md-4 col-xs-4" for="password-new">New password</LABEL>
-            <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="password-new" id="password-new"></div>
+            <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="password" id="password-new"></div>
           </div>
           <div class="form-group">
             <LABEL class="control-label col-md-4 col-xs-4" for="password-new-rep">Repeat new password</LABEL>
