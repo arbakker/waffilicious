@@ -288,7 +288,7 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
               ?>
 
 
-              <a href="#"  data-target="#exampleModal_<?php echo $postID; ?>" data-toggle="modal" type="button" class=" btn btn-default btn-sm pull-right btn-copy-email"><i class="fa fa-clipboard"></i></a>
+              <a href="#"  data-target="#exampleModal_<?php echo $postID; ?>" data-toggle="modal" type="button" class=" btn btn-default btn-sm pull-right btn-copy-email"  id="copy-email-<?php echo $postID; ?>"><i class="fa fa-clipboard"></i></a>
 
 
               <div class="modal" class="exampleModal" id="exampleModal_<?php echo $postID; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

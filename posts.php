@@ -44,9 +44,11 @@ $excerpt=get_the_excerpt();?>
 
 
 <a href="<?php the_permalink() ?>" title="Permanent Link to <?php the_title_attribute(); ?>" class="list-group-item list-group-news ">
+  <div class="image-news">
   <?php
-    echo $image ;?>
 
+    echo $image ;?>
+</div>
 <span>
   <h4 class="list-group-item-heading"><?php  the_title();?></h4>
   <p class="list-group-item-text"><?php echo $excerpt;?></p>

@@ -12,7 +12,7 @@ wp_localize_script( 'my_blog_script', 'ajax_object', $params );
 add_action('wp_ajax_updatemember', 'updatemember_ajax');
 
 function updatemember_ajax() {
-  
+
     $post_id = $_POST['id'];
     $members = get_post_meta($post_id, 'members', true);
     $member = intval($_POST['member']);

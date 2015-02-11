@@ -357,6 +357,7 @@ input[type='checkbox'], select{
   -moz-transform: rotate(-5deg);
   -o-transform: rotate(-5deg);
   -ms-transform: rotate(-5deg);
+  z-index: 1000;
 }
 
 .caption {
@@ -462,4 +463,104 @@ input[type='checkbox'], select{
 .profile-header{
 
   margin-left: 2.5em;
+}
+
+footer a{
+  color:white;
+}
+
+footer .bottom{
+  margin-bottom:2em;
+}
+
+ul.footer{
+  list-style:none;
+  padding-left:0px;
+}
+.navbar>.container{
+  margin-top: 0.5em;
+}
+.navbar{
+height: 4.5em;
+}
+
+.navbar-default .navbar-collapse{
+  border:unset;
+}
+
+.navbar-default {
+  border:unset;
+}
+
+.navbar-collapse{
+  background-color: #0C9AF7;
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus{
+  background-color:white;
+  color:#0C9AF7 !important;
+}
+
+/*.navbar-collapse .collapse .in >.navbar-right  > .open .dropdown > .dropdown-menu li > a {
+  color:white;
+}
+
+.navbar-collapse .collapse .in > .navbar-right > .open .dropdown > .dropdown-menu li > a:hover {
+  color:#0C9AF7 ;
+  background-color:white ;
+}
+*/
+.navbar-nav .open .dropdown-menu > li > a, .navbar-nav .open .dropdown-menu .dropdown-header{
+  color: #0C9AF7 !important;
+  background-color: white  ;
+}
+
+
+
+.navbar-nav .open .dropdown-menu > li > a:hover,.navbar-nav .open .dropdown-menu .dropdown-header:hover{
+  color: white !important;
+  background-color: #0C9AF7 !important ;
+}
+
+.navbar-toggle{
+  padding: 13px 10px;
+  top:-5px;
+}
+
+.navbar-collapse{
+  top: -3px;
+position: relative;
+}
+
+.navbar-fixed-top .navbar-collapse{
+  max-height:400px;
+}
+
+.dropdown-menu{
+  padding-top:0px;
+}
+
+.navbar-default .navbar-nav > li > a:hover{
+  color: #0C9AF7 !important;
+  background-color: white !important ;
+}
+
+.navbar-nav > li > .dropdown-menu {
+  border:unset;
+  border-radius: 4px !important;
+  margin-right: -1px;
+  margin-top:-1px;
+  padding-bottom: 0px;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.image-news {
+  float: left;
+  display: block;
+  overflow: hidden;
+  width: 100px;
+  height: 100px;
 }

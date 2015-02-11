@@ -9,7 +9,7 @@ jQuery().ready(function() {
   );
   $("input").tooltip({'trigger':'focus', 'title': 'Optional details for registration'});
   $(".btn-copy-email").tooltip({'trigger':'hover', 'title': 'Copy email addresses to clipboard'});
-  $(".update-button").tooltip({'trigger':'hover  click'})
+  $(".update-button").tooltip({'trigger':'hover  click'});
 
   $(".panel.event:first>.panel-collapse").addClass("in");
 
@@ -147,12 +147,18 @@ $.ajax({
               {
                 $("#dismiss-"+name).hide();
               });
+
+
               $("button.unregister."+name).toggle();
               $(".input-group."+name).toggle();
               $(".reg-details."+id).toggle();
               var newcount=parseInt($(".badge."+name).text())-1;
               var newbadge= badge.replace("%COUNT%", newcount);
               $(".badge."+name).replaceWith(newbadge);
+              if (newcount===0){
+                $("#copy-email-"+id).remove();
+              }
+
               $("#people_"+name+" "+"table tr").each(function(){
                   var row_user = this.getAttribute("user");
                   if (row_user===userid){

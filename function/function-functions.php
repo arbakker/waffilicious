@@ -361,4 +361,21 @@ function addBackPostFeed() {
   echo '<link rel="alternate" type="application/rss+xml" title="WAF RSS Feed" href="'.get_bloginfo('rss2_url').'" />';
 }
 
+function getFeed($feed_url, $items) {
+    $count=0;
+    $content = file_get_contents($feed_url);
+    $x = new SimpleXmlElement($content);
+
+    echo "<ul style='list-style:none;padding-left:0px;'>";
+
+    foreach($x->channel->item as $entry) {
+        if ($count<$items){
+        echo "<li ><a href='$entry->link' title='$entry->title'>" . $entry->title . "</a></li>";
+        $count++;
+      }
+    }
+    echo "</ul>";
+}
+
+
 ?>
