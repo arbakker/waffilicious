@@ -1,4 +1,4 @@
-<?php
+q<?php
 
 if ( ! function_exists( 'waffilicious_setup' ) ):
 /*
@@ -364,17 +364,24 @@ function addBackPostFeed() {
 function getFeed($feed_url, $items) {
     $count=0;
     $content = file_get_contents($feed_url);
-    $x = new SimpleXmlElement($content);
 
-    echo "<ul style='list-style:none;padding-left:0px;'>";
+    if ($content){
+      $x = new SimpleXmlElement($content);
 
-    foreach($x->channel->item as $entry) {
-        if ($count<$items){
-        echo "<li ><a href='$entry->link' title='$entry->title'>" . $entry->title . "</a></li>";
-        $count++;
+      echo "<ul style='list-style:none;padding-left:0px;'>";
+
+      foreach($x->channel->item as $entry) {
+          if ($count<$items){
+          echo "<li ><a href='$entry->link' title='$entry->title'>" . $entry->title . "</a></li>";
+          $count++;
+        }
       }
-    }
-    echo "</ul>";
+      echo "</ul>";
+  }else{
+    ?>
+    <p>Could not load RSS feed from <a href="<?php echo $feed_url;?>"><?php echo $feed_url;?></a></p>
+    <?php
+  }
 }
 
 
