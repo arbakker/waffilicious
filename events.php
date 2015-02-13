@@ -82,6 +82,7 @@ if (! $registered){
   }else{
     $registered_string=$icon_unregister;
   }
+
   if ($daystodeadline<0){
     $button="";
     $alert='<div class="alert  alert-danger fade in" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
@@ -89,7 +90,7 @@ if (! $registered){
             </div>';
   }else{
     if (is_user_logged_in()){
-    $button='<button style="display:none;" class="btn ladda-button btn-default unregister  topdot5 loggedin '.$name.' pull-right" name="'.$name.'" data-style="expand-left" data-spinner-color="#333"><span class="ladda-label">Unregister</span></button>'.
+    $button='<button style="display:none;" class="btn ladda-button btn-default unregister  topdot5 loggedin '.$name." ".$postID.' pull-right" name="'.$name.'" data-style="expand-left" data-spinner-color="#333"><span class="ladda-label">Unregister</span></button>'.
             '<div class="input-group  loggedin '.$name.'">
             <input type="text" id="registration-input-'.$name.'" class="form-control">
             <span class="input-group-btn">
@@ -123,7 +124,7 @@ if (! $registered){
     </div>';
   }else{
     $alert="";
-    $button='<button  class="btn ladda-button btn-default unregister loggedin '.$name.' pull-right topdot5" data-style="expand-left" data-spinner-color="#333" name="'.$name.'" ><span class="ladda-label">Unregister</span></button>'.
+    $button='<button  class="btn ladda-button btn-default unregister loggedin '.$name." ".$postID.' pull-right topdot5" data-style="expand-left" data-spinner-color="#333" name="'.$name.'" ><span class="ladda-label">Unregister</span></button>'.
             '<div class="input-group loggedin '.$name.'" style="display:none;">
             <input type="text" id="registration-input-'.$name.'" class="form-control">
             <span class="input-group-btn">
@@ -148,7 +149,7 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
           ?>
         </span>
         <a data-toggle="collapse" data-parent="#accordion" href="#<?php echo $postID; ?>">
-          <?php the_title(); ?>
+          <?php the_title();?>
         </a>
         <?php echo $registered_string ;?>
       </h1>
@@ -235,7 +236,7 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
                                         </button>
                                       </div>
                                       </div>
-                                      <textarea id="form-details-<?php echo $postID; ?>" class="form-control loggedin" rows="3" disabled="disabled" data-toggle="tooltip" data-placement="top" title="Edit your registration details"><?php echo  get_post_meta( $postID, 'details', true )["$user_id"];?></textarea>
+                                      <textarea id="form-details-<?php echo $postID; ?>" class="form-control loggedin" rows="3" disabled="disabled" data-toggle="tooltip" data-placement="top" title="Edit your registration details"><?php echo  get_post_meta( $postID, 'members', true )["$user_id"];?></textarea>
                       </div>
                         <?php
                         echo $button;
@@ -266,24 +267,25 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
               }
                   ?>
               </table>
-              <?php
+              <table class="table top1 table-striped" >
 
+              <?php
               if (count($guest_players)>0){
                 ?>
-                <table class="table top1 table-striped" >
+
                   <caption><h4>Guest players</h4></caption>
                   <tbody>
                   <?php
                   foreach ($guest_players as $key => $value){
 
-                    $all_email .= $value.";";
+                    $all_email .= $value[0].";";
 
-                    echo   "<tr><td>".  $key. "</td><td>".  $value ."</td></tr>";
+                    echo   "<tr><td>".  $key. "</td><td>".  $value[0] ."</td></tr>";
                   }
-                  echo "</tbody></table>";
+                  echo "</tbody>";
 
               }
-
+              echo "</table>";
               if ($total_players>0){
               ?>
 

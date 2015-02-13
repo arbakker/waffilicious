@@ -240,7 +240,6 @@ function addmember_ajax() {
     $post_id = $_POST['id'];
     $members = get_post_meta($post_id, 'members', true);
     $member = intval($_POST['member']);
-
     $details = sanitize_text_field($_POST['details']);
 
     // Check if member edits own userdetails or has rights to edit post
@@ -250,8 +249,8 @@ function addmember_ajax() {
 
       $members=waf_add_member($member,$details, $members);
       $result=update_post_meta($post_id,'members',$members);
-
-      $message = "You have succesfully registered user "+strval($member)+" for event "+strval($post_id)+".";
+      $result_check=get_post_meta($post_id, 'members', true);
+      $message = "You have succesfully registered user ". strval($member)." for event ".strval($post_id).".";
     }else{
       $result=false;
       $message="You are not allowed to create, update or delete registrations for other users than yourself for this event.";
@@ -263,6 +262,10 @@ function addmember_ajax() {
 			  'message'	=> $message,
         'nonce' => $nonce,
         'details' => $details,
+        'check'=> $result_check,
+        'postid'=>strval($post_id),
+        'members'=>$members,
+
 	     );
       wp_send_json_success($return);
     }
@@ -340,6 +343,7 @@ function addguest_ajax() {
   $post_id = intval($_POST['id']);
   $guest_player = sanitize_text_field($_POST['guest_player']);
   $guest_email = sanitize_text_field($_POST['guest_email']);
+  $guest_details = sanitize_text_field($_POST['guest_details']);
   $guest_players = get_post_meta($post_id, 'guest_players', true);
   // Check if member edits own userdetails or has rights to edit post
   if (current_user_can('edit_post', $post_id or ! empty($guest_player) ) ){
@@ -349,7 +353,7 @@ function addguest_ajax() {
     if (!$guest_players){
       $guest_players=array();
     }
-    $guest_players[$guest_player]=$guest_email;
+    $guest_players[$guest_player]=[$guest_email,$guest_details];
     $result=update_post_meta($post_id,'guest_players',$guest_players);
   }else{
     if (empty($guest_player)){
@@ -443,8 +447,8 @@ function waf_get_details($member,$post_id){
 }
 
 
-
 function add_registered_members_metabox() {
+  if  (get_post_status($post->ID )=="publish" ){
     add_meta_box(
         'registered-members-event-metabox',
         __( 'Registered members', 'regmem' ),
@@ -461,6 +465,7 @@ function add_registered_members_metabox() {
     'normal',
     'core'
   );
+}
   }
 add_action( 'add_meta_boxes', 'add_registered_members_metabox' );
 
@@ -495,10 +500,10 @@ if (current_user_can('edit_post', $post->ID )){
       $user = get_userdata( $user_id );
 
     echo   "<tr class='user user-".$user_id."' id='".$user_id."'>
-    <td style='border: 1px solid #999;padding: 0.5rem;''>".  $user->user_login. "</td>
-    <td style='border: 1px solid #999;padding: 0.5rem;''>".  $user->user_email ."</td>
-    <td style='border: 1px solid #999;padding: 0.5rem;''>". get_post_meta( $post->ID, 'details', true )["$user_id"]."</td>
-    <td style='border: 1px solid #999;padding: 0.5rem;''>". "<button id='unregister-".$user_id."' style='height: 2.2em;width: 4em;' type='button'>X</button>"."</td>
+    <td style='border: 1px solid #999;padding: 0.5rem;'>".  $user->user_login. "</td>
+    <td style='border: 1px solid #999;padding: 0.5rem;'>".  $user->user_email ."</td>
+    <td style='border: 1px solid #999;padding: 0.5rem;'>". get_post_meta($post->ID, 'members', true)["$user_id"]."</td>
+    <td style='border: 1px solid #999;padding: 0.5rem;'>". "<button id='unregister-".$user_id."' style='height: 2.2em;width: 4em;' type='button'>X</button>"."</td>
     </tr>";
   }
     echo "</tbody></table>";
@@ -513,6 +518,7 @@ function render_guest_players($post ) {
     <tr>
       <th style='border: 1px solid #999;padding: 0.5rem;'>Guest player</th>
       <th style='border: 1px solid #999;padding: 0.5rem;' >Email</th>
+      <th style='border: 1px solid #999;padding: 0.5rem;' >Details</th>
       <th style='border: 1px solid #999;padding: 0.5rem;' >Remove</th>
     </tr></thead>
     <tbody>
@@ -521,7 +527,8 @@ function render_guest_players($post ) {
       ?>
       <tr>
         <td style='border: 1px solid #999;padding: 0.5rem;'><?php echo $key; ?></td>
-        <td style='border: 1px solid #999;padding: 0.5rem;'><?php echo $value; ?></td>
+        <td style='border: 1px solid #999;padding: 0.5rem;'><?php echo $value[0]; ?></td>
+        <td style='border: 1px solid #999;padding: 0.5rem;'><?php echo $value[1]; ?></td>
         <td style='border: 1px solid #999;padding: 0.5rem;'><button class="removeGuest" style='height: 2.2em;width: 4em;' type="button" guest="<?php echo $key;?>">X</button></td>
       </tr>
 
@@ -529,10 +536,12 @@ function render_guest_players($post ) {
     }
 
     ?>
-    <LABEL  style="margin:0.5em;" for="studentnr">Guest player</LABEL>
+    <LABEL  style="margin:0.5em;" for="guest_player">Guest player</LABEL>
     <input   style="margin:0.5em;" type="text" id="guest_player"></input></br>
-    <LABEL  style="margin:0.5em;" for="studentnr">Email guest</LABEL>
+    <LABEL  style="margin:0.5em;" for="guest_email">Email guest</LABEL>
     <input  style="margin:0.5em;" type="email" id="guest_email"></input></br>
+    <LABEL  style="margin:0.5em;" for="guest_details">Details guest</LABEL>
+    <textarea  style="margin:0.5em;"  id="guest_details"></textarea></br>
     <button type="button" style="height:2.2em;margin:0.5em;" id="addGuest">Add guest player</button>
     <?php
 }

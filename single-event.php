@@ -47,7 +47,13 @@ $fulldate=get_event_date_string($start_date,$start_day,$start_month_full,$end_da
 
 $members = get_post_meta($post->ID, 'members', true);
 
-$nr_members = count($members);
+$guest_players = get_post_meta($post->ID, 'guest_players', true);
+
+
+$total_players=count($members)+count($guest_players);
+$nr_members = $total_players;
+
+
 
 
 
@@ -69,7 +75,7 @@ if (!$registered){
   }else{
     if (is_user_logged_in()){
 
-    $button='<button style="display:none;" class="btn btn-default unregister  topdot5 '.$name.' pull-right" name="'.$name.'">Unregister</button>'.
+    $button='<button style="display:none;" class="btn btn-default unregister  topdot5 '.$name." ".$postID.' pull-right" name="'.$name.'">Unregister</button>'.
             '<div class="input-group  '.$name.'">
             <input type="text" id="registration-input-'.$name.'" class="form-control">
             <span class="input-group-btn">
@@ -106,7 +112,7 @@ if (!$registered){
     </div>';
   }else{
     $alert="";
-    $button='<button  class="btn btn-default unregister '.$name.' pull-right topdot5" name="'.$name.'" >Unregister</button>'.
+    $button='<button  class="btn btn-default unregister '.$name." ".$postID.' pull-right topdot5" name="'.$name.'" >Unregister</button>'.
             '<div class="input-group '.$name.'" style="display:none;">
             <input type="text" id="registration-input-'.$name.'" class="form-control">
             <span class="input-group-btn">
@@ -195,7 +201,9 @@ if (!$registered){
                                       <div class="row">
                                         <div class="col-md-12">
                                         <div class="btn-group pull-right btn-group-details btn-group-sm">
-                                          <button type="button" style="display:none;" id="submit-details-<?php echo $postID; ?>" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Update your registration details">Update</button>
+
+
+                                          <button type="button" style="display:none;" id="submit-details-<?php echo $postID; ?>" class="btn btn-default ladda-button update-button" data-style="expand-left"  data-spinner-color="#333" data-toggle="tooltip" data-placement="top" title="Update your registration details"><span class="ladda-label">Update</span></button>
                                           <button type="button" style="display:none;" id="cancel-details-<?php echo $postID; ?>" class="btn btn-default">Cancel</button>
                                         </div>
                                         <button type="button" id="edit-details-<?php echo $postID; ?>" class="btn btn-default btn-sm pull-right btn-edit-details" data-toggle="tooltip" data-placement="left" title="Click to edit your registration details">
@@ -203,7 +211,7 @@ if (!$registered){
                                         </button>
                                       </div>
                                       </div>
-                                      <textarea id="form-details-<?php echo $postID; ?>" class="form-control" rows="3" disabled="disabled" data-toggle="tooltip" data-placement="top" title="Edit your registration details"><?php var_dump($members); echo  $members[$user_id];?></textarea>
+                                      <textarea id="form-details-<?php echo $postID; ?>" class="form-control" rows="3" disabled="disabled" data-toggle="tooltip" data-placement="top" title="Edit your registration details"><?php echo  get_post_meta( $postID, 'details', true )["$user_id"];?></textarea>
                       </div>
                         <?php
                         echo $button;
@@ -221,10 +229,6 @@ if (!$registered){
               <?php
 
                     foreach ($members as $key => $value){
-
-
-
-
                         $user_id=intval($key);
                         $user = get_userdata( $user_id );
                         echo   "<tr user='".$user_id."'><td>".  $user->user_login. "</td><td>".  $user->user_email ."</td></tr>";
@@ -232,6 +236,58 @@ if (!$registered){
                       }
                   ?>
               </table>
+              <?php
+
+              if (count($guest_players)>0){
+                ?>
+                <table class="table top1 table-striped" >
+                  <caption><h4>Guest players</h4></caption>
+                  <tbody>
+                  <?php
+                  foreach ($guest_players as $key => $value){
+
+                    $all_email .= $value[0].";";
+
+                    echo   "<tr><td>".  $key. "</td><td>".  $value[0] ."</td></tr>";
+                  }
+                  echo "</tbody></table>";
+
+              }
+              if ($total_players>0){
+              ?>
+
+
+              <a href="#"  data-target="#exampleModal_<?php echo $postID; ?>" data-toggle="modal" type="button" class=" btn btn-default btn-sm pull-right btn-copy-email"  id="copy-email-<?php echo $postID; ?>"><i class="fa fa-clipboard"></i></a>
+
+
+              <div class="modal" class="exampleModal" id="exampleModal_<?php echo $postID; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                      <h4 class="modal-title" id="exampleModalLabel">Copy email addresses</h4>
+                    </div>
+                    <div class="modal-body">
+                      <form role="form">
+                        <div class="form-group">
+                          <label for="email_addresses_<?php echo $postID; ?>" class="control-label">Email addresses:</label>
+                          <textarea autofocus="autofocus"  class="form-control email_addresses" id="email_addresses_<?php echo $postID; ?>" ><?php echo $all_email; ?></textarea>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <?php
+
+            }
+            ?>
+
+
             </div>
             <?php }
             ?>

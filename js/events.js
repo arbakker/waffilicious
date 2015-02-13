@@ -41,6 +41,7 @@ $("#edit-details-"+id).click(function(){
   if ($("#form-details-"+id).val()==="None"){
     $("#form-details-"+id).val("");
   }
+  $(".unregister."+id).toggle();
   $("#submit-details-"+id).toggle();
   $("#cancel-details-"+id).toggle();
   $("#edit-details-"+id).toggle();
@@ -51,6 +52,10 @@ $("#cancel-details-"+id).click(function(){
   $("#submit-details-"+id).toggle();
   $("#cancel-details-"+id).toggle();
   $("#edit-details-"+id).toggle();
+  $(".unregister."+id).toggle();
+  if ($("#form-details-"+id).val()===""){
+    $("#form-details-"+id).val("None");
+  }
 });
 
 $("#submit-details-"+id).click(function(e){
@@ -69,6 +74,7 @@ $("#submit-details-"+id).click(function(e){
           $("#submit-details-"+id).toggle();
           $("#cancel-details-"+id).toggle();
           $("#edit-details-"+id).toggle();
+          $(".unregister."+id).toggle();
           if ($("#form-details-"+id).val()===""){
             $("#form-details-"+id).val("None");
           }
@@ -112,7 +118,7 @@ $.ajax({
               var newcount=parseInt($(".badge."+name).text())+1;
               var newbadge= badge.replace("%COUNT%", newcount);
               $(".badge."+name).replaceWith(newbadge);
-              $(table_row).appendTo("#people_"+name+" "+"table");
+              $(table_row).appendTo("#people_"+name+" "+"table:first-child");
               $("#form-details-"+id).prop('disabled', false);
               $("#form-details-"+id).val(details);
               $("#form-details-"+id).prop('disabled', true);

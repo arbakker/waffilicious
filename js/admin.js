@@ -126,18 +126,20 @@ jQuery().ready(function() {
       var postid = jQuery("#add-members").attr('postid');
       var guest_email=jQuery("#guest_email").val();
       var guest_player=jQuery("#guest_player").val();
+      var guest_details=jQuery("#guest_details").val();
 
       if (guest_player!==""){
       jQuery.ajax({
         type: "POST",
         url: Admin.ajaxurl,
-        data: "action=addguest&id="+postid+"&guest_player="+guest_player+"&guest_email="+guest_email+"&addguestNonce="+Admin.addguestNonce,
+        data: "action=addguest&id="+postid+"&guest_player="+guest_player+"&guest_email="+guest_email+"&guest_details="+guest_details+"&addguestNonce="+Admin.addguestNonce,
         success: function(data){
           if (data.success){
             var id='_' + Math.random().toString(36).substr(2, 9);
             var row="<tr>\
             <td style='border: 1px solid #999;padding: 0.5rem;'>"+guest_player+"</td>\
             <td style='border: 1px solid #999;padding: 0.5rem;'>"+guest_email+"</td>\
+            <td style='border: 1px solid #999;padding: 0.5rem;'>"+guest_details+"</td>\
             <td style='border: 1px solid #999;padding: 0.5rem;'><button id='"+id+"' style='height: 2.2em;width: 4em;' type='button' guest='"+guest_player+"'>X</button></td>\
             </tr>";
             var el= jQuery("button[guest="+guest_player+"]");
