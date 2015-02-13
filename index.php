@@ -71,11 +71,13 @@ get_header(); ?>
           <div class="caption__gradient"/>
           <h3 class="label__overlay" ><?php echo "News" ;?></h3>
 
-
+          <a class="tile-header" href="<?php echo get_permalink($postID) ;?>"><h1 class=""><?php echo $title;?></h1></a>
+          <a class="tile-header" href="<?php echo get_permalink($postID) ;?>">
           <div class="caption__overlay">
-            <a href="<?php echo get_permalink($postID) ;?>"><h1 class="caption__overlay__title"><?php echo $title;?></h1></a>
+
             <p class="caption__overlay__content"> <?php echo $excerpt; ?></p>
           </div>
+        </a>
         </article>
 
     </div>   <!-- class="col-md-6" -->
@@ -97,10 +99,13 @@ get_header(); ?>
         <div class="caption__media" style="background-image:url('<?php echo  $url;?>');background-size: cover;background-position:center;" />
           <div class="caption__gradient"/>
           <!--<h3 class="label__overlay" ><?php //echo "News" ;?></h3>-->
+          <a class="tile-header" href="<?php echo get_permalink($postID) ;?>"><h1 class=""><?php echo $title;?></h1></a>
+          <a class="tile-header" href="<?php echo get_permalink($postID) ;?>">
           <div class="caption__overlay">
-            <a href="<?php echo get_permalink($postID) ;?>"><h1 class="caption__overlay__title"><?php echo $title;?></h1></a>
+
             <p class="caption__overlay__content"> <?php echo $excerpt; ?></p>
           </div>
+        </a>
         </article>
     </div>   <!-- class="col-md-6" -->
 
@@ -122,10 +127,13 @@ get_header(); ?>
         <div class="caption__media" style="background-image:url('<?php echo  $url;?>');background-size: cover;background-position:center;" />
           <div class="caption__gradient"/>
           <h3 class="label__overlay" ><?php echo  "Events";?></h3>
+          <a class="tile-header" href="<?php echo get_permalink($postID) ;?>"><h1 class=""><?php echo $title;?></h1></a>
+          <a class="tile-header" href="<?php echo get_permalink($postID) ;?>">
           <div class="caption__overlay">
-            <a href="<?php echo get_permalink($postID) ;?>"><h1 class="caption__overlay__title"><?php echo $title;?></h1></a>
+
             <p class="caption__overlay__content"> <?php echo $excerpt; ?></p>
           </div>
+        </a>
         </article>
     </div>   <!-- class="col-md-6" -->
       <?php

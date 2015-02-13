@@ -378,7 +378,7 @@ input[type='checkbox'], select{
   left: 0;
   padding: 10px;
   color: white;
-  transform: translateY(100%);
+  transform: translateX(100%);
   transition: transform .35s ease-out;
 }
 
@@ -418,11 +418,11 @@ input[type='checkbox'], select{
 .caption__overlay__title {
   margin: 0;
   padding: 0 0 12px;
-  transform: translateY( calc(-100% - 10px) ); /* +10px overlay padding */
+  transform: translateX( calc(-100% - 10px) ); /* +10px overlay padding */
   transition: transform .35s ease-out;
 }
 .caption:hover .caption__overlay__title {
-  transform: translateY(0);
+  transform: translateX(0);
 }
 
 .caption::before {
@@ -563,4 +563,10 @@ position: relative;
   overflow: hidden;
   width: 100px;
   height: 100px;
+}
+
+.tile-header{
+  margin-top: 14.5em;
+  float: left;
+  margin-left: 1em;
 }
