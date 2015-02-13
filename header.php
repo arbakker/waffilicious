@@ -82,7 +82,7 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
             if ( is_user_logged_in() ) {
               global $current_user;
               get_currentuserinfo();
-              $link_user_page=$site_url."/member/".$current_user->user_login;
+              $link_user_page=$site_url."/member/".$current_user->user_login.'/';
               ?>
               <ul class='nav navbar-nav navbar-right'>
               <li id='modal-login' style='display:none;' data-original-title='Show modal' data-toggle='tooltip'><a  class='menu-item menu-item-type-post_type menu-item-object-page' data-target="#loginmodal" data-toggle="modal"  href="#" ><i class='fa registration fa-sign-in fa-lg'></i>&nbsp;&nbsp; Sign in</a></li>

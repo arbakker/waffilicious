@@ -19,12 +19,12 @@
   <div class="container " role="content-info">
 
     <div class="row bottom">
-      <div class="col-md-4 col-sm-4 ">
+      <div class="col-md-4 col-sm-4 col-xs-12 ">
         <h3>NFB News</h3>
         <?php echo getFeed("http://www.frisbeesport.nl/web/index.php?option=com_content&view=section&layout=blog&id=1&format=feed&type=rss",5);?>
       </div>
 
-      <div class="col-md-4 col-sm-4">
+      <div class="col-md-4 col-sm-4 col-xs-12 ">
         <h3>WAF News</h3>
         <ul class="footer" >
         <?php
@@ -37,7 +37,7 @@
       </ul>
 
       </div>
-      <div class="col-md-4 col-sm-4  ">
+      <div class="col-md-4 col-sm-4 col-xs-12">
         <h3>Links</h3>
         <ul  class= "footer">
 
