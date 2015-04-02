@@ -71,7 +71,7 @@ get_header(); ?>
           <div class="caption__gradient"/>
           <h3 class="label__overlay" ><?php echo "News" ;?></h3>
 
-          <a class="tile-header" href="<?php echo get_permalink($postID) ;?>"><h1 class=""><?php echo $title;?></h1></a>
+          <a class="tile-header" href="<?php echo get_permalink($postID) ;?>"><h1 class="h1-tile"><?php echo $title;?></h1></a>
           <a class="tile-header" href="<?php echo get_permalink($postID) ;?>">
           <div class="caption__overlay">
 
@@ -99,7 +99,7 @@ get_header(); ?>
         <div class="caption__media" style="background-image:url('<?php echo  $url;?>');background-size: cover;background-position:center;" />
           <div class="caption__gradient"/>
           <!--<h3 class="label__overlay" ><?php //echo "News" ;?></h3>-->
-          <a class="tile-header" href="<?php echo get_permalink($postID) ;?>"><h1 class=""><?php echo $title;?></h1></a>
+          <a class="tile-header" href="<?php echo get_permalink($postID) ;?>"><h1 class="h1-tile"><?php echo $title;?></h1></a>
           <a class="tile-header" href="<?php echo get_permalink($postID) ;?>">
           <div class="caption__overlay">
 
@@ -127,7 +127,7 @@ get_header(); ?>
         <div class="caption__media" style="background-image:url('<?php echo  $url;?>');background-size: cover;background-position:center;" />
           <div class="caption__gradient"/>
           <h3 class="label__overlay" ><?php echo  "Events";?></h3>
-          <a class="tile-header" href="<?php echo get_permalink($postID) ;?>"><h1 class=""><?php echo $title;?></h1></a>
+          <a class="tile-header" href="<?php echo get_permalink($postID) ;?>"><h1 class="h1-tile"><?php echo $title;?></h1></a>
           <a class="tile-header" href="<?php echo get_permalink($postID) ;?>">
           <div class="caption__overlay">
 
@@ -182,10 +182,6 @@ function sortFunction( $a, $b ) {
       fancy_smancy_page($page);
     }
      ?>
-
-
-
-
   <!-- Show "waf_frontpagepage2" or "Contact" page if not configured-->
   <div class="col-md-6">
     <?php
@@ -198,10 +194,6 @@ function sortFunction( $a, $b ) {
       fancy_smancy_page($page);
     }
     ?>
-
-
-
-
 </div>
 
 <!--<div class="row">

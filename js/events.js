@@ -7,9 +7,9 @@ jQuery().ready(function() {
     $(this).select();
   }
   );
-  $("input").tooltip({'trigger':'focus', 'title': 'Optional details for registration'});
-  $(".btn-copy-email").tooltip({'trigger':'hover', 'title': 'Copy email addresses to clipboard'});
-  $(".update-button").tooltip({'trigger':'hover  click'});
+
+
+
 
   $(".panel.event:first>.panel-collapse").addClass("in");
 

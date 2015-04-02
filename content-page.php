@@ -17,9 +17,9 @@
         <div class="col-sm-4 col-md-4">
           <h1 class="single-page-title">
           <?php the_title(); ?>
-
+          <?php edit_post_link( __( '<i class="fa registration fa-edit fa-lg"></i>'), '<span class="edit-link">', '</span>' );?>
         </h1>
-<?php edit_post_link( __( '<i class="fa registration fa-edit fa-lg"></i>'), '<span class="edit-link">', '</span>' );?>
+
             <?php echo $thumbnail; ?>
 
         </div>

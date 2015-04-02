@@ -26,8 +26,6 @@ $the_query = new WP_Query( 'paged=' . $paged );
 echo '<div class="list-group">';
 if( $the_query->have_posts() ) {
 
-
-
   $i = 0;
 
 while ($the_query->have_posts()) : $the_query->the_post();
@@ -53,9 +51,9 @@ $excerpt=get_the_excerpt();?>
   <h4 class="list-group-item-heading"><?php  the_title();?></h4>
   <p class="list-group-item-text"><?php echo $excerpt;?></p>
 </span>
-<span class="badge">
-<?php echo $time; ?>
-</span>
+<div class="label posts">
+  <time itemprop="datePublished" datetime="<?php echo get_the_date('c');?>"><strong><?php echo get_the_date( );?></strong></time>
+</div>
 
 </a>
 

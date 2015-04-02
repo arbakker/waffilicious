@@ -1,67 +1,75 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
       <?php
         $postID=get_the_ID();
-        $thumbnail=get_the_post_thumbnail( $postID, 'medium' );
+        $thumbnail=get_the_post_thumbnail( $postID, 'large' );
         $thumbnail=str_replace( 'class="', 'class="img-thumbnail img-post ', $thumbnail );
       ?>
       <div class="row">
-        <div class="col-sm-4 col-md-4 bottomdot5">
-          <h1 class="single-post-h1">
-          <?php the_title(); ?>
-        </h1>
-        <div class="entry-meta">
-        <?php waf_posted_on(); ?>
-
-        <?php
+        <div class="col-sm-8 col-md-8 col-xs-12 bottomdot5">
 
 
+          <div class="article">
+            <h1>
+              <?php the_title(); ?>
+            </h1>
 
-        ?>
-        <?php edit_post_link( __( '&nbsp;<i class="fa registration fa-edit fa-lg"></i>'), '<span class="edit-link">', '</span>' ); ?>
-      </div>
+            <div class="bottom1">
+              <?php echo $thumbnail; ?>
+            </div>
 
-            <?php echo $thumbnail; ?>
+            <?php
+
+             the_content(); ?>
+          </div>
+          <div class="top2">
+            <div class="inline-flex">
+              <div class="label">
+                <time itemprop="datePublished" datetime="<?php echo get_the_date('c');?>"><strong><?php echo get_the_date( );?></strong></time>
+              </div>
+
+              <div class="label blue left1">
+                <time itemprop="author" ><strong><?php echo " ";the_author(); ?></strong></time>
+              </div>
+
+            </div>
+            <div class="inline-flex">
+              <?php edit_post_link( __( '&nbsp;<i class="fa fa-edit"></i></i>'), '<span class="left1 ">', '</span>' ); ?>
+            </div>
+          </div>
 
         </div>
-      <div class="col-sm-8  col-md-8">
+      <div class="col-sm-4  col-md-4 col-xs-12">
+        <div class="row">
+          <div class="col-sm-12  col-md-12 col-xs-12">
+            <div id="widgetized-area">
 
-        <?php the_content(); ?>
-        <?php //wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', 'minim2' ), 'after' => '</div>' ) ); ?>
+            	<?php if (function_exists('dynamic_sidebar') && dynamic_sidebar('widgetized-area')) : else : ?>
 
+            	<div class="pre-widget">
+            		<p><strong>Widgetized Area</strong></p>
+            		<p>This panel is active and ready for you to add some widgets via the WP Admin</p>
+            	</div>
 
+            	<?php endif; ?>
+
+            </div>
+          </div>
+      </div>
+      <div clas="row">
+        <div class="col-sm-12  col-md-12 col-xs-12" style="padding:0px;">
+          <div id="widgetized-area2">
+
+            <?php if (function_exists('dynamic_sidebar') && dynamic_sidebar('widgetized-area2')) : else : ?>
+
+          
+
+            <?php endif; ?>
+
+          </div>
+        </div>
+      </div>
 
       </div>
     </div>
 
-</article><!-- #post-<?php the_ID(); ?> -->
-
-
-
-
-<!--
-
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-  <header class="entry-header">
-      <h1 class="entry-title"><?php the_title(); ?></h1>
-
-
-  </header>
-
-  <div class="entry-content">
-      <?php the_content(); ?>
-      <?php wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', 'minim2' ), 'after' => '</div>' ) ); ?>
-  </div>
-
-
-  <div class="entry-meta">
-
-    <?php waf_posted_on(); ?>
-
-    <?php
-
-  echo " in " . custom_taxonomies_terms_links();
-
-    ?>
-    <?php edit_post_link( __( '<i class="fa registration fa-edit fa-2x"></i>'), '<span class="edit-link">', '</span>' ); ?>
-  </div>
 </article><!-- #post-<?php the_ID(); ?> -->

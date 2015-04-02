@@ -1,0 +1,19 @@
+a .menu-item{
+
+height: 100%;
+padding-top: 21px;
+}
+
+.navbar-nav{
+height: 100%;
+margin-top: -6px;
+}
+
+.navbar-collapse .collapse{
+height: 59px !important;
+margin-top: -6px;
+}
+
+.navbar > .container{
+margin-top: 0.9em;
+}

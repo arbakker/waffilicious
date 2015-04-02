@@ -1,4 +1,4 @@
-q<?php
+<?php
 
 if ( ! function_exists( 'waffilicious_setup' ) ):
 /*
@@ -33,6 +33,7 @@ function waffilicious_setup() {
     //add_theme_support( 'custom-background', $args );
     add_theme_support( 'post-thumbnails' );
     add_theme_support( 'menus' );
+    add_image_size( 'single-image', 568, 378, false );
 
 }
 endif; // waffilicious_setup
@@ -56,6 +57,7 @@ add_filter( 'edit_post_link', 'edit_post_link_title_attribute' );
 function edit_post_link_title_attribute( $link ) {
 $type =  get_post_type( get_the_ID() );
 $link = str_replace( '">', '" title="Edit this '.$type.'">', $link);
+$link = str_replace( 'post-edit-link', 'post-edit-link btn btn-default', $link);
 return $link;
 }
 
@@ -74,6 +76,9 @@ function waf_posted_on() {
     );
 }
 endif;
+
+
+
 
 /**
  * Returns true if a blog has more than 1 category
@@ -232,7 +237,7 @@ function breezer_addDivToImage( $content ) {
    // A regular expression of what to look for.
    $pattern = '/(<img([^>]*)>)/i';
    // What to replace it with. $1 refers to the content in the first 'capture group', in parentheses above
-   $replacement = '<div class="col-s-3"><div class="media">$1</div></div>';
+   $replacement = '<div class="img-responsive">$1</div>';
    $pattern2 = '/(align*)/i';
    $content=preg_replace($pattern2, "", $content);
    // run preg_replace() on the $content
@@ -319,22 +324,30 @@ function news_pagination($page, $max_num, $the_query){
   }
 }
 
-/**
- * Register our sidebars and widgetized areas.
- *
- */
-function arphabet_widgets_init() {
+if (function_exists('register_sidebar')) {
 
-	register_sidebar( array(
-		'name' => 'Home right sidebar',
-		'id' => 'home_right_1',
-		'before_widget' => '<div>',
-		'after_widget' => '</div>',
-		'before_title' => '<h2 class="rounded">',
-		'after_title' => '</h2>',
-	) );
+	register_sidebar(array(
+		'name' => 'Widgetized Area',
+		'id'   => 'widgetized-area',
+		'description'   => 'This is a widget area on the single news item page.',
+		'before_widget' => '<div id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</div>',
+		'before_title'  => '<h4>',
+		'after_title'   => '</h4>'
+	));
 }
-add_action( 'widgets_init', 'arphabet_widgets_init' );
+
+if (function_exists('register_sidebar')) {
+register_sidebar(array(
+  'name' => 'Widgetized Area 2',
+  'id'   => 'widgetized-area2',
+  'description'   => 'This is a widget area on the single news item page.',
+  'before_widget' => '<div id="%1$s" class="widget %2$s">',
+  'after_widget'  => '</div>',
+  'before_title'  => '<h4>',
+  'after_title'   => '</h4>'
+));
+}
 
 add_action( 'admin_footer', 'catlist2radio' );
 function catlist2radio(){
@@ -379,10 +392,74 @@ function getFeed($feed_url, $items) {
       echo "</ul>";
   }else{
     ?>
-    <p>Could not load RSS feed from <a href="<?php echo $feed_url;?>"><?php echo $feed_url;?></a></p>
+    <p class="break-all">Could not load RSS feed from <a href="<?php echo $feed_url;?>"><?php echo $feed_url;?></a></p>
     <?php
   }
 }
 
+function myFeedFilter($query)
+{
+        // Check if we are requesting a feed.
+        if ($query->is_feed)
+        {
+                // If a Feed do we have the post_type URL parameter (query_string)?
+                if (isset($_GET['post_type']))
+                {
+                        // Convert the post_type URL parameter to an array. Then set the query post_type value to that array
+                        $post_types = explode(',', $_GET['post_type']);
+                        //var_dump($post_types);
+                        $query->set('post_type', $post_types);
+                }
+        }
+        return $query;
+}
+add_filter('pre_get_posts','myFeedFilter');
+
+function div_wrapper($content) {
+    // match any iframes
+    $pattern = '~<iframe.*</iframe>|<embed.*</embed>~';
+    preg_match_all($pattern, $content, $matches);
+
+    foreach ($matches[0] as $match) {
+        // wrap matched iframe with div
+        $wrappedframe = '<div class="embed-responsive embed-responsive-16by9">' . $match . '</div>';
+
+        //replace original iframe with new in content
+        $content = str_replace($match, $wrappedframe, $content);
+    }
+
+    return $content;
+}
+add_filter('the_content', 'div_wrapper');
+
+function add_responsive_class($content){
+
+        $content = mb_convert_encoding($content, 'HTML-ENTITIES', "UTF-8");
+        $document = new DOMDocument();
+        libxml_use_internal_errors(true);
+        $document->loadHTML(utf8_decode($content));
+
+        $imgs = $document->getElementsByTagName('img');
+        foreach ($imgs as $img) {
+           $img->setAttribute('class','img-responsive');
+        }
+
+        $html = $document->saveHTML();
+        return $html;
+}
+add_filter        ('the_content', 'add_responsive_class');
+
+
+
+// custom admin login logo
+function custom_login_logo() {
+	echo '<style type="text/css">
+	h1 a { background-image: url('.get_bloginfo('template_directory').'/img/header_passwordreset.png) !important;height: 200px !important;width: 200px !important;background-size: 200px !important; }
+  .wp-core-ui .button-primary{background:#0C9AF7 !important;}
+  .login .message{  border-left: 4px solid #0C9AF7 !important; }
+  input[type=checkbox]:checked:before {color:#0C9AF7 !important};
+	</style>';
+}
+add_action('login_head', 'custom_login_logo');
 
 ?>

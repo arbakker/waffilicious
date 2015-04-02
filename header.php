@@ -59,7 +59,9 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/"><img id="navbarLogo" src="<?php echo get_template_directory_uri();?>/img/waf.svg" alt="WAF Logo"></a>
+          <a class="navbar-brand" href="/"><?php echo '<?xml version="1.0" encoding="utf-8"?>';?>
+          <?php include("img/waf.svg"); ?>
+          </a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -148,11 +150,24 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
                 <LABEL class="control-label col-md-4 col-xs-4 checkbox">Remember me</label>
                 <div class="col-md-6 col-xs-6"><input type="checkbox" id="rememberme" value="remember-me"></div>
               </div>
+              <div class="alert alert-danger" id="alert-danger-modal" style="display: none;">
+                <button type="button" onclick="$('.alert').hide();" class="close" >
+                  <span aria-hidden="true">&times;</span>
+                  <span class="sr-only">Close</span>
+                </button>
+                <div id="danger-message-modal">
+                </div>
+              </div>
               <?php wp_nonce_field( 'ajax-login-nonce', 'security' ); ?>
               </div>
                 <div class="modal-footer">
+
+
+
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <button type="button" id="signin" class="btn btn-primary" data-dismiss="modal">Sign in</button>
+
+
+                  <button class="btn ladda-button btn-primary register" id="signin" type="button" data-style="expand-left" data-spinner-color="#333"><span class="ladda-label">Sign in</span></button>
                 </div>
               </form>
             </div>
@@ -175,7 +190,6 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
 
 <div class='bg'>
 <main class="container" role="main">
-<p class="login-message"></p>
 
 <div class="alert alert-success" id="alert-success" style="display: none;">
   <button type="button" onclick="$('.alert').hide();" class="close" >
@@ -202,5 +216,5 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
     <span class="sr-only">Close</span>
   </button>
   <div id="danger-message">
-  </div>
+</div>
 </div>

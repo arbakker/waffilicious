@@ -18,7 +18,14 @@
   $mod3=$nr_posts % 3;
   $bool4=boolval($mod4===0);
   $bool3=boolval($mod3===0);
+  if ($nr_posts==0){
+    ?>
+    <h1>There is nothing here</h1>
+    <p>There are no products in the shop.</p>
+    <?php
+  }
    ?>
+
 
   <?php while ( have_posts() ) : the_post();
       ?>
@@ -28,7 +35,7 @@
 
               <div class="caption">
                   <h4 class="group inner list-group-item-heading">
-                      <?php echo get_the_title( ) ;?></h4>
+                      <?php get_the_title( ) ;?>  </h4>
                       <div class="img-wrapper product">
                   <img class="group list-group-image img-rounded img-responsive" src="<?php echo wp_get_attachment_image_src( get_post_thumbnail_id( ), 'medium' )[0]; ?>" alt="" />
                 </div>
@@ -40,7 +47,7 @@
                             <i class="fa fa-euro fa"></i><?php  echo get_post_meta($post->ID, 'price', true); ?></p>
                       </div>
                       <div class="col-xs-12 col-md-6">
-                          <a class="btn btn-success" href="#">Add to cart</a>
+                          <a class="btn btn-success" href="#">Add to cart</a>   <?php edit_post_link( __( '&nbsp;<i class="fa fa-edit"></i></i>'), '<span class="left1 ">', '</span>' ); ?>
                       </div>
                   </div>
               </div>
