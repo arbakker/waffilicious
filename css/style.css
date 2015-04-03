@@ -810,6 +810,10 @@ a:hover{
 .h1-tile{
   color:white;
   text-shadow: 1px 1px 1px #000;
+  position: absolute;
+bottom: 0px;
+margin-left: .5em;
+margin-right: .5em;
 }
 .label__overlay{
   color:white;
@@ -836,4 +840,11 @@ a:hover{
 
 .list-group-item:hover{
   color:black !important;
+}
+
+
+.panel-info>.panel-heading {
+  color: #0C9AF7;
+  background-color: #c0e5fd;
+  border-color: #49b3f9;
 }
