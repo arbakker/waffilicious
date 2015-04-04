@@ -472,7 +472,7 @@ function catch_that_image($postid) {
   $first_img = $matches[1][0];
 
   if(empty($first_img)) {
-    $first_img = "/path/to/default.png";
+    $first_img = get_bloginfo('template_directory').'/img/default.png';
   }
   return $first_img;
 }

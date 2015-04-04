@@ -16,8 +16,17 @@ $query = "SELECT ID, user_nicename from $wpdb->users ORDER BY user_nicename";
 $author_ids = $wpdb->get_results($query);
 ?>
 <div class="row">
-  <table class="table table-members table-striped loggedin">
-    <caption><h4>Members</h4></caption>
+  <div class="table-responsive">
+  <table class="table table-members table-hover table-striped loggedin" >
+    <thead>
+   <tr>
+       <th>Name</th>
+       <th>Email address</th>
+       <th>Address</th>
+       <th>Telephone nr.</th>
+   </tr>
+   </thead>
+
     <tbody>
 
 <?php
@@ -45,10 +54,10 @@ foreach($author_ids as $author){
            echo $display_name;
         }
         ?>
-        <td>
-      <td><a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a><td>
-        <td><?php echo $adress; ?><td>
-          <td><?php echo $telephone; ?><td>
+      </td>
+      <td><a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a></td>
+        <td><?php echo $adress; ?></td>
+          <td><?php echo $telephone; ?></td>
     </tr>
 
     <?php
@@ -57,6 +66,7 @@ foreach($author_ids as $author){
 ?>
 </tbody>
 </table>
+</div>
 </div>
 </main>
 <?php

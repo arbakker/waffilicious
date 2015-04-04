@@ -109,7 +109,18 @@ if ( !defined('ABSPATH') )
 
 
         $image = get_the_post_thumbnail( $post->ID, 'thumbnail' );
-        $image= str_replace('class="','class="img-responsive img-rounded overflow-hidden ',$image);
+				$pattern="/.*(http:\/\/.*\.(?:jpg|png)).*/";
+				preg_match($pattern,$image,$matches);
+
+				if (!$image){
+	        $url=catch_that_image($postID );
+	      }else{
+	        $url=$matches[1];
+	      }
+
+        $image= "<img src='".$url."' class='img-responsive img-rounded overflow-hidden'>";
+
+
 
 				if ($first_post->ID==$post->ID){
 					echo '<li class="list-group-item ">';

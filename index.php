@@ -62,7 +62,6 @@ get_header(); ?>
 
       if (!$image){
         $url=catch_that_image($postID );
-        var_dump($url);
       }else{
         $url=$matches[1];
       }
