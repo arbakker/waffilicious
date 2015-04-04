@@ -15,6 +15,14 @@
    sodipodi:docname="waf.svg">
   <defs
      id="defs9867" />
+     <filter id="dropshadow" height="130%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="2" dy="2" result="offsetblur"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"

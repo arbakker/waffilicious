@@ -27,7 +27,7 @@ get_header(); ?>
 
 
   <!-- Show latest news item-->
-  <div class="col-md-6">
+  <div class="col-md-6 col-sm-6">
     <?php
     $args = array(
       'posts_per_page'   => 3,
@@ -146,7 +146,7 @@ get_header(); ?>
 
 
   <!-- Show upcoming event or second latest news item-->
-<div class="col-md-6" >
+<div class="col-md-6 col-sm-6" >
 <?php
 
   if (count($events)<2){
@@ -167,7 +167,7 @@ function sortFunction( $a, $b ) {
 <div class="row no-pad">
 
   <!-- Show "waf_frontpagepage" or last added event or third last news item-->
-  <div class="col-md-6">
+  <div class="col-md-6 col-sm-6">
     <?php
     usort($events, "sortFunction");
     $option=get_option("waf_frontpagepage");
@@ -183,7 +183,7 @@ function sortFunction( $a, $b ) {
     }
      ?>
   <!-- Show "waf_frontpagepage2" or "Contact" page if not configured-->
-  <div class="col-md-6">
+  <div class="col-md-6 col-sm-6">
     <?php
     $option=get_option("waf_frontpagepage2");
     if ($option=="0"){

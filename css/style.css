@@ -690,11 +690,11 @@ transition: 200ms;
 }
 
 a #svg9865:hover #path3426{
-  fill: white  !important;
+
 }
 
 a #svg9865:hover #path4052-0{
-  fill: none  !important;
+  filter: url(#dropshadow);
 }
 
 
