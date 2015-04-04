@@ -115,6 +115,10 @@ function waf_wp_head(){
     echo 'body{ padding-top: 36px !important; }'.PHP_EOL;
     echo 'body.logged-in .navbar{ top: 28px !important; }'.PHP_EOL;
     echo '}' . PHP_EOL;
+    echo '@media screen and (max-width: 782px) {'.PHP_EOL;
+    echo 'body{ padding-top: 46px !important; }'.PHP_EOL;
+    echo 'body.logged-in .navbar{ top: 46px !important; }'.PHP_EOL;
+    echo '}' . PHP_EOL;
     echo '</style>'.PHP_EOL;
 }
 add_action('wp_head', 'waf_wp_head');

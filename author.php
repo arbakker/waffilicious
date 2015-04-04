@@ -70,7 +70,7 @@ get_header();
       <div class="row">
 
         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xlg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-2 col-lg-offset-2 col-xlg-offset-3 toppad" >
-              <div class="panel panel-info">
+              <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title"><?php echo $display_name;?></h3>
 
@@ -168,7 +168,7 @@ get_header();
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel3">Change password</h4>
+        <h4 class="modal-title" id="myModalLabel3"><img src="<?php echo get_template_directory_uri();?>/img/modal-header.png" style="height:35px;position:relative;top:-3px;margin-right:1em" alt="WAF Logo">Change password</h4>
       </div>
       <div class="modal-body">
         <form class="form-horizontal" id="changePassword">
@@ -207,7 +207,7 @@ get_header();
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel2">Change email address</h4>
+        <h4 class="modal-title" id="myModalLabel2"><img src="<?php echo get_template_directory_uri();?>/img/modal-header.png" style="height:35px;position:relative;top:-3px;margin-right:1em" alt="WAF Logo">Change email address</h4>
       </div>
       <div class="modal-body">
 
@@ -249,7 +249,7 @@ get_header();
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">Edit: <?php echo $display_name;?></h4>
+        <h4 class="modal-title" id="myModalLabel"><img src="<?php echo get_template_directory_uri();?>/img/modal-header.png" style="height:35px;position:relative;top:-3px;margin-right:1em" alt="WAF Logo">Edit: <?php echo $display_name;?></h4>
       </div>
       <div class="modal-body">
 

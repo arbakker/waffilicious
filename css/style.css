@@ -520,6 +520,7 @@ height: 4.5em;
 
 .navbar-collapse{
   background-color: #0C9AF7;
+
 }
 
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus{
@@ -553,7 +554,7 @@ position: relative;
 }
 
 .navbar-fixed-top .navbar-collapse{
-  max-height:400px;
+  max-height:500px;
 }
 
 .dropdown-menu{
@@ -673,31 +674,30 @@ a #Laag_1:hover #circle3071,a svg:hover #path4019{
 
 
 a #Laag_1{
-transition: 200ms;
+transition: 1000ms;
  transition-timing-function: ease-in-out;
- -webkit-transition: 200ms;
+ -webkit-transition: 1000ms;
  -webkit-transition-timing-function: ease-in-out;
 }
 
 
-#svg9865{
+#svg-logo-navbar{
   z-index:10;
-  top: -.8em;
+  top: -.85em;
   position: relative;
-  -ms-transform: rotate(7deg); /* IE 9 */
-    -webkit-transform: rotate(7deg); /* Chrome, Safari, Opera */
-    transform: rotate(-2deg);
+  /*-ms-transform: rotate(7deg); /* IE 9 */
+  /*  -webkit-transform: rotate(7deg); /* Chrome, Safari, Opera */
+  /*    transform: rotate(-2deg);*/
 
 }
 
-a #svg9865:hover #path3426{
-
+a #svg-logo-navbar:hover #rect5117{
+  fill: white !important;
 }
 
-a #svg9865:hover #path4052-0{
-  filter: url(#dropshadow);
+a #svg-logo-navbar:hover #path4050{
+  fill:#0C9AF7 !important;
 }
-
 
 .label{
   position: relative;
@@ -860,7 +860,7 @@ margin-right: .5em;
   font-family: "Oswald", serif;
 }
 
-.panel-heading:hover{
+.event>.panel-heading:hover{
   background-color:#eee;
   cursor: pointer;
 }
@@ -875,4 +875,8 @@ footer a:hover{
 
 .label.event{
   background-color:#00AA58;
+}
+
+.modal-title{
+  color:#0C9AF7;
 }

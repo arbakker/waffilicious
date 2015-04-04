@@ -454,7 +454,7 @@ add_filter        ('the_content', 'add_responsive_class');
 // custom admin login logo
 function custom_login_logo() {
 	echo '<style type="text/css">
-	h1 a { background-image: url('.get_bloginfo('template_directory').'/img/header_passwordreset.png) !important;height: 200px !important;width: 200px !important;background-size: 200px !important; }
+	h1 a { background-image: url('.get_bloginfo('template_directory').'/img/forgot-password.png) !important;height: 200px !important;width: 200px !important;background-size: 200px !important; }
   .wp-core-ui .button-primary{background:#0C9AF7 !important;}
   .login .message{  border-left: 4px solid #0C9AF7 !important; }
   input[type=checkbox]:checked:before {color:#0C9AF7 !important};

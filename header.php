@@ -80,8 +80,8 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/"><?php echo '<?xml version="1.0" encoding="utf-8"?>';?>
-          <?php include("img/waf.svg"); ?>
+          <a class="navbar-brand"   href="/"><?php echo '<?xml version="1.0" encoding="utf-8"?>';?>
+          <?php include("img/logo-navbar.svg"); ?>
           </a>
         </div>
         <div class="navbar-collapse collapse">
@@ -155,7 +155,7 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <h4 class="modal-title" id="loginmodal"><img src="<?php echo get_template_directory_uri();?>/img/WAFblack.svg" style="height:35px;position:relative;top:-3px;margin-right:1em" alt="WAF Logo">Sign in with your WAF account</h4>
+            <h4 class="modal-title" id="loginmodal"><img src="<?php echo get_template_directory_uri();?>/img/modal-header.png" style="height:35px;position:relative;top:-3px;margin-right:1em" alt="WAF Logo">Sign in with your WAF account</h4>
             </div>
             <div class="modal-body">
               <form class="form-horizontal" id="userdetails">
@@ -169,8 +169,15 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
                 </div>
               <div class="form-group">
                 <LABEL class="control-label col-md-4 col-xs-4 checkbox">Remember me</label>
-                <div class="col-md-6 col-xs-6"><input type="checkbox" id="rememberme" value="remember-me"></div>
+
+                <div class="col-md-6 col-xs-6">
+                  <input type="checkbox" id="rememberme" value="remember-me">
+                  <a style="float:right;" href=" <?php echo wp_lostpassword_url( $redirect ); ?>">Lost password?</a>
+                  </div>
+
+
               </div>
+
               <div class="alert alert-danger" id="alert-danger-modal" style="display: none;">
                 <button type="button" onclick="$('.alert').hide();" class="close" >
                   <span aria-hidden="true">&times;</span>
