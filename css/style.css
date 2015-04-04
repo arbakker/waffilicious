@@ -135,7 +135,7 @@ SECTION: events.php
 }
 
 .registered{
-  color: #5CB85C;
+  color: #00AA58;
 }
 
 .btn .unregister{
@@ -867,4 +867,12 @@ margin-right: .5em;
 
 footer a:hover{
   color: #FF8E00;
+}
+
+.panel-heading>.label{
+  top: -3px;
+}
+
+.label.event{
+  background-color:#00AA58;
 }

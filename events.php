@@ -153,7 +153,7 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
   ?>
   <div class="panel panel-default event" name="<?php echo $name;?>" id-event="<?php echo $postID;?>" >
     <div class="panel-heading">
-      <div class="label" style="float:left;">
+      <div class="label event" style="float:left;">
         <time ><strong>  <?php
           echo $start_day;
           ?>
