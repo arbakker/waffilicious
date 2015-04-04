@@ -78,7 +78,14 @@ $members = get_post_meta($post->ID, 'members', true);
 $guest_players = get_post_meta($post->ID, 'guest_players', true);
 
 
-$total_players=count($members)+count($guest_players);
+if (!$guest_players){
+  $nr_guest=0;
+}else{
+  $nr_guest=count($guest_players);
+}
+
+
+$total_players=count($members)+$nr_guest;
 $nr_members = $total_players;
 
 
@@ -154,14 +161,14 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
           echo $start_month;
           ?></strong></time>
       </div>
-      <h1 class="panel-title">
+      <h1 class="panel-title"  data-toggle="collapse" data-parent="#accordion" data-target="#<?php echo $postID; ?>">
 
 
 
-        <a data-toggle="collapse" data-parent="#accordion" href="#<?php echo $postID; ?>">
+        <a class="accordion-toggle">
           <?php the_title();?>
         </a>
-        <?php edit_post_link( __( '&nbsp;<i class="fa fa-edit"></i></i>'), '<span class="left1 ">', '</span>' ); ?>
+
         <?php echo $registered_string ;?>
       </h1>
     </div>
@@ -169,7 +176,7 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
     <div class="panel-body">
       <a name="<?php echo $name;?>" data-toggle="collapse" data-parent="#accordion" href="#<?php echo $postID; ?>"></a>
        <div class="row">
-        <div class="col-xs-4 col-md-2">
+        <div class="col-xs-12 col-sm-4 col-md-2">
           <div class="row">
             <div class="col-md-12">
               <div>
@@ -181,7 +188,9 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
           </div>
           <div class="row top1">
             <div class="col-md-12">
-              <div>
+              <?php edit_post_link( __( '&nbsp;<i class="fa fa-edit"></i></i>'), '<span class=" ">', '</span>' ); ?>
+              <div class="top1">
+
                 <ul class="list-group">
                   <li class="list-group-item details"><i class="fa fa-calendar-o"></i>&nbsp;<?php echo $fulldate;?></li>
                   <li class="list-group-item details"><i class="fa fa-map-marker"></i>&nbsp;<?php echo $location;?></li>
@@ -192,10 +201,11 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
                 ?>
               </ul>
             </div>
+
           </div>
         </div>
         </div>
-          <div class="col-xs-8 col-md-10">
+          <div class="col-xs-12 col-sm-8 col-md-10">
             <ul class="nav nav-tabs" role="tablist">
               <li class="active"><a href="#event_<?php echo $name; ?>" role="tab" data-toggle="tab"><?php echo custom_taxonomies_term();?></a></li>
               <?php
@@ -281,7 +291,7 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
               <table class="table top1 table-striped" >
 
               <?php
-              if (count($guest_players)>0){
+              if ($nr_guest>0){
                 ?>
 
                   <caption><h4>Guest players</h4></caption>
@@ -301,10 +311,10 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
               ?>
 
 
-              <a href="#"  data-toggle="tooltip" data-placement="left" title="Copy email addresses to clipboard" data-target="#exampleModal_<?php echo $postID; ?>" data-toggle="modal" type="button" class=" btn btn-default btn-sm pull-right btn-copy-email"  id="copy-email-<?php echo $postID; ?>"><i class="fa fa-clipboard"></i></a>
+              <a href="#"   data-target="#modal-<?php echo $postID; ?>" data-toggle="modal" type="button" class="btn btn-default btn-sm pull-right btn-copy-email"  id="copy-email-<?php echo $postID; ?>"><i class="fa fa-clipboard"></i></a>
 
 
-              <div class="modal" class="exampleModal" id="exampleModal_<?php echo $postID; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal fade" class="exampleModal" id="modal-<?php echo $postID; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">

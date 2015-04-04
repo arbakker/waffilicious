@@ -56,14 +56,22 @@ get_header(); ?>
       $postID=$array[$index]->ID;
       $title=get_the_title( $postID );
       $image = get_the_post_thumbnail( $postID, 'large' );
+
       $pattern="/.*(http:\/\/.*\.(?:jpg|png)).*/";
       preg_match($pattern,$image,$matches);
-      $url=$matches[1];
+
+      if (!$image){
+        $url=catch_that_image($postID );
+        var_dump($url);
+      }else{
+        $url=$matches[1];
+      }
+
       $excerpt=strip_shortcodes($array[$index]->post_content );
       $excerpt=wp_trim_words($excerpt, $num_words = 35 );
       ?>
 
-      <article class="caption">
+      <article class="caption-fp">
 
         <div class="caption__media" style="background-image:url('<?php echo  $url;?>');background-size: cover;background-position:center;" />
           <div class="caption__gradient"/>
@@ -93,7 +101,7 @@ get_header(); ?>
       $excerpt=strip_shortcodes($object->post_content );
       $excerpt=wp_trim_words($excerpt, $num_words = 35 );
       ?>
-      <article class="caption">
+      <article class="caption-fp">
         <div class="caption__media" style="background-image:url('<?php echo  $url;?>');background-size: cover;background-position:center;" />
           <div class="caption__gradient"/>
           <!--<h3 class="label__overlay" ><?php //echo "News" ;?></h3>-->
@@ -121,7 +129,7 @@ get_header(); ?>
       $excerpt=strip_shortcodes($array[$index]["post_content"] );
       $excerpt=wp_trim_words($excerpt, $num_words = 35 );
       ?>
-      <article class="caption">
+      <article class="caption-fp">
         <div class="caption__media" style="background-image:url('<?php echo  $url;?>');background-size: cover;background-position:center;" />
           <div class="caption__gradient"/>
           <h3 class="label__overlay" ><?php echo  "Events";?></h3>

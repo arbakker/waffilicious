@@ -67,7 +67,7 @@ function enqueue_scripts_admin(){
 
 
 function load_fonts() {
-          wp_register_style('googleFonts', 'https://fonts.googleapis.com/css?family=Lato:100,300,400,700,300italic|Fugaz+One');
+          wp_register_style('googleFonts', 'https://fonts.googleapis.com/css?family=Lato:100,300,400,700,300italic|Oswald:400');
           wp_enqueue_style( 'googleFonts');
 
       }

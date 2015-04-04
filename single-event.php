@@ -33,7 +33,16 @@ $icon_unregister='<i class="fa text-right notregistered  '.$postID.' fa-square-o
 $fulldate=get_event_date_string($start_date,$start_day,$start_month_full,$end_date,$end_day,$end_month_full);
 $members = get_post_meta($post->ID, 'members', true);
 $guest_players = get_post_meta($post->ID, 'guest_players', true);
-$total_players=count($members)+count($guest_players);
+
+if (!$guest_players){
+  $nr_guest=0;
+}else{
+  $nr_guest=count($guest_players);
+}
+
+$total_players=count($members)+$nr_guest;
+
+
 $nr_members = $total_players;
 
 if (!$registered){
@@ -104,7 +113,7 @@ if (!$registered){
   ?>
 
        <div class="row event" name="<?php echo $name;?>" id-event="<?php echo $postID;?>">
-        <div class="col-xs-4 col-md-2">
+        <div class="col-xs-12 col-sm-4 col-md-3">
           <div class="row">
             <div class="col-md-12">
               <h2>
@@ -119,7 +128,8 @@ if (!$registered){
           </div>
           <div class="row top1">
             <div class="col-md-12">
-              <div>
+              <?php edit_post_link( __( '&nbsp;<i class="fa fa-edit"></i></i>'), '<span class=" ">', '</span>' ); ?>
+              <div class="top1">
                 <ul class="list-group">
                   <li class="list-group-item details"><i class="fa fa-calendar-o"></i>&nbsp;<?php echo $fulldate;?></li>
                   <li class="list-group-item details"><i class="fa fa-map-marker"></i>&nbsp;<?php echo $location;?></li>
@@ -133,7 +143,7 @@ if (!$registered){
           </div>
         </div>
         </div>
-          <div class="col-xs-8 col-md-10">
+          <div class="col-xs-12 col-sm-8 col-md-9">
             <ul class="nav nav-tabs" role="tablist">
               <li class="active"><a href="#event_<?php echo $name; ?>" role="tab" data-toggle="tab"><?php echo custom_taxonomies_term();?></a></li>
               <?php
@@ -203,10 +213,12 @@ if (!$registered){
             <div class="tab-pane" id="people_<?php echo $name; ?>">
               <table class="table top1" >
               <?php
-
+                    $all_email="";
                     foreach ($members as $key => $value){
                         $user_id=intval($key);
                         $user = get_userdata( $user_id );
+                        $email=$user->user_email;
+                        $all_email .= $email.";";
                         echo   "<tr user='".$user_id."'><td>".  $user->user_login. "</td><td>".  $user->user_email ."</td></tr>";
 
                       }
@@ -214,7 +226,7 @@ if (!$registered){
               </table>
               <?php
 
-              if (count($guest_players)>0){
+              if ($nr_guest>0){
                 ?>
                 <table class="table top1 table-striped" >
                   <caption><h4>Guest players</h4></caption>

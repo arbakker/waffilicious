@@ -34,7 +34,8 @@ $image = get_the_post_thumbnail( $post->ID, 'thumbnail' );
 $image=str_replace( 'class="', 'class="img-rounded img-responsive img-news ', $image );
 if (! $image){
   // TODO: Replace placeholder image with WAF image
-  $image='<img src="http://placehold.it/80X80" class="img-rounded img-responsive img-news attachment-thumbnail wp-post-image"  height="80" width="80">';
+  $url=catch_that_image( $post->ID );
+  $image='<img src="'.$url.'" class="img-rounded img-responsive img-news attachment-thumbnail wp-post-image"  height="80" width="80">';
 }
 $ID=$post->ID;
 $time=get_the_date();

@@ -33,9 +33,9 @@
       <div class="item col-sm-<?php if ($bool4){ echo "3";}else{ echo "4";} ?> col-md-<?php if ($bool4){ echo "3";}else{ echo "4";} ?>">
           <div class="thumbnail">
 
-              <div class="caption">
-                  <h4 class="group inner list-group-item-heading">
-                      <?php get_the_title( ) ;?>  </h4>
+              <div class="caption product">
+                  <h2 class="group inner list-group-item-heading bottom1">
+                      <?php echo get_the_title( ) ;?>  </h2>
                       <div class="img-wrapper product">
                   <img class="group list-group-image img-rounded img-responsive" src="<?php echo wp_get_attachment_image_src( get_post_thumbnail_id( ), 'medium' )[0]; ?>" alt="" />
                 </div>
@@ -47,7 +47,7 @@
                             <i class="fa fa-euro fa"></i><?php  echo get_post_meta($post->ID, 'price', true); ?></p>
                       </div>
                       <div class="col-xs-12 col-md-6">
-                          <a class="btn btn-success" href="#">Add to cart</a>   <?php edit_post_link( __( '&nbsp;<i class="fa fa-edit"></i></i>'), '<span class="left1 ">', '</span>' ); ?>
+                          <a class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Send email to order <?php echo $post->post_title; ?>" href="mailto:waf@wur.nl?subject=Order website: <?php echo $post->post_title; ?>"><i class="fa fa-envelope-o"></i></a>   <?php edit_post_link( __( '&nbsp;<i class="fa fa-edit"></i></i>'), '<span class="left1 ">', '</span>' ); ?>
                       </div>
                   </div>
               </div>

@@ -47,7 +47,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Fugaz One", serif;
+  font-family: "Oswald", serif;
   font-weight: 300;
 }
 
@@ -385,10 +385,11 @@ input[type='checkbox'], select{
   z-index: 1000;
 }
 
-.caption {
+.caption-fp {
   position: relative;
   overflow: hidden;
 }
+
 .caption__media {
   display: block;
   min-width: 100%;
@@ -424,10 +425,10 @@ input[type='checkbox'], select{
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#004c4c4c', endColorstr='#d9212121',GradientType=0 ); /* IE6-9 */
 
 }
-.caption:hover .caption__overlay {
+.caption-fp:hover .caption__overlay {
   transform: translateY(0);
 }
-.caption:hover .label__overlay{
+.caption-fp:hover .label__overlay{
   display:none;
 }
 
@@ -446,11 +447,11 @@ input[type='checkbox'], select{
   transform: translateX( calc(-100% - 10px) ); /* +10px overlay padding */
   transition: transform .35s ease-out;
 }
-.caption:hover .caption__overlay__title {
+.caption-fp:hover .caption__overlay__title {
   transform: translateX(0);
 }
 
-.caption::before {
+.caption-fp::before {
   content: ' ';
   position: absolute;
   top: 0;
@@ -460,7 +461,7 @@ input[type='checkbox'], select{
   background: transparent;
   transition: background .35s ease-out;
 }
-.caption:hover::before {
+.caption-fp:hover::before {
   background:rgba(44,44,44,0.35) ;
 
   /* rgba(0, 0, 0, .5);*/
@@ -763,11 +764,9 @@ overflow: hidden;
 }
 .post-edit-link:hover{
   text-decoration:none;
-  color:#FF8E00;
 }
 .post-edit-link:focus{
   text-decoration:none;
-  color:#FF8E00;
 }
 
 .author-post{
@@ -787,8 +786,6 @@ overflow: hidden;
 }
 
 
-
-
 .list-group-item:hover a, .list-group-item:focus a, .list-group-item.active:hover a, .list-group-item.active:focus a{
   color:#0C9AF7;
 }
@@ -803,7 +800,6 @@ overflow: hidden;
 }
 
 a:hover{
-  color:#FF8E00 !important;
   text-decoration:none;
 }
 
@@ -825,26 +821,50 @@ margin-right: .5em;
   color:#FF8E00 !important;
 }
 
-.caption:hover .h1-tile{
+.caption-fp:hover .h1-tile{
   color:#0C9AF7 !important;
 }
-.list-group-item-heading, .panel-title{
-  font-family:  lato, helvetica, sans-serif;
-  font-weight:bold;
+
+
+.list-group-item-heading:hover a {
+  text-decoration:none !important;
+  color:#FF8E00 ;
 }
 
-.list-group-item-heading:focus a, .panel-title a:focus,.list-group-item-heading:hover a, .panel-title a:hover{
+.list-group-item-heading:focus a, .panel-title a:focus{
   text-decoration:none !important;
-  color:#FF8E00 !important;
 }
 
 .list-group-item:hover{
   color:black !important;
 }
 
+.panel-title a:hover{
+  color:black;
+}
 
 .panel-info>.panel-heading {
   color: #0C9AF7;
   background-color: #c0e5fd;
   border-color: #49b3f9;
+}
+
+.btn-primary:hover{
+  background-color:#0675c0;
+  color:white;
+}
+
+.caption.product h4{
+  color:black;
+  margin-bottom:.5em;
+  font-family: "Oswald", serif;
+}
+
+.panel-heading:hover{
+  background-color:#eee;
+  cursor: pointer;
+}
+
+footer a:hover{
+  color: #FF8E00;
 }
