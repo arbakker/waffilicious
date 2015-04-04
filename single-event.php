@@ -1,62 +1,40 @@
-<?php
-/**
- * Template Name: Event page
- *
- */
-?>
 <?php get_header(); ?>
 <div class="row">
   <div class="col-md-12">
 <?php
 
 $user_id = get_current_user_id();
-
 $postID = get_the_ID();
-
 $registered=is_user_registered ($user_id, $postID);
-
 $name=$post->post_name;
 $title=$post->post_title;
 $form="";
 $script="";
-
 $thumbnail=get_the_post_thumbnail( $postID, 'medium' );
 $thumbnail=str_replace( 'class="', 'class="img-thumbnail img-responsive img-event ', $thumbnail );
+// Get event dates
 $date=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-start-date', $postID ) ), 'F j, Y' );
-
 $start_day=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-start-date', $postID ) ), 'j' );
 $start_month=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-start-date', $postID ) ), 'M' );
 $start_month_full=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-start-date', $postID ) ), 'F' );
 $end_day=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-end-date', $postID ) ), 'j' );
 $end_month=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-end-date', $postID ) ), 'M' );
 $end_month_full=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-end-date', $postID ) ), 'F' );
-
 $start_date=get_post_field( 'event-start-date', $postID );
 $end_date=get_post_field( 'event-end-date', $postID );
 $sort_date=get_post_field('event-sort-date', $postID);
 $deadline=get_post_field( 'event-deadline', $postID );
 $daystodeadline=intval(($deadline - time())/(3600*24));
-
+// Get other event information
 $location=get_post_field( 'event-venue', $postID );
 $price=get_post_field( 'price', $postID );
-
 $icon_register='<i class="fa text-right registered  '.$postID.'  fa-check-square-o fa-lg"></i>';
 $icon_unregister='<i class="fa text-right notregistered  '.$postID.' fa-square-o fa-lg "></i>';
-
 $fulldate=get_event_date_string($start_date,$start_day,$start_month_full,$end_date,$end_day,$end_month_full);
-
 $members = get_post_meta($post->ID, 'members', true);
-
 $guest_players = get_post_meta($post->ID, 'guest_players', true);
-
-
 $total_players=count($members)+count($guest_players);
 $nr_members = $total_players;
-
-
-
-
-
 
 if (!$registered){
 
@@ -123,8 +101,6 @@ if (!$registered){
 }
 
 
-// Do not show event when start date of event has already passed
-//if (get_post_field( 'event-start-date', $postID )>time() ){
   ?>
 
        <div class="row event" name="<?php echo $name;?>" id-event="<?php echo $postID;?>">
@@ -296,13 +272,7 @@ if (!$registered){
         </div>
       </div>
     </div>
-
  <?php
-
-
-
-
-
 
 ?>
 </div>

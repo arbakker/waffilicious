@@ -344,26 +344,6 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
 
 
 
-
-
-
-<!--
-
-  <?php if ($daystodeadline<0) {
-    ?><div class="alert alert-danger fade in" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-    <strong>Holy guacamole!</strong> Registration deadline has passed you lazy nitwit!
-  </div><?php
-  }else{
-    ?><div class="alert alert-warning fade in" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-    <strong>Holy guacamole!</strong> <?php echo intval(($deadline - time())/(3600*24)) ;?> days left to register!
-  </div>
-    <?php
-  }    ?>
-
--->
-
-
-
  <?php
 }
 }

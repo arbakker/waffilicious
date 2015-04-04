@@ -7,8 +7,6 @@
  * and that other 'pages' on your WordPress site will use a
  * different template.
  *
- * @package Shape
- * @since Shape 1.0
  */
 
 get_header(); ?>
@@ -22,7 +20,7 @@ get_header(); ?>
  <?php endwhile; // end of the loop. ?>
 
    </div>
-   
+
 
 
  </div>

@@ -4,8 +4,6 @@
  *
  * Displays all of the <head> section and everything up till <div id="main">
  *
- * @package Shape
- * @since Shape 2.0
  */
 ?><!DOCTYPE html>
 

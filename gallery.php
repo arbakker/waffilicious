@@ -1,10 +1,3 @@
-<?php
-/**
- * Template Name: Gallery page
- *
- * Selectable from a dropdown menu on the edit page screen.
- */
-?>
 <?php get_header(); ?>
 
  <div class="row no-gutter">

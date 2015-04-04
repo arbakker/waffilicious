@@ -1,7 +1,5 @@
 <?php
-/**
- * @package minim2
- * @since minim2 1.0
+/*
  */
 ?>
 
