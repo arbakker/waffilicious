@@ -754,6 +754,9 @@ overflow: hidden;
   display:inline;
 }
 
+.inline-block{
+  display:inline-block;
+}
 
 .inline-flex{
   display:inline-flex;
@@ -857,7 +860,7 @@ margin-right: .5em;
 .caption.product h4{
   color:black;
   margin-bottom:.5em;
-  font-family: "Oswald", serif;
+  font-family: "Oswald", sans-serif;
 }
 
 .event>.panel-heading:hover{
@@ -869,6 +872,8 @@ footer a:hover{
   color: #FF8E00;
 }
 
+
+
 .panel-heading>.label{
   top: -3px;
 }
@@ -879,4 +884,23 @@ footer a:hover{
 
 .modal-title{
   color:#0C9AF7;
+}
+
+.al2fb_anchor>a:before {
+  font-family: FontAwesome !important;
+  content: "\f09a" !important;
+  font-size:20px !important;
+}
+
+a:focus{
+  text-decoration:none;
+  color:#FF8E00;
+}
+
+a:hover{
+  color:#FF8E00;
+}
+footer a:focus{
+
+  color: #0C9AF7;
 }

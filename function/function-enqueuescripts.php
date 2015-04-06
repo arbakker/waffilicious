@@ -62,7 +62,7 @@ function enqueue_scripts_admin(){
   wp_enqueue_script('jquery.validate', get_template_directory_uri() .'/vendor/jquery.validate.js', array('jquery'));
   wp_enqueue_script('validate.js', get_template_directory_uri() .'/js/validate.js');
   wp_enqueue_style('validate.css', get_template_directory_uri() . '/css/validate.css');
-  wp_enqueue_script( 'jquery' );
+  wp_enqueue_script('jquery',get_template_directory_uri(). '/vendor/jquery-2.1.1.min.js' );
 }
 
 

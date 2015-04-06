@@ -31,7 +31,7 @@ $args = array(
     'has_archive'   =>   true,
     'rewrite'       =>   true,
     'supports'      =>   $supports,
-);
+    );
 
 register_post_type( 'event', $args );
 

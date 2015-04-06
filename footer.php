@@ -106,10 +106,10 @@
 
 
   </div>
-  <div class="row ">
-    <div style='text-align:center;margin-bottom:1em;'class="col-md-12 col-sm-12 col-xs-12">
-      <p style="font-size:small;">
-      WAF is a Student Sport Association of the <a href="http://www.wageningenur.nl/en/Wageningen-Campus/sports-centre-de-bongerd/SWU-Thymos.htm">Wageningen University</a> <img style="width:32px;"src="<?php echo get_template_directory_uri();?>/img/wur-logo.png" alt='WUR Logo'>
+  <div class="row" style="margin:0px;">
+    <div style='text-align:center;margin-bottom:1em;padding:0px;'class="col-md-12 col-sm-12 col-xs-12">
+      <p class="inline details" >
+      WAF is a Student Sport Association of the </p><p class="inline-block details"> <a href="http://www.wageningenur.nl/en/Wageningen-Campus/sports-centre-de-bongerd/SWU-Thymos.htm">Wageningen University</a> <img style="width:32px;"src="<?php echo get_template_directory_uri();?>/img/wur-logo.png" alt='WUR Logo'>
     </p>
     </div>
   </div>
