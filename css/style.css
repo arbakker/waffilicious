@@ -416,13 +416,13 @@ input[type='checkbox'], select{
   min-width: 100%;
   max-width: 100%;
   height: 20em;
-  background: -moz-linear-gradient(top,  rgba(76,76,76,0) 65%, rgba(76,76,76,0.17) 72%, rgba(44,44,44,0.53) 87%, rgba(33,33,33,0.85) 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(65%,rgba(76,76,76,0)), color-stop(72%,rgba(76,76,76,0.17)), color-stop(87%,rgba(44,44,44,0.53)), color-stop(100%,rgba(33,33,33,0.85))); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top,  rgba(76,76,76,0) 65%,rgba(76,76,76,0.17) 72%,rgba(44,44,44,0.53) 87%,rgba(33,33,33,0.85) 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top,  rgba(76,76,76,0) 65%,rgba(76,76,76,0.17) 72%,rgba(44,44,44,0.53) 87%,rgba(33,33,33,0.85) 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top,  rgba(76,76,76,0) 65%,rgba(76,76,76,0.17) 72%,rgba(44,44,44,0.53) 87%,rgba(33,33,33,0.85) 100%); /* IE10+ */
-  background: linear-gradient(to bottom,  rgba(76,76,76,0) 65%,rgba(76,76,76,0.17) 72%,rgba(44,44,44,0.53) 87%,rgba(33,33,33,0.85) 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#004c4c4c', endColorstr='#d9212121',GradientType=0 ); /* IE6-9 */
+  /*background: -moz-linear-gradient(top,  rgba(76,76,76,0) 65%, rgba(76,76,76,0.17) 72%, rgba(44,44,44,0.53) 87%, rgba(33,33,33,0.85) 100%); /* FF3.6+ */
+  /*background: -webkit-gradient(linear, left top, left bottom, color-stop(65%,rgba(76,76,76,0)), color-stop(72%,rgba(76,76,76,0.17)), color-stop(87%,rgba(44,44,44,0.53)), color-stop(100%,rgba(33,33,33,0.85))); /* Chrome,Safari4+ */
+  /*background: -webkit-linear-gradient(top,  rgba(76,76,76,0) 65%,rgba(76,76,76,0.17) 72%,rgba(44,44,44,0.53) 87%,rgba(33,33,33,0.85) 100%); /* Chrome10+,Safari5.1+ */
+  /*background: -o-linear-gradient(top,  rgba(76,76,76,0) 65%,rgba(76,76,76,0.17) 72%,rgba(44,44,44,0.53) 87%,rgba(33,33,33,0.85) 100%); /* Opera 11.10+ */
+  /*background: -ms-linear-gradient(top,  rgba(76,76,76,0) 65%,rgba(76,76,76,0.17) 72%,rgba(44,44,44,0.53) 87%,rgba(33,33,33,0.85) 100%); /* IE10+ */
+  /*background: linear-gradient(to bottom,  rgba(76,76,76,0) 65%,rgba(76,76,76,0.17) 72%,rgba(44,44,44,0.53) 87%,rgba(33,33,33,0.85) 100%); /* W3C */
+  /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#004c4c4c', endColorstr='#d9212121',GradientType=0 ); /* IE6-9 */
 
 }
 .caption-fp:hover .caption__overlay {
@@ -461,8 +461,15 @@ input[type='checkbox'], select{
   background: transparent;
   transition: background .35s ease-out;
 }
+
+.caption__overlay__content{
+  background:rgba(0,0,0,0.45);
+  display:inline-block;
+  padding:.5em;
+}
+
 .caption-fp:hover::before {
-  background:rgba(44,44,44,0.35) ;
+  /*  background:rgba(44,44,44,0.35) ;
 
   /* rgba(0, 0, 0, .5);*/
 }
@@ -889,7 +896,7 @@ footer a:hover{
 .al2fb_anchor>a:before {
   font-family: FontAwesome !important;
   content: "\f09a" !important;
-  font-size:20px !important;
+  font-size:22px !important;
 }
 
 a:focus{
@@ -901,6 +908,10 @@ a:hover{
   color:#FF8E00;
 }
 footer a:focus{
-
   color: #0C9AF7;
+}
+
+.post-meta>.al2fb_anchor{
+margin-left: 1em;
+line-height: 24px;
 }

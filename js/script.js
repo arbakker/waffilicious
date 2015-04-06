@@ -1,6 +1,6 @@
 jQuery().ready(function() {
 
-
+$(".article>.al2fb_anchor").detach().appendTo(".post-meta")
 $('[data-toggle="tooltip"]').tooltip();
 
 

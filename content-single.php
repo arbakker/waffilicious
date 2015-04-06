@@ -22,7 +22,7 @@
              the_content(); ?>
           </div>
           <div class="top2">
-            <div class="inline-flex">
+            <div class="post-meta inline-flex">
               <div class="label">
                 <time itemprop="datePublished" datetime="<?php echo get_the_date('c');?>"><strong><?php echo get_the_date( );?></strong></time>
               </div>
@@ -61,7 +61,7 @@
 
             <?php if (function_exists('dynamic_sidebar') && dynamic_sidebar('widgetized-area2')) : else : ?>
 
-          
+
 
             <?php endif; ?>
 
