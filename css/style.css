@@ -915,3 +915,11 @@ footer a:focus{
 margin-left: 1em;
 line-height: 24px;
 }
+
+.list-group-news>.label{
+  margin-top:.5em;
+}
+
+.list-group-item-text{
+  display:inline;
+}
