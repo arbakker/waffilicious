@@ -34,13 +34,23 @@ $fulldate=get_event_date_string($start_date,$start_day,$start_month_full,$end_da
 $members = get_post_meta($post->ID, 'members', true);
 $guest_players = get_post_meta($post->ID, 'guest_players', true);
 
+
+
 if (!$guest_players){
   $nr_guest=0;
 }else{
   $nr_guest=count($guest_players);
 }
 
-$total_players=count($members)+$nr_guest;
+if (!$members){
+  $nr_member=0;
+}else{
+  $nr_member=count($members);
+}
+
+
+
+$total_players=$nr_member+$nr_guest;
 
 
 $nr_members = $total_players;

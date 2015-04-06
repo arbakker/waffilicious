@@ -84,8 +84,16 @@ if (!$guest_players){
   $nr_guest=count($guest_players);
 }
 
+if (!$members){
+  $nr_member=0;
+}else{
+  $nr_member=count($members);
+}
 
-$total_players=count($members)+$nr_guest;
+
+
+
+$total_players=$nr_member+$nr_guest;
 $nr_members = $total_players;
 
 
