@@ -48,8 +48,6 @@ if (!$members){
   $nr_member=count($members);
 }
 
-
-
 $total_players=$nr_member+$nr_guest;
 
 

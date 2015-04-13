@@ -45,7 +45,7 @@ $('#signin').click(function(e) {
                },
             success: function(data) {
                 if ( data.success !== true){
-                  $('#danger-message-modal').html('Oops! Something went wrong signing in, please try again later.');
+                  $('#danger-message-modal').html(data.message);
                   $('#alert-danger-modal').fadeIn('slow');
                   return;
                 }

@@ -404,8 +404,17 @@ input[type='checkbox'], select{
   left: 0;
   padding: 10px;
   color: white;
-  transform: translateX(100%);
-  transition: transform .35s ease-out;
+
+
+   -moz-transform: translateX(100%);
+   -ms-transform: translateX(100%); /* IE 9 */
+   -webkit-transform: translateX(100%);
+   -o-transform: translateX(100%); /* Chrome, Safari, Opera */
+   transform: translateX(100%);
+
+   transition: transform .35s ease-out;
+
+
 }
 
 .caption__gradient{
@@ -422,12 +431,10 @@ input[type='checkbox'], select{
   background: -o-linear-gradient(top,  rgba(76,76,76,0) 65%,rgba(76,76,76,0.17) 72%,rgba(44,44,44,0.53) 87%,rgba(33,33,33,0.85) 100%); /* Opera 11.10+ */
   background: -ms-linear-gradient(top,  rgba(76,76,76,0) 65%,rgba(76,76,76,0.17) 72%,rgba(44,44,44,0.53) 87%,rgba(33,33,33,0.85) 100%); /* IE10+ */
   background: linear-gradient(to bottom,  rgba(76,76,76,0) 65%,rgba(76,76,76,0.17) 72%,rgba(44,44,44,0.53) 87%,rgba(33,33,33,0.85) 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#004c4c4c', endColorstr='#d9212121',GradientType=0 ); /* IE6-9 */
+  /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#004c4c4c', endColorstr='#d9212121',GradientType=0 ); /* IE6-9 */
 
 }
-.caption-fp:hover .caption__overlay {
-  transform: translateY(0);
-}
+
 .caption-fp:hover .label__overlay{
   display:none;
 }
@@ -441,13 +448,11 @@ input[type='checkbox'], select{
   padding:.2em;
 }
 
-.caption__overlay__title {
-  margin: 0;
-  padding: 0 0 12px;
-  transform: translateX( calc(-100% - 10px) ); /* +10px overlay padding */
-  transition: transform .35s ease-out;
-}
-.caption-fp:hover .caption__overlay__title {
+.caption-fp:hover .caption__overlay {
+  -moz-transform:translateX(0);
+  -ms-transform: translateX(0); /* IE 9 */
+  -webkit-transform: translateX(0);
+  -o-transform: translateX(0); /* Chrome, Safari, Opera */
   transform: translateX(0);
 }
 
