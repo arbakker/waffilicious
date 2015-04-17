@@ -172,7 +172,7 @@ jQuery().ready(function() {
       for (var key in userinfo){
         if (userinfo[key]!==window[key])
           {
-            request+="&"+key+"="+userinfo[key];
+            request+="&"+key+"="+encodeURIComponent(userinfo[key]);
             requestinfo[key]=userinfo[key];
           }
       }

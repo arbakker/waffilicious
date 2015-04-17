@@ -109,7 +109,7 @@ SECTION: events.php
 .panel-title i{
     display: inline-block;
     position: relative;
-    top: 3px;
+    top: -13px;
     float:right;
 }
 
@@ -928,3 +928,42 @@ line-height: 24px;
 .list-group-item-text{
   display:inline;
 }
+
+.accordion-title{
+  white-space: nowrap;
+  overflow: hidden;
+  height: 19px;
+}
+.accordion-title a{
+  color:black;
+}
+@media screen and (max-width: 600px) {
+  .accordion-title{ width: 80%;}
+}
+@media screen and (max-width: 500px) {
+  .accordion-title{ width: 70%;}
+}
+@media screen and (max-width: 400px) {
+  .accordion-title{ width: 60%;}
+}
+@media screen and (max-width: 300px) {
+  .accordion-title{ width: 40%;}
+}
+@media screen and (max-width: 200px) {
+  .accordion-title{ width: 25%;}
+}
+
+.label.event{
+  width:71px;
+}
+
+/*
+<div style="white-space: nowrap;overflow: hidden;width: 60%;margin-right: 10px;"><a class="accordion-toggle" style="
+    /* overflow: hidden; */
+    /* white-space: nowrap; */
+    /* overflow: hidden; */
+    /*
+    color: black;
+">
+  Lustrumtoernooi GD Schiermonnikoog        </a></div>
+*/

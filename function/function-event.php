@@ -575,7 +575,7 @@ function waf_alert_string($days, $weeks){
     }elseif($days>1){
       $message= '<strong> '.$days.'</strong> days left to sign up!';
     }
-  }elseif ($weeks=1){
+  }elseif ($weeks==1){
     if ($days==0){
       $message='<strong> '.$weeks.'</strong> week left to sign up!';
     }elseif ($days==1){

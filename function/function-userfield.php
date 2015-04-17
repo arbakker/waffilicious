@@ -140,6 +140,12 @@ function show_users ( $user ) {
   }
 }
 
+function startsWith($haystack, $needle) {
+    // search backwards starting from haystack length characters from the end
+    return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== FALSE;
+}
+
+
 add_action('wp_ajax_updatememberdetails', 'updatememberdetails_ajax');
 function updatememberdetails_ajax() {
 
@@ -165,6 +171,8 @@ function updatememberdetails_ajax() {
   if ($member==$userid or current_user_can('edit_user', $member )){
     // Check if post parameter was used in request, if so extract and update user meta
     if(array_key_exists('telephone', $_POST) == TRUE){
+
+
       $telephone =sanitize_text_field( $_POST['telephone']);
       update_user_meta( $member, 'phone', $telephone );}
     if(array_key_exists('display_name', $_POST) == TRUE){

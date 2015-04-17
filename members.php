@@ -57,7 +57,7 @@ foreach($author_ids as $author){
       </td>
       <td><a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a></td>
         <td><?php echo $adress; ?></td>
-          <td><?php echo $telephone; ?></td>
+          <td><a href="tel:<?php echo $telephone; ?>"><?php echo $telephone; ?></a></td>
     </tr>
 
     <?php

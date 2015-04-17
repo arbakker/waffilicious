@@ -125,7 +125,6 @@ if (! $registered){
 
     $weeks = floor($daystodeadline/7);
     $days= $daystodeadline % 7;
-
     $alert_string=waf_alert_string($days,$weeks);
 
 
@@ -172,10 +171,11 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
       <h1 class="panel-title"  data-toggle="collapse" data-parent="#accordion" data-target="#<?php echo $postID; ?>">
 
 
-
+      <div class="accordion-title">
         <a class="accordion-toggle">
           <?php the_title();?>
         </a>
+      </div>
 
         <?php echo $registered_string ;?>
       </h1>
@@ -235,6 +235,7 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
                   <?php
                   $content = get_post_field('post_content', $my_postid);
                   echo $content;
+                  the_content();
                   ?>
                   <hr>
                   <div class="row event-button">
