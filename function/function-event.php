@@ -486,7 +486,14 @@ if (current_user_can('edit_post', $post->ID )){
 
     echo "<button style='height: 2.2em;width: 4em;' type='button' id='add-members' postid=".get_the_ID().">Add</button>";
 
-    echo "<table id='registered-members' style='border-collapse: collapse;margin-top:0.5em;'><thead>";
+    echo '<div style="white-space: nowrap;overflow: scroll;">';
+    echo "<table id='registered-members' style='border-collapse: collapse;margin-top:0.5em;'><colgroup>
+       <col span='1' style='width: 25%;'>
+       <col span='1' style='width: 20%;'>
+       <col span='1' style='width: 35%;'>
+       <col span='1' style='width: 10%;'>
+       <col span='1' style='width: 10%;'>
+    </colgroup><thead>";
     echo "<tr>
     <th style='border: 1px solid #999;padding: 0.5rem;'>User</th>
     <th style='border: 1px solid #999;padding: 0.5rem;' >Email</th>
@@ -509,7 +516,12 @@ if (current_user_can('edit_post', $post->ID )){
 
     $allergy=get_the_author_meta( 'allergies',   $user_id  );
     if ($allergy){
-      $allergy=" Allergy: ".$allergy;
+      if (get_post_meta($post->ID, 'members', true)["$user_id"]){
+        $allergy="</br>"."Allergy: ".$allergy;
+      }else{
+        $allergy="Allergy: ".$allergy;
+      }
+
     }
     echo   "<tr class='user user-".$user_id."' id='".$user_id."'>
     <td style='border: 1px solid #999;padding: 0.5rem;'>".  $user->user_login. "</td>
@@ -519,7 +531,7 @@ if (current_user_can('edit_post', $post->ID )){
     <td style='border: 1px solid #999;padding: 0.5rem;'>". "<button id='unregister-".$user_id."' style='height: 2.2em;width: 4em;' type='button'>X</button>"."</td>
     </tr>";
   }
-    echo "</tbody></table>";
+    echo "</tbody></table></div>";
   }
 }
 
@@ -527,6 +539,7 @@ function render_guest_players($post ) {
   if (current_user_can('edit_post', $post->ID )){
     $guest_players = get_post_meta($post->ID, 'guest_players', true);
     ?>
+    <div style="white-space: nowrap;overflow: scroll;">
     <table id='guestPlayers' style='border-collapse: collapse;margin-top:0.5em;margin-bottom:2em;'><thead>
     <tr>
       <th style='border: 1px solid #999;padding: 0.5rem;'>Guest player</th>
@@ -555,8 +568,11 @@ function render_guest_players($post ) {
 
       <?php
     }
-
     ?>
+    </tbody>
+    </table>
+    </div>
+
     <LABEL  style="margin:0.5em;" for="guest_player">Guest player</LABEL>
     <input   style="margin:0.5em;" type="text" id="guest_player"></input></br>
     <LABEL  style="margin:0.5em;" for="guest_email">Email guest</LABEL>

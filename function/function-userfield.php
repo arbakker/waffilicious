@@ -175,7 +175,7 @@ function updatememberdetails_ajax() {
 
       $telephone =sanitize_text_field( $_POST['telephone']);
       update_user_meta( $member, 'phone', $telephone );}
-    if(array_key_exists('display_name', $_POST) == TRUE){
+    if(array_key_exists('displayname', $_POST) == TRUE){
       $displayname =sanitize_text_field( $_POST['displayname']);
       wp_update_user( array( 'ID' => $member,'display_name' => $displayname ));}
     if(array_key_exists('veggie', $_POST) == TRUE){

@@ -227,7 +227,7 @@ if (!$registered){
                         $user = get_userdata( $user_id );
                         $email=$user->user_email;
                         $all_email .= $email.";";
-                        echo   "<tr user='".$user_id."'><td>".  $user->user_login. "</td><td>".  $user->user_email ."</td></tr>";
+                        echo   "<tr user='".$user_id."'><td>".  $user->display_name. "</td><td>".  $user->user_email ."</td></tr>";
 
                       }
                   ?>
