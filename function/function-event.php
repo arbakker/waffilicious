@@ -507,10 +507,14 @@ if (current_user_can('edit_post', $post->ID )){
         $icon='<i class="fa fa-remove"></i>';
       }
 
+    $allergy=get_the_author_meta( 'allergies',   $user_id  );
+    if ($allergy){
+      $allergy=" Allergy: ".$allergy;
+    }
     echo   "<tr class='user user-".$user_id."' id='".$user_id."'>
     <td style='border: 1px solid #999;padding: 0.5rem;'>".  $user->user_login. "</td>
     <td style='border: 1px solid #999;padding: 0.5rem;'>".  $user->user_email ."</td>
-    <td style='border: 1px solid #999;padding: 0.5rem;'>". get_post_meta($post->ID, 'members', true)["$user_id"]."</td>
+    <td style='border: 1px solid #999;padding: 0.5rem;'>". get_post_meta($post->ID, 'members', true)["$user_id"].$allergy."</td>
     <td style='border: 1px solid #999;padding: 0.5rem;'>". $icon."</td>
     <td style='border: 1px solid #999;padding: 0.5rem;'>". "<button id='unregister-".$user_id."' style='height: 2.2em;width: 4em;' type='button'>X</button>"."</td>
     </tr>";
