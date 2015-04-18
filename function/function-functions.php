@@ -477,5 +477,14 @@ function catch_that_image($postid) {
   return $first_img;
 }
 
+function get_page_by_name($pagename)
+{
+
+$pages = get_pages();
+foreach ($pages as $page) {
+  if ($page->post_name == $pagename) return $page;
+}
+return false;
+}
 
 ?>

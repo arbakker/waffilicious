@@ -233,8 +233,6 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
                 <div class="row top2">
                   <div class="col-md-12">
                   <?php
-                  $content = get_post_field('post_content', $my_postid);
-                  echo $content;
                   the_content();
                   ?>
                   <hr>

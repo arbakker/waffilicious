@@ -2,6 +2,7 @@
 <div class="row">
   <div class="col-md-12">
 <?php
+if(have_posts()): while(have_posts()): the_post();
 
 $user_id = get_current_user_id();
 $postID = get_the_ID();
@@ -172,8 +173,7 @@ if (!$registered){
                 <div class="row top2">
                   <div class="col-md-12">
                   <?php
-                  $content = get_post_field('post_content', $my_postid);
-                  echo $content;
+                  the_content();
                   ?>
                   <hr>
                   <div class="row event-button">
@@ -205,7 +205,7 @@ if (!$registered){
                                         </button>
                                       </div>
                                       </div>
-                                      <textarea id="form-details-<?php echo $postID; ?>" class="form-control" rows="3" disabled="disabled" data-toggle="tooltip" data-placement="top" title="Edit your registration details"><?php echo  get_post_meta( $postID, 'details', true )["$user_id"];?></textarea>
+                                      <textarea id="form-details-<?php echo $postID; ?>" class="form-control" rows="3" disabled="disabled" data-toggle="tooltip" data-placement="top" title="Edit your registration details"><?php echo  get_post_meta( $postID, 'members', true )["$user_id"];?></textarea>
                       </div>
                         <?php
                         echo $button;
@@ -297,6 +297,6 @@ if (!$registered){
 ?>
 </div>
 </div>
-<?php
+<?php endwhile; endif;
 get_footer();
 ?>

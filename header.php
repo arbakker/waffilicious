@@ -114,9 +114,17 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
 
                 <a href="#" class="menu-item menu-item-type-post_type menu-item-object-page dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class='fa registration fa-paw fa'></i>&nbsp;&nbsp; <?php echo $current_user->user_login; ?> <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu" style="color:#0C9AF7 !important;">
-                  <li><a href="<?php echo  $link_user_page;?>"><i class='fa fa-user ' ></i>&nbsp;&nbsp;&nbsp;  My account</a></li>
-                  <li><a href="<?php echo site_url();?>/members/"><i class='fa fa-users ' ></i>&nbsp;&nbsp; Members list</a></li>
-                  <li  data-original-title='Sign out' data-toggle='tooltip'><a id='logout'  class='' href='#'><i class='fa fa-sign-out ' ></i>&nbsp;&nbsp; Sign out</a></li>
+                  <li><a href="<?php echo  $link_user_page;?>"><i class='fa fa-user ' ></i>&nbsp;&nbsp;&nbsp;  Edit My Profile</a></li>
+                  <li><a href="<?php echo site_url();?>/members/"><i class='fa fa-users ' ></i>&nbsp;&nbsp; Members List</a></li>
+                  <?php
+                  $page = get_page_by_name('information');
+                  if (!empty($page)) {
+                    ?>
+                    <li><a href="<?php echo site_url();?>/information/"><i class='fa fa-bookmark ' ></i>&nbsp;&nbsp; Official Stuff</a></li>
+                    <?php
+                  }
+                  ?>
+                  <li  data-original-title='Sign out' data-toggle='tooltip'><a id='logout'  class='' href='#'><i class='fa fa-sign-out ' ></i>&nbsp;&nbsp; Sign Out</a></li>
                 </ul>
               </li>
             </ul>
@@ -133,10 +141,18 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
 
                 <a href="#" id="dropdown-button" class="menu-item menu-item-type-post_type menu-item-object-page dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"></a>
                 <ul class="dropdown-menu" role="menu" style="color:#0C9AF7 !important;">
-                  <li><a id="a-userpage" href="<?php echo  $link_user_page;?>"><i class='fa fa-user ' ></i>&nbsp;&nbsp;&nbsp;  My account</a></li>
-                  <li><a href="<?php echo site_url();?>/members/"><i class='fa fa-users ' ></i>&nbsp;&nbsp; Members list</a></li>
+                  <li><a id="a-userpage" href="<?php echo  $link_user_page;?>"><i class='fa fa-user ' ></i>&nbsp;&nbsp;&nbsp;  Edit My Profile</a></li>
+                  <li><a href="<?php echo site_url();?>/members/"><i class='fa fa-users ' ></i>&nbsp;&nbsp; Members List</a></li>
+                  <?php
+                  $page = get_page_by_name('information');
+                  if (!empty($page)) {
+                    ?>
+                    <li><a href="<?php echo site_url();?>/information/"><i class='fa fa-bookmark ' ></i>&nbsp;&nbsp; Official Stuff</a></li>
+                    <?php
+                  }
+                  ?>
                   <li class="divider"></li>
-                  <li  data-original-title='Sign out' data-toggle='tooltip'><a id='logout'  class='' href='#'><i class='fa fa-sign-out ' ></i>&nbsp;&nbsp; Sign out</a></li>
+                  <li  data-original-title='Sign out' data-toggle='tooltip'><a id='logout'  class='' href='#'><i class='fa fa-sign-out ' ></i>&nbsp;&nbsp; Sign Out</a></li>
                 </ul>
               </li>
               </ul>

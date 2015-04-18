@@ -68,14 +68,7 @@ jQuery().ready(function() {
         $('#error-message-password').html("New passwords do not match, please fill in the same password twice.");
         $('#alert-error-password').fadeIn('slow');
       }
-
-
-
     }
-
-
-
-
   });
 
 

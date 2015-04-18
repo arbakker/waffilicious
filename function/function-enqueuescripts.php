@@ -63,6 +63,7 @@ function enqueue_scripts_admin(){
   wp_enqueue_script('validate.js', get_template_directory_uri() .'/js/validate.js');
   wp_enqueue_style('validate.css', get_template_directory_uri() . '/css/validate.css');
   wp_enqueue_script('jquery',get_template_directory_uri(). '/vendor/jquery-2.1.1.min.js' );
+  wp_enqueue_style('font_awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
 }
 
 

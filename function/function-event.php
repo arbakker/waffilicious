@@ -344,6 +344,7 @@ function addguest_ajax() {
   $guest_player = sanitize_text_field($_POST['guest_player']);
   $guest_email = sanitize_text_field($_POST['guest_email']);
   $guest_details = sanitize_text_field($_POST['guest_details']);
+  $guest_veggie = sanitize_text_field($_POST['guest_veggie']);
   $guest_players = get_post_meta($post_id, 'guest_players', true);
   // Check if member edits own userdetails or has rights to edit post
   if (current_user_can('edit_post', $post_id or ! empty($guest_player) ) ){
@@ -353,7 +354,7 @@ function addguest_ajax() {
     if (!$guest_players){
       $guest_players=array();
     }
-    $guest_players[$guest_player]=[$guest_email,$guest_details];
+    $guest_players[$guest_player]=[$guest_email,$guest_details,$guest_veggie];
     $result=update_post_meta($post_id,'guest_players',$guest_players);
   }else{
     if (empty($guest_player)){
@@ -490,6 +491,7 @@ if (current_user_can('edit_post', $post->ID )){
     <th style='border: 1px solid #999;padding: 0.5rem;'>User</th>
     <th style='border: 1px solid #999;padding: 0.5rem;' >Email</th>
     <th style='border: 1px solid #999;padding: 0.5rem;' >Details</th>
+    <th style='border: 1px solid #999;padding: 0.5rem;' >Vegetarian</th>
     <th style='border: 1px solid #999;padding: 0.5rem;' >Remove</th>
     </tr></thead><tbody>";
 
@@ -499,10 +501,17 @@ if (current_user_can('edit_post', $post->ID )){
       $user_id=intval($key);
       $user = get_userdata( $user_id );
 
+      if (get_the_author_meta( 'veggie', $user->ID )){
+       $icon='<i class="fa fa-check"></i>';
+      }else{
+        $icon='<i class="fa fa-remove"></i>';
+      }
+
     echo   "<tr class='user user-".$user_id."' id='".$user_id."'>
     <td style='border: 1px solid #999;padding: 0.5rem;'>".  $user->user_login. "</td>
     <td style='border: 1px solid #999;padding: 0.5rem;'>".  $user->user_email ."</td>
     <td style='border: 1px solid #999;padding: 0.5rem;'>". get_post_meta($post->ID, 'members', true)["$user_id"]."</td>
+    <td style='border: 1px solid #999;padding: 0.5rem;'>". $icon."</td>
     <td style='border: 1px solid #999;padding: 0.5rem;'>". "<button id='unregister-".$user_id."' style='height: 2.2em;width: 4em;' type='button'>X</button>"."</td>
     </tr>";
   }
@@ -519,16 +528,24 @@ function render_guest_players($post ) {
       <th style='border: 1px solid #999;padding: 0.5rem;'>Guest player</th>
       <th style='border: 1px solid #999;padding: 0.5rem;' >Email</th>
       <th style='border: 1px solid #999;padding: 0.5rem;' >Details</th>
+      <th style='border: 1px solid #999;padding: 0.5rem;' >Veggie</th>
       <th style='border: 1px solid #999;padding: 0.5rem;' >Remove</th>
     </tr></thead>
     <tbody>
     <?php
     foreach ($guest_players as $key => $value){
+      if ($value[2]=="true"){
+        $icon='<i class="fa fa-check"></i>';
+      }else{
+        $icon='<i class="fa fa-remove"></i>';
+      }
+
       ?>
       <tr>
         <td style='border: 1px solid #999;padding: 0.5rem;'><?php echo $key; ?></td>
         <td style='border: 1px solid #999;padding: 0.5rem;'><?php echo $value[0]; ?></td>
         <td style='border: 1px solid #999;padding: 0.5rem;'><?php echo $value[1]; ?></td>
+        <td style='border: 1px solid #999;padding: 0.5rem;'><?php echo $icon; ?></td>
         <td style='border: 1px solid #999;padding: 0.5rem;'><button class="removeGuest" style='height: 2.2em;width: 4em;' type="button" guest="<?php echo $key;?>">X</button></td>
       </tr>
 
@@ -542,6 +559,8 @@ function render_guest_players($post ) {
     <input  style="margin:0.5em;" type="email" id="guest_email"></input></br>
     <LABEL  style="margin:0.5em;" for="guest_details">Details guest</LABEL>
     <textarea  style="margin:0.5em;"  id="guest_details"></textarea></br>
+    <LABEL  style="margin:0.5em;" for="guest_veggie">Veggie</LABEL>
+    <input type="checkbox" id="guest_veggie">
     <button type="button" style="height:2.2em;margin:0.5em;" id="addGuest">Add guest player</button>
     <?php
 }
