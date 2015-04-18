@@ -141,8 +141,8 @@ get_header();
                       </tr>
                       <tr>
                         <td>Veggie</td>
-                        <td id="veggie_display"> <?php if ($veggie){
-                          echo "Yes";}else{echo "No";
+                        <td id="veggie_display"> <?php if ($veggie=="true"){
+                          echo '<i class="fa fa-check"></i>';}else{echo '<i class="fa fa-remove"></i>';
                         }?></td>
                       </tr>
                       <?php if ($allergies){ ?>
@@ -307,7 +307,7 @@ get_header();
               <LABEL class="control-label col-md-4 col-xs-4" for="veggie">
                 Vegetarian
               </LABEL>
-              <div class="col-md-6 col-xs-6"><INPUT  type="checkbox"  id="veggie"<?php if ($veggie){echo "checked";} ?>></div>
+              <div class="col-md-6 col-xs-6"><INPUT  type="checkbox"  id="veggie"<?php if ($veggie=="true"){echo "checked";} ?>></div>
           </div>
           <div class="form-group">
             <LABEL class="control-label col-md-4 col-xs-4" for="allergies">Allergies</LABEL>

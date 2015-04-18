@@ -178,9 +178,9 @@ jQuery().ready(function() {
             for (var key in requestinfo){
               var html="";
               if (requestinfo[key]==="true"){
-                html="Yes";
+                html='<i class="fa fa-check"></i>';
               }else if(requestinfo[key]==="false"){
-                html="No";
+                html='<i class="fa fa-remove"></i>';
               }else{
                 html=requestinfo[key];
               }
