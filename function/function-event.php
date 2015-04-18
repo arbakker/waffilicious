@@ -501,7 +501,7 @@ if (current_user_can('edit_post', $post->ID )){
       $user_id=intval($key);
       $user = get_userdata( $user_id );
 
-      if (get_the_author_meta( 'veggie', $user->ID )){
+      if (get_the_author_meta( 'veggie', $user_id )=="true"){
        $icon='<i class="fa fa-check"></i>';
       }else{
         $icon='<i class="fa fa-remove"></i>';
