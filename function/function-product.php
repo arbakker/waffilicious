@@ -56,20 +56,13 @@ function my_taxonomies_product() {
 
 }
 
-
-
-
 add_action( 'init', 'my_taxonomies_product', 0 );
-
-
-
 
 add_action("admin_init", "admin_init");
 
 function admin_init(){
   add_meta_box("price", "Price", "price", "products", "side", "low");
 }
-
 
 function price() {
   global $post;
@@ -85,7 +78,7 @@ add_action('save_post', 'save_details');
 function save_details(){
   global $post;
 
-  update_post_meta($post->ID, "price", $_POST["price"]);
+  update_post_meta($post->ID, "price", sanitize_text_field($_POST["price"]));
 
 }
 

@@ -967,3 +967,6 @@ line-height: 24px;
 ">
   Lustrumtoernooi GD Schiermonnikoog        </a></div>
 */
+.list-group-item.details>.fa{
+  margin-right:.5em;
+}

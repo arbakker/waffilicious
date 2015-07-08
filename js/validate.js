@@ -2,14 +2,14 @@ jQuery().ready(function() {
 
   jQuery('form').submit(function(){
 
-    if (jQuery("form#post").length > 0){
-      if (jQuery("#set-post-thumbnail").find('img').size() === 0) {
-        alert('Please set a featured image for this item.');
-        return false;
-      }else{
-        return true;
-      }
-  }
+  //   if (jQuery("form#post").length > 0){
+  //     if (jQuery("#set-post-thumbnail").find('img').size() === 0) {
+  //       alert('Please set a featured image for this item.');
+  //       return false;
+  //     }else{
+  //       return true;
+  //     }
+  // }
   });
 
 

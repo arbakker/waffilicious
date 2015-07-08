@@ -50,6 +50,11 @@ function event_css() {
               font-family:  FontAwesome !important;
               content: '\\f083'; // this is where you enter the fontaweseom font code
           }
+          #adminmenu .menu-icon-selected-talks div.wp-menu-image:before {
+               font-family:  FontAwesome !important;
+               content: '\\f0e5'; // this is where you enter the fontaweseom font code
+           }
+
 
      </style>";
 }
@@ -68,7 +73,6 @@ function uep_add_event_info_metabox() {
 add_action( 'add_meta_boxes', 'uep_add_event_info_metabox' );
 
 function uep_render_event_info_metabox( $post ) {
-
     // generate a nonce field
     wp_nonce_field( basename( __FILE__ ), 'uep-event-info-nonce' );
     // get previously saved meta values (if any)
