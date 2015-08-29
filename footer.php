@@ -34,52 +34,53 @@
         <!--<img class="footer-logo" src="<?php echo get_template_directory_uri();?>/img/waf_full_logo.svg" alt="WAF Full Logo">-->
 
 
-      <div class="col-md-4 col-sm-4 col-xs-12 ">
-        <div style="display:block:margin-left:auto;margin-right:auto;">
-        <h3>NFB News</h3>
-        <?php echo getFeed("http://www.frisbeesport.nl/web/index.php?option=com_content&view=section&layout=blog&id=1&format=feed&type=rss",5);?>
+        <div class="col-md-4 col-sm-4 col-xs-12 ">
+          <div style="display:block:margin-left:auto;margin-right:auto;">
+  <h3>News</h3>
+          <ul class="footer" >
+          <?php
+          $array=array('numberposts' => 5);
+          $recent_posts = wp_get_recent_posts($array);
+          foreach( $recent_posts as $recent ){
+            echo '<li style="list-style:none;"><a href="' . get_permalink($recent["ID"]) . '">' .   $recent["post_title"].'</a> </li> ';
+          }
+          ?>
+          </ul>
 
-      </div>
-      </div>
-      <div class="col-md-4 col-sm-4 col-xs-12">
-        <div style="display:block;margin-left:auto;margin-right:auto;">
-        <h3>WAF News</h3>
-        <ul class="footer" >
-        <?php
-        $array=array('numberposts' => 3);
-        $recent_posts = wp_get_recent_posts($array);
-        foreach( $recent_posts as $recent ){
-          echo '<li style="list-style:none;"><a href="' . get_permalink($recent["ID"]) . '">' .   $recent["post_title"].'</a> </li> ';
-        }
-        ?>
-        </ul>
+          <?php
+          $array = array(
+            'post_type' => 'event',
+            'orderby' => 'meta_value_num',
+            'meta_key' =>'event-sort-date',
+            'order' => 'DESC',
+            'numberposts' => 5
+          );
+          $recent_posts = wp_get_recent_posts($array);
+          if (count($recent_posts)>0){
+          ?>
 
-        <?php
-        $array = array(
-          'post_type' => 'event',
-          'orderby' => 'meta_value_num',
-          'meta_key' =>'event-sort-date',
-          'order' => 'ASC',
-          'numberposts' => 3
-        );
-        $recent_posts = wp_get_recent_posts($array);
-        if (count($recent_posts)>0){
-        ?>
+          <?php //echo getFeed("http://www.frisbeesport.nl/web/index.php?option=com_content&view=section&layout=blog&id=1&format=feed&type=rss",5);?>
 
-        <h3>WAF Events</h3>
-        <ul class="footer" >
-        <?php
-
-        foreach( $recent_posts as $recent ){
-          echo '<li style="list-style:none;"><a href="' . get_permalink($recent["ID"]) . '">' .   $recent["post_title"].'</a> </li> ';
-        }
-        echo "</ul>";
-        }
-        ?>
+        </div>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+          <div style="display:block;margin-left:auto;margin-right:auto;">
 
 
-      </div>
-      </div>
+          <h3>Events</h3>
+          <ul class="footer" >
+          <?php
+
+          foreach( $recent_posts as $recent ){
+            echo '<li style="list-style:none;"><a href="' . get_permalink($recent["ID"]) . '">' .   $recent["post_title"].'</a> </li> ';
+          }
+          echo "</ul>";
+          }
+          ?>
+
+
+        </div>
+        </div>
 
 
 
