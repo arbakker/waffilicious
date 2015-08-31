@@ -20,8 +20,9 @@ get_header(); ?>
                     You are not allowed to view this page. Go away!
                 </div>
                 <div class="error-actions">
-                    <a href="<?php echo site_url();?>" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>
-                        Take Me Home </a><a href="mailto:waf@wur.nl" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-envelope"></span> Contact Support </a>
+                    <a href="#" class="btn btn-primary btn-lg" data-target="#loginmodal" data-toggle="modal"><i class='fa fa-sign-in fa-lg'></i>
+                        Sign in</a>
+                        <a href="mailto:waf@wur.nl" class="btn btn-default btn-lg"><i class='fa fa-envelope fa-lg'></i> Contact WAF</a>
                 </div>
             </div>
         </div>
