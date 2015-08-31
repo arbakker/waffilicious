@@ -1,6 +1,8 @@
 <?php
 /**
- * The template for displaying 404 pages (Not Found).
+ * Template Name: 404 Not Found
+ *
+ * The template for displaying 404 pages (Not found).
  *
  */
 
@@ -15,7 +17,7 @@ get_header(); ?>
                 <h2>
                     Page Not Found</h2>
                 <div class="error-details">
-                    Sorry, an error has occured, Requested page not found!
+                    An error has occured, requested page not found!
                 </div>
                 <div class="error-actions">
                     <a href="<?php echo site_url();?>" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>

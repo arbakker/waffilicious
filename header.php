@@ -117,7 +117,7 @@ echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
                   <li><a href="<?php echo  $link_user_page;?>"><i class='fa fa-user ' ></i>&nbsp;&nbsp;&nbsp;  Edit My Profile</a></li>
                   <li><a href="<?php echo site_url();?>/members/"><i class='fa fa-users ' ></i>&nbsp;&nbsp; Members List</a></li>
                   <?php
-                  $page = get_page_by_name('information');
+                  $page = get_page_by_title('Information');
                   if (!empty($page)) {
                     ?>
                     <li><a href="<?php echo site_url();?>/information/"><i class='fa fa-bookmark ' ></i>&nbsp;&nbsp; Official Stuff</a></li>
