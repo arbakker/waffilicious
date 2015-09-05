@@ -10,11 +10,17 @@ jQuery.browser = {};
     }
 })();
 
+var items=$(".form-control-wrap > img");
 
-var item=$(".form-control-wrap > img");
-var parent=item.parentElement;
-var target=jQuery(parent).find("label");
-target.append(item);
+for (index = 0; index < items.length; ++index) {
+  var item=items[index];
+  var parent=item.parentElement;
+  var target=jQuery(parent).find("label");
+  target.append(item);
+}
+
+
+
 
 $(".article>.al2fb_anchor").detach().appendTo(".post-meta");
 $('[data-toggle="tooltip"]').tooltip();
