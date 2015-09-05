@@ -1,5 +1,21 @@
 jQuery().ready(function() {
 
+jQuery.browser = {};
+(function () {
+    jQuery.browser.msie = false;
+    jQuery.browser.version = 0;
+    if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+        jQuery.browser.msie = true;
+        jQuery.browser.version = RegExp.$1;
+    }
+})();
+
+
+var item=$(".form-control-wrap > img");
+var parent=item.parentElement;
+var target=jQuery(parent).find("label");
+target.append(item);
+
 $(".article>.al2fb_anchor").detach().appendTo(".post-meta");
 $('[data-toggle="tooltip"]').tooltip();
 $("#registration-input").tooltip({'trigger':'focus', 'title': 'Optional details for registration'});
@@ -30,6 +46,8 @@ if (h<300){
   $(".navbar-nav>li>a ").css("line-height","0px");
   $(".navbar-nav>li").css("height","40px");
   $(".navbar-nav>li:not(:has(*))").remove();
+}else{
+
 }
 }
 

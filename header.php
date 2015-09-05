@@ -24,10 +24,10 @@
 global $page, $paged;
 wp_title( '', true );
 // Add the site title for the home/front page.
-$site_description = get_bloginfo( 'description', 'display' );
-if ( $site_description && ( is_home() || is_front_page() ) ){
+$site_name = get_bloginfo( 'name', 'display' );
+if ( $site_name && ( is_home() || is_front_page() ) ){
 
-echo $site_description;
+echo $site_name;
 }
 elseif ( is_home() || is_front_page() )
 {
@@ -38,6 +38,13 @@ if ( $paged >= 2 || $page >= 2 ){
 echo ' | ' . sprintf( __( 'Page %s', 'minim2' ), max( $paged, $page ) );
 }
 ?></title>
+<?php
+if ( is_home() || is_front_page() )
+{
+?><meta name="description" content="<?php bloginfo('description'); ?>" />
+<?php
+}
+ ?>
 <link rel="apple-touch-icon-precomposed" sizes="57x57" href="<?php bloginfo('stylesheet_directory'); ?>/apple-touch-icon-57x57.png" />
 <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php bloginfo('stylesheet_directory'); ?>/apple-touch-icon-114x114.png" />
 <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php bloginfo('stylesheet_directory'); ?>/apple-touch-icon-72x72.png" />
