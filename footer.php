@@ -19,11 +19,11 @@
     <div class="row bottom">
       <div class="col-md-4 col-sm-4 col-xs-12 ">
         <a href="/" style="position:absolute:top:4em;">
-          <?php echo '<?xml version="1.0" encoding="utf-8"?>';?>
-          <?php include("img/waf_full_logo.svg"); ?>
+          <div>
+          <?php include("img/waf_full_logo.svg"); ?>  
+          </div>
+
         </a>
-
-
             <p style="text-align:center;left: -.4em;position: relative;top:-1.5em;">
             <a href="http://www.waf.wur.nl/facebook" data-toggle="tooltip" data-placement="left" title="WAF Facebook group" style="margin-left:0.3em;margin-right:0.3em;"><i class="fa fa-facebook fa-2x footer"></i></a>
             <a href="http://www.waf.wur.nl/facebook"  data-toggle="tooltip" data-placement="left" title="WAF Facebook page" style="margin-left:0.3em;margin-right:0.3em;"><i class=" fa fa-facebook-square fa-2x footer"></i></a>

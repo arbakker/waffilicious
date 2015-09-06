@@ -87,8 +87,10 @@ if ( is_home() || is_front_page() )
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand"   href="/"><?php echo '<?xml version="1.0" encoding="utf-8"?>';?>
+          <a class="navbar-brand"   href="/">
+            <div>
           <?php include("img/logo-navbar.svg"); ?>
+            </div>
           </a>
         </div>
         <div class="navbar-collapse collapse">

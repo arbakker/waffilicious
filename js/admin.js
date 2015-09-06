@@ -24,23 +24,27 @@ jQuery().ready(function() {
         });
 
     // Set current date to start date of event and set mindate for enddate and maxdate for deadline
-    jQuery( '#start-date' ).datepicker({
+    jQuery( '#start-date' ).datetimepicker({
+
         dateFormat: 'dd MM yy',
+        timeFormat: 'HH:mm',
         minDate: 0,
-        onClose: function( selectedDate ){
+        onClose: function( selectedDate, selectedTime ){
+          console.log(selectedDate);
           jQuery( '#end-date' ).datepicker( 'option', 'minDate', selectedDate);
           jQuery( '#end-date' ).datepicker('setDate', selectedDate);
           jQuery( '#deadline' ).datepicker( 'option', 'maxDate', selectedDate);
         }
     });
-    jQuery( '#end-date' ).datepicker({
-        dateFormat: 'dd MM yy',
+    jQuery( '#end-date' ).datetimepicker({
+      dateFormat: 'dd MM yy',
+      timeFormat: 'HH:mm',
         onClose: function( selectedDate ){
-          jQuery( '#start-date' ).datepicker(  'option', 'maxDate', selectedDate);
+          //jQuery( '#start-date' ).datepicker(  'option', 'maxDate', selectedDate);
         }
     });
     jQuery( '#deadline' ).datepicker({
-        dateFormat: 'dd MM yy',
+      dateFormat: 'dd MM yy',
         minDate: 0,
         onClose: function( selectedDate ){
         }

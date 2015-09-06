@@ -64,6 +64,10 @@ function enqueue_scripts_admin(){
   wp_enqueue_style('validate.css', get_template_directory_uri() . '/css/validate.css');
   wp_enqueue_script('jquery',get_template_directory_uri(). '/vendor/jquery-2.1.1.min.js' );
   wp_enqueue_style('font_awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
+  wp_enqueue_script('jquery-ui', get_template_directory_uri() . '/vendor/jquery-ui.js', array('jquery'));
+  
+  wp_enqueue_script('timepicker.js',get_template_directory_uri(). '/vendor/jquery-ui-timepicker-addon.js' );
+  wp_enqueue_style('timepicker.css', get_template_directory_uri() . '/css/jquery-ui-timepicker-addon.css');
 }
 
 

@@ -53,26 +53,28 @@ $thumbnail=get_the_post_thumbnail( $postID, 'medium' );
 $thumbnail=str_replace( 'class="', 'class="img-thumbnail img-responsive img-event ', $thumbnail );
 $query_start_date= get_post_field( 'event-start-date', $postID );
 $query_end_date= get_post_field( 'event-end-date', $postID );
-$date=get_date_from_gmt( date( 'Y-m-d H:i:s',$query_date ), 'F j, Y' );
 
-$start_day=get_date_from_gmt( date( 'Y-m-d H:i:s',$query_start_date ), 'j' );
-$start_month=get_date_from_gmt( date( 'Y-m-d H:i:s', $query_start_date ), 'M' );
-$start_month_full=get_date_from_gmt( date( 'Y-m-d H:i:s', $query_start_date ), 'F' );
-$end_day=get_date_from_gmt( date( 'Y-m-d H:i:s',$query_end_date), 'j' );
-$end_month=get_date_from_gmt( date( 'Y-m-d H:i:s', $query_end_date ), 'M' );
-$end_month_full=get_date_from_gmt( date( 'Y-m-d H:i:s', $query_end_date ), 'F' );
-
+$iso_start_date = date( 'Y-m-d\TH:i',$query_start_date )."</br>";
+$iso_end_date= date( 'Y-m-d\TH:i',$query_end_date )."</br>";
+$fulldate=get_event_date_string($query_start_date,$query_end_date);
 $sort_date=get_post_field('event-sort-date', $postID);
 $deadline=get_post_field( 'event-deadline', $postID );
 $daystodeadline=intval(($deadline - time())/(3600*24));
 
 $location=get_post_field( 'event-venue', $postID );
+$address=get_post_field( 'event-address', $postID );
+$postal=get_post_field( 'event-postal', $postID );
+$locality=get_post_field( 'event-locality', $postID );
+$country=get_post_field( 'event-country', $postID );
+$organizer=get_post_field( 'event-organizer', $postID );
+$organizer_url=get_post_field( 'event-organizer-url', $postID );
+
 $price=get_post_field( 'price', $postID );
 
 $icon_register='<i class="fa text-right registered loggedin  '.$postID.'  fa-check-square-o fa-lg"></i>';
 $icon_unregister='<i class="fa text-right notregistered loggedin '.$postID.' fa-square-o fa-lg "></i>';
 
-$fulldate=get_event_date_string($query_start_date,$start_day,$start_month_full,$query_end_date,$end_day,$end_month_full);
+
 
 $members = get_post_meta($post->ID, 'members', true);
 $guest_players = get_post_meta($post->ID, 'guest_players', true);
@@ -158,25 +160,25 @@ if (! $registered){
 // Do not show event when start date of event has already passed
 if (get_post_field( 'event-start-date', $postID )>time() ){
   ?>
-  <div class="panel panel-default event" name="<?php echo $name;?>" id-event="<?php echo $postID;?>" >
+
+  <div class="panel panel-default event"  itemtype="<?php
+
+  if (custom_taxonomies_term()=="Activity"){
+    echo "https://schema.org/SocialEvent";
+  }else{
+    echo "https://schema.org/SportsEvent";
+  }
+  ?>" name="<?php echo $name;?>" id-event="<?php echo $postID;?>" >
     <div class="panel-heading">
       <div class="label event" style="float:left;">
-        <time ><strong>  <?php
-          echo $start_day;
-          ?>
-          <?php
-          echo $start_month;
-          ?></strong></time>
+        <?php  echo date('d M',$query_start_date); ?>
       </div>
       <h1 class="panel-title"  data-toggle="collapse" data-parent="#accordion" data-target="#<?php echo $postID; ?>">
-
-
       <div class="accordion-title">
-        <a class="accordion-toggle">
+        <a class="accordion-toggle" itemprop="name">
           <?php the_title();?>
         </a>
       </div>
-
         <?php echo $registered_string ;?>
       </h1>
     </div>
@@ -200,7 +202,10 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
               <div class="top1">
 
                 <ul class="list-group">
-                  <li class="list-group-item details"><i class="fa fa-calendar-o"></i>&nbsp;<?php echo $fulldate;?></li>
+                  <li class="list-group-item details"><i class="fa fa-calendar-o"></i>
+                    <meta itemprop="startDate" content="<?php echo $iso_start_date;?>">
+                    &nbsp;<?php echo $fulldate;?></li>
+                    <meta itemprop="endDate" content="<?php echo $iso_end_date;?>">
                   <li class="list-group-item details"><i class="fa fa-map-marker"></i>&nbsp;<?php echo $location;?></li>
                 <?php if (! empty($price)){  ?>
                   <li class="list-group-item details"><i class="fa fa-euro"></i>&nbsp;<?php echo $price;?></li>
@@ -235,6 +240,73 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
                   <?php
                   the_content();
                   ?>
+                    <div class="row top2">
+                      <div class="col-md-6  col-xs-6">
+                        <h4>Location</h4>
+                        <div itemprop="location" itemscope itemtype="http://schema.org/PostalAddress">
+                          <?php
+                          if ($location){
+                            ?>
+                            <div itemprop="name"><?php echo $location;?></div>
+                            <?php
+                          }
+                          if ($address){
+                            ?>
+                            <span itemprop="streetAddress"><?php echo $address;?></span>
+                            <?php
+                          }
+                          if ($postal){
+                            ?>
+                          </br><span itemprop="postalCode"><?php echo $postal;?> </span>
+                            <?php
+                          }
+                          if ($locality){
+                            ?>
+                              <span itemprop="addressLocality"><?php echo $locality;?></span>
+
+                            <?php
+                          }
+                          if ($country=="the Netherlands"){
+                              ?>
+                                <meta itemprop="addressCountry" content="<?php echo $country;?>">
+                              <?php
+                            }else {
+                              ?>
+                                <span itemprop="addressCountry"><?php echo $country;?></span>
+                              <?php
+                            }
+                            ?>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6 col-xs-6">
+                        <h4>Organization</h4>
+                        <?php
+                        if ($organizer){
+                          ?>
+
+
+                          <div itemprop="organizer" itemscope itemtype="http://schema.org/Organization">
+
+                              Organizer: <span itemprop="name"><?php echo $organizer;?></span>
+
+                            </div>
+                          <?php
+                        }
+                        if ($organizer_url){
+                          ?>
+
+<a href="<?php echo $organizer_url ?>" itemprop="url"><?php the_title(); ?></a>
+
+                          <?php
+
+                        }
+
+                        ?>
+
+                    </div>
+                    </div>
+
                   <hr>
                   <div class="row event-button">
                     <div class="col-md-12">

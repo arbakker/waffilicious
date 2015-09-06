@@ -31,7 +31,7 @@ $location=get_post_field( 'event-venue', $postID );
 $price=get_post_field( 'price', $postID );
 $icon_register='<i class="fa text-right registered  '.$postID.'  fa-check-square-o fa-lg"></i>';
 $icon_unregister='<i class="fa text-right notregistered  '.$postID.' fa-square-o fa-lg "></i>';
-$fulldate=get_event_date_string($start_date,$start_day,$start_month_full,$end_date,$end_day,$end_month_full);
+$fulldate=get_event_date_string($start_date,$end_date);
 $members = get_post_meta($post->ID, 'members', true);
 $guest_players = get_post_meta($post->ID, 'guest_players', true);
 

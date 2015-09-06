@@ -80,35 +80,61 @@ function uep_render_event_info_metabox( $post ) {
     $event_end_date = get_post_meta( $post->ID, 'event-end-date', true );
     $event_deadline = get_post_meta( $post->ID, 'event-deadline', true );
     $event_venue = get_post_meta( $post->ID, 'event-venue', true );
+    //address
+    $event_address = get_post_meta( $post->ID, 'event-address', true );
+    //postal code
+    $event_postal = get_post_meta( $post->ID, 'event-postal', true );
+    // locality
+    $event_locality = get_post_meta( $post->ID, 'event-locality', true );
+    $event_country = get_post_meta( $post->ID, 'event-country', true );
+
+    $event_organizer = get_post_meta( $post->ID, 'event-organizer', true );
+    $event_url = get_post_meta( $post->ID, 'event-url', true );
+
     $price = get_post_meta($post->ID, 'price', true);
     $members = get_post_meta($post->ID, 'members', true);
     $guest_players = get_post_meta($post->ID, 'guest_players', true);
     // if there is previously saved value then retrieve it, else set it to the current time
-    $event_start_date = ! empty( $event_start_date ) ? $event_start_date : time();
+    date_default_timezone_set('Europe/Amsterdam');
+    $heden=  time();
+    $event_country = ! empty( $event_country ) ? $event_country : "the Netherlands";
+    $event_start_date = ! empty( $event_start_date ) ? $event_start_date : $heden;
     //we assume that if the end date is not present, event ends on the same day
     $event_end_date = ! empty( $event_end_date ) ? $event_end_date : $event_start_date;
     // if there is previously saved value then retrieve it, else set it to the event date
     $event_deadline = ! empty( $event_deadline ) ? $event_deadline : $event_start_date;
     $costs = ! empty( $costs ) ? $costs : "0";
+
     ?>
 
-<label for="start-date"><?php _e( 'Event Start Date:', 'uep' ); ?></label>
-        <input class="date required widefat uep-event-date-input" id="start-date" type="text" name="uep-event-start-date" placeholder="" value="<?php echo date( 'F d, Y', $event_start_date ); ?>" />
+<label for="start-date"><?php _e( 'Start Date:', 'uep' ); ?></label>
+        <input class="date required widefat uep-event-date-input" id="start-date" type="text" name="uep-event-start-date" placeholder="" value="<?php echo date( 'd F Y  H:i', $event_start_date ); ?>" />
 
-<label for="end-date"><?php _e( 'Event End Date:', 'uep' ); ?></label>
-        <input class="date required  widefat uep-event-date-input" id="end-date" type="text" name="uep-event-end-date" placeholder="" value="<?php echo date( 'F d, Y', $event_end_date ); ?>" />
+<label for="end-date"><?php _e( 'End Date:', 'uep' ); ?></label>
+        <input class="date required  widefat uep-event-date-input" id="end-date" type="text" name="uep-event-end-date" placeholder="" value="<?php echo date( 'd F Y  H:i', $event_end_date ); ?>" />
 
-<label for="deadline"><?php _e( 'Event Registration Deadline:', 'uep' ); ?></label>
-        <input class="date  widefat uep-event-date-input" id="deadline" type="text" name="uep-event-deadline" placeholder="" value="<?php echo date( 'F d, Y',   $event_deadline ); ?>" />
+<label for="deadline"><?php _e( 'Registration Deadline:', 'uep' ); ?></label>
+        <input class="date  widefat uep-event-date-input" id="deadline" type="text" name="uep-event-deadline" placeholder="" value="<?php echo date( 'd F Y',   $event_deadline ); ?>" />
 
+<label for="venue"><?php _e( 'Venue:', 'uep' ); ?></label>
+        <input class="widefat" id="venue" type="text" name="uep-event-venue" placeholder="de Bongerd" value="<?php echo $event_venue; ?>" />
 
-<label for="venue"><?php _e( 'Event Venue:', 'uep' ); ?></label>
-        <input class="widefat required" id="venue" type="text" name="uep-event-venue" placeholder="eg. Times Square" value="<?php echo $event_venue; ?>" />
+<label for="address"><?php _e( 'Address:', 'uep' ); ?></label>
+        <input class="widefat " id="address" type="text" name="uep-event-address" placeholder="Bornsesteeg 2" value="<?php echo $event_address; ?>" />
+<label for="postal"><?php _e( 'Postal code:', 'uep' ); ?></label>
+        <input class="widefat " id="postal" type="text" name="uep-event-postal" placeholder="6708 PE" value="<?php echo $event_postal; ?>" />
+<label for="locality"><?php _e( 'Locality:', 'uep' ); ?></label>
+        <input class="widefat " id="locality" type="text" name="uep-event-locality" placeholder="Wageningen" value="<?php echo $event_locality; ?>" />
+<label for="country"><?php _e( 'Country:', 'uep' ); ?></label>
+        <input class="widefat " id="country" type="text" name="uep-event-country" placeholder="the Netherlands" value="<?php echo $event_country; ?>" />
+<label for="organizer"><?php _e( 'Organizer:', 'uep' ); ?></label>
+        <input class="widefat " id="organizer" type="text" name="uep-event-organizer" placeholder="WAF" value="<?php echo $event_organizer; ?>" />
+<label for="event-url"><?php _e( 'Event URL:', 'uep' ); ?></label>
+        <input class="widefat" id="event-url" type="text" name="uep-event-url" placeholder="" value="<?php echo $event_url; ?>" />
 
 <label for="price">Price</label>
 <input name="price"type="text" id="price" class="widefat required" value="<?php echo $price; ?>" />
-<!--<label for="members">Members</label>
-<input name="members"type="text" id="price" class="widefat" value="<?php echo $members; ?>" /> -->
+
     <?php
     }
 
@@ -147,6 +173,34 @@ function uep_save_event_info( $post_id ) {
     }
     if ( isset( $_POST['uep-event-venue'] ) ) {
         update_post_meta( $post_id, 'event-venue', sanitize_text_field( $_POST['uep-event-venue'] ) );
+    }
+    if ( isset( $_POST['uep-event-address'] ) ) {
+        update_post_meta( $post_id, 'event-address', sanitize_text_field( $_POST['uep-event-address'] ) );
+    }
+    if ( isset( $_POST['uep-event-postal'] ) ) {
+        update_post_meta( $post_id, 'event-postal', sanitize_text_field( $_POST['uep-event-postal'] ) );
+    }
+    if ( isset( $_POST['uep-event-locality'] ) ) {
+        update_post_meta( $post_id, 'event-locality', sanitize_text_field( $_POST['uep-event-locality'] ) );
+    }
+    if ( isset( $_POST['uep-event-country'] ) ) {
+        update_post_meta( $post_id, 'event-country', sanitize_text_field( $_POST['uep-event-country'] ) );
+    }
+    if ( isset( $_POST['uep-event-organizer'] ) ) {
+      if (sanitize_text_field( $_POST['uep-event-organizer'] )){
+        update_post_meta( $post_id, 'event-organizer', sanitize_text_field( $_POST['uep-event-organizer'] ) );
+      }else{
+        update_post_meta( $post_id, 'event-organizer', "WAF" );
+      }
+    }
+    if ( isset( $_POST['uep-event-url'] ) ) {
+
+    if (startsWith(sanitize_text_field( $_POST['uep-event-url'] ),"http://")||startsWith(sanitize_text_field( $_POST['uep-event-url'] ),"https://")){
+    update_post_meta( $post_id, 'event-url', sanitize_text_field( $_POST['uep-event-url'] ) );
+    }else{
+      update_post_meta( $post_id, 'event-url', 'http://'.sanitize_text_field( $_POST['uep-event-url'] ) );
+    }
+
     }
     if ( isset( $_POST['price'] ) ) {
         update_post_meta( $post_id, 'price', sanitize_text_field( $_POST['price'] ) );
@@ -596,16 +650,35 @@ register_taxonomy( 'event_categories', 'event', array( 'hierarchical' => true, '
 
 add_action( 'init', 'build_taxonomies', 0 );
 
-function get_event_date_string($start_date,$start_day,$start_month, $end_date,$end_day,$end_month){
-  if ($start_date!=$end_date){
-    if ($start_month===$end_month){
-      return $start_day."-".$end_day." ".$end_month;
+function get_event_date_string($query_start_date,$query_end_date){
+  $start_time=  date( 'H:i',$query_start_date );
+  $end_time=  date( 'H:i',$query_end_date );
+  $start_day=  date( 'Y-m-d',$query_start_date );
+  $end_day=  date( 'Y-m-d',$query_end_date );
+
+  if ($start_time==$end_time){
+    //ALL_DAY
+    if($start_day==$end_day){
+      //ONE_DAY
+      return  date('d M',$query_start_date);
     }else{
-      return $fulldate=$start_day." ".$start_month."-".$end_day." ".$end_month;
+      //MULTIPLE_DAYS
+      return  date('d M',$query_start_date).' - '.date('d M',$query_end_date);
     }
+
   }else{
-    return $fulldate=$start_day." ".$start_month;
+    //SPECIFIC_TIME
+    if($start_day==$end_day){
+        //ONE_DAY
+        return  date('d M',$query_start_date)." ".date( 'H:i',$query_start_date)." - " .date( 'H:i',$query_end_date);
+    }else{
+        //MULTIPLE_DAYS
+        return date('d M',$query_start_date)." ".date( 'H:i',$query_start_date)." - ".date( 'd M',$query_end_date )." ".date( 'H:i',$query_end_date);
+    }
   }
+
+
+
 }
 
 function waf_alert_string($days, $weeks){
