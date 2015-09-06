@@ -54,6 +54,7 @@ $thumbnail=str_replace( 'class="', 'class="img-thumbnail img-responsive img-even
 $query_start_date= get_post_field( 'event-start-date', $postID );
 $query_end_date= get_post_field( 'event-end-date', $postID );
 
+
 $iso_start_date = date( 'Y-m-d\TH:i',$query_start_date )."</br>";
 $iso_end_date= date( 'Y-m-d\TH:i',$query_end_date )."</br>";
 $fulldate=get_event_date_string($query_start_date,$query_end_date);
@@ -202,10 +203,12 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
               <div class="top1">
 
                 <ul class="list-group">
+
                   <li class="list-group-item details"><i class="fa fa-calendar-o"></i>
                     <meta itemprop="startDate" content="<?php echo $iso_start_date;?>">
                     &nbsp;<?php echo $fulldate;?></li>
                     <meta itemprop="endDate" content="<?php echo $iso_end_date;?>">
+                  </li>
                   <li class="list-group-item details"><i class="fa fa-map-marker"></i>&nbsp;<?php echo $location;?></li>
                 <?php if (! empty($price)){  ?>
                   <li class="list-group-item details"><i class="fa fa-euro"></i>&nbsp;<?php echo $price;?></li>
@@ -213,6 +216,25 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
                 }
                 ?>
               </ul>
+
+
+              <div class="dropdown topdot5">
+<button class="btn btn-default dropdowntoggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+Add to calendar
+<span class="caret"></span>
+</button>
+<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+<li><a onclick="location.href='../wp-content/themes/<?php echo get_template(); ?>/ical-generator.php?eventid=<?php echo $postID; ?>';">Download ical</a></li>
+<li><a href="#">Another action</a></li>
+</ul>
+</div>
+
+
+
+
+
+
+
             </div>
 
           </div>
