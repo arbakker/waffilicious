@@ -195,7 +195,11 @@ function uep_save_event_info( $post_id ) {
     }
     if ( isset( $_POST['uep-event-url'] ) ) {
 
-    if (startsWith(sanitize_text_field( $_POST['uep-event-url'] ),"http://")||startsWith(sanitize_text_field( $_POST['uep-event-url'] ),"https://")){
+    if ( $_POST['uep-event-url']===''){
+      $permalink=get_permalink($post_id);
+      update_post_meta( $post_id, 'event-url', $permalink );
+    }
+    elseif (startsWith(sanitize_text_field( $_POST['uep-event-url'] ),"http://")||startsWith(sanitize_text_field( $_POST['uep-event-url'] ),"https://")){
     update_post_meta( $post_id, 'event-url', sanitize_text_field( $_POST['uep-event-url'] ) );
     }else{
       update_post_meta( $post_id, 'event-url', 'http://'.sanitize_text_field( $_POST['uep-event-url'] ) );
@@ -651,6 +655,7 @@ register_taxonomy( 'event_categories', 'event', array( 'hierarchical' => true, '
 add_action( 'init', 'build_taxonomies', 0 );
 
 function get_event_date_string($query_start_date,$query_end_date){
+  date_default_timezone_set('Europe/Amsterdam');
   $start_time=  date( 'H:i',$query_start_date );
   $end_time=  date( 'H:i',$query_end_date );
   $start_day=  date( 'Y-m-d',$query_start_date );

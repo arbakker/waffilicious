@@ -68,7 +68,7 @@ $postal=get_post_field( 'event-postal', $postID );
 $locality=get_post_field( 'event-locality', $postID );
 $country=get_post_field( 'event-country', $postID );
 $organizer=get_post_field( 'event-organizer', $postID );
-$organizer_url=get_post_field( 'event-organizer-url', $postID );
+$organizer_url=get_post_field( 'event-url', $postID );
 
 $price=get_post_field( 'price', $postID );
 
@@ -302,8 +302,12 @@ Add to calendar
                       </div>
 
                       <div class="col-md-6 col-xs-6">
-                        <h4>Organization</h4>
                         <?php
+                        if ($organizer ||$organizer_url ){
+                        ?>
+                        <h4>Organization</h4>  
+                        <?php
+                      }
                         if ($organizer){
                           ?>
 
@@ -316,6 +320,7 @@ Add to calendar
                           <?php
                         }
                         if ($organizer_url){
+
                           ?>
 
 <a href="<?php echo $organizer_url ?>" itemprop="url"><?php the_title(); ?></a>
