@@ -105,7 +105,7 @@ $nr_members = $total_players;
 
 
 if (! $registered){
-  if (! is_user_logged_in()){
+  if (! is_user_logged_in() && $external!=="on"){
     $registered_string="";
   }else{
     $registered_string=$icon_unregister;
@@ -117,7 +117,7 @@ if (! $registered){
             Registration deadline has passed!
             </div>';
   }else{
-    if (is_user_logged_in()){
+    if (is_user_logged_in() && $external!=="on"){
     $button='<button style="display:none;" class="btn ladda-button btn-default unregister  topdot5 loggedin '.$name." ".$postID.' pull-right" name="'.$name.'" data-style="expand-left" data-spinner-color="#333"><span class="ladda-label">Unregister</span></button>'.
             '<div class="input-group  loggedin '.$name.'">
             <input data-toggle="tooltip" data-placement="left" title="Additional details for registration" type="text" id="registration-input-'.$name.'" class="form-control">
@@ -139,7 +139,7 @@ if (! $registered){
             </div>';
   }
 }else{
-  if (! is_user_logged_in()){
+  if (! is_user_logged_in() && $external!=="on"){
     $registered_string="";
   }else{
     $registered_string=$icon_register;
