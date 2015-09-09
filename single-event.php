@@ -224,17 +224,17 @@ if (!$registered){
                         <?php
                         if ($address){
                           ?>
-                          <span itemprop="streetAddress"><?php echo $address;?></span>
+                          <span  class="addressitem" itemprop="streetAddress"><?php echo $address;?></span>
                           <?php
                         }
                         if ($postal){
                           ?>
-                        </br><span itemprop="postalCode"><?php echo $postal;?> </span>
+                        </br><span class="addressitem"  itemprop="postalCode"><?php echo $postal;?> </span>
                           <?php
                         }
                         if ($locality){
                           ?>
-                            </br><span itemprop="addressLocality"><?php echo $locality;?></span>
+                        </br><span class="addressitem" itemprop="addressLocality"><?php echo $locality;?></span>
 
                           <?php
                         }
@@ -244,7 +244,7 @@ if (!$registered){
                             <?php
                           }else {
                             ?>
-                              <span itemprop="addressCountry"><?php echo $country;?></span>
+                          </br><span class="addressitem"  itemprop="addressCountry"><?php echo $country;?></span>
                             <?php
                           }
                           ?>

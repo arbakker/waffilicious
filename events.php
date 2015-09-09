@@ -311,7 +311,7 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
 
                       <div class="col-md-6 col-xs-6">
                         <?php
-                        if ($organizer ||$organizer_url ){
+                          if ($organizer ||$organizer_url && ($organizer!=="WAF" || $organizer!=="waf" || $organizer!=="Waf") ){
                         ?>
                         <h4>Organization</h4>
                         <?php
