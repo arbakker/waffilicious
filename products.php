@@ -65,14 +65,15 @@
                       <div class="col-xs-12 col-md-8">
 
                         <?php
-                        if (strlen ($content)>strlen ($excerpt)){
+
+                        /*if (strlen ($content)>strlen ($excerpt)){
                           ?>
 <?php edit_post_link( __( '&nbsp;<i class="fa fa-edit"></i></i>'), '<span class="left1 ">', '</span>' ); ?>
                           <button type="button" class=" btn btn-default read-more" data-container="body" data-toggle="popover" data-placement="bottom" data-content='<?php echo $content;?>'>
                         Read more</button>
                           <?php
                         }
-
+*/
                          ?>
 
                           <a class="btn btn-primary orderEmail" data-toggle="tooltip" data-placement="top" title="Send email to order <?php echo $post->post_title; ?>" href="mailto:waf@wur.nl?subject=Order website: <?php echo $post->post_title; ?>"><i class="fa fa-envelope-o"></i></a>
