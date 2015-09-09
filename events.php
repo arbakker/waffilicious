@@ -291,7 +291,7 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
                           }
                           if ($locality){
                             ?>
-                              <span itemprop="addressLocality"><?php echo $locality;?></span>
+                            </br><span itemprop="addressLocality"><?php echo $locality;?></span>
 
                             <?php
                           }

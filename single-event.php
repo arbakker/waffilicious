@@ -37,6 +37,15 @@ $members = get_post_meta($post->ID, 'members', true);
 $guest_players = get_post_meta($post->ID, 'guest_players', true);
 
 
+$location=get_post_field( 'event-venue', $postID );
+$external=get_post_field( 'event-external', $postID );
+$address=get_post_field( 'event-address', $postID );
+$postal=get_post_field( 'event-postal', $postID );
+$locality=get_post_field( 'event-locality', $postID );
+$country=get_post_field( 'event-country', $postID );
+$organizer=get_post_field( 'event-organizer', $postID );
+$organizer_url=get_post_field( 'event-url', $postID );
+
 
 
 if (!$guest_players){
@@ -225,7 +234,7 @@ if (!$registered){
                         }
                         if ($locality){
                           ?>
-                            <span itemprop="addressLocality"><?php echo $locality;?></span>
+                            </br><span itemprop="addressLocality"><?php echo $locality;?></span>
 
                           <?php
                         }
@@ -245,7 +254,7 @@ if (!$registered){
 
                     <div class="col-md-6 col-xs-6">
                       <?php
-                      if ($organizer ||$organizer_url ){
+                      if ($organizer ||$organizer_url && ($organizer!=="WAF" || $organizer!=="waf" || $organizer!=="Waf") ){
                       ?>
                       <h4>Organization</h4>
                       <?php
