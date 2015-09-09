@@ -11,29 +11,24 @@
       ?>
       <div class="row">
         <div class="col-sm-8 col-md-8 col-xs-12 bottomdot5" itemscope itemtype="http://schema.org/BlogPosting" >
-
-<div class="row">
-  <div class="row">
-    <div class="col-sm-12 col-md-12 col-lg-12">
-      <h1 itemprop="headLine">
-        <?php the_title(); ?>
-      </h1>
-    </div>
-  </div>
- <div class="col-sm-12 col-md-6 col-lg-6 bottom1">
-     <div class="">
-       <?php echo $thumbnail; ?>
-       <meta itemprop="image"content="<?php echo $imageurl;?>" >
-     </div>
-
- </div>
- <div itemprop="articleBody" class="col-sm-12 col-md-6 col-lg-6">
-   <?php the_content(); ?>
- </div>
-</div>
-
-
-
+          <div class="row">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-12">
+                <h1 itemprop="headLine">
+                  <?php the_title(); ?>
+                </h1>
+              </div>
+            </div>
+           <div class="col-sm-12 col-md-6 col-lg-6 bottom1">
+               <div class="">
+                 <?php echo $thumbnail; ?>
+                 <meta itemprop="image"content="<?php echo $url;?>" >
+               </div>
+           </div>
+          <div itemprop="articleBody" class="col-sm-12 col-md-6 col-lg-6">
+             <?php the_content(); ?>
+          </div>
+        </div>
           <div class="top2">
             <div class="post-meta inline-flex">
               <div class="label">
@@ -55,16 +50,12 @@
         <div class="row">
           <div class="col-sm-12  col-md-12 col-xs-12">
             <div id="widgetized-area">
-
             	<?php if (function_exists('dynamic_sidebar') && dynamic_sidebar('widgetized-area')) : else : ?>
-
             	<div class="pre-widget">
             		<p><strong>Widgetized Area</strong></p>
             		<p>This panel is active and ready for you to add some widgets via the WP Admin</p>
             	</div>
-
             	<?php endif; ?>
-
             </div>
           </div>
       </div>
@@ -73,9 +64,6 @@
           <div id="widgetized-area2">
 
             <?php if (function_exists('dynamic_sidebar') && dynamic_sidebar('widgetized-area2')) : else : ?>
-
-
-
             <?php endif; ?>
 
           </div>

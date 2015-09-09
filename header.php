@@ -65,8 +65,8 @@ if ( is_home() || is_front_page() )
 <meta name="msapplication-square150x150logo" content="<?php bloginfo('stylesheet_directory'); ?>/mstile-150x150.png" />
 <meta name="msapplication-wide310x150logo" content="<?php bloginfo('stylesheet_directory'); ?>/mstile-310x150.png" />
 <meta name="msapplication-square310x310logo" content="<?php bloginfo('stylesheet_directory'); ?>/mstile-310x310.png" />
-
-
+<meta name="theme-color" content="#0C9AF7">
+<meta name="mobile-web-app-capable" content="yes"/>
 
 
 <!--[if lt IE 9]>

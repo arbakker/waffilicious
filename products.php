@@ -65,7 +65,7 @@
                       <div class="col-xs-12 col-md-8">
 
                         <?php
-                        if ($content>$excerpt){
+                        if (strlen ($content)>strlen ($excerpt)){
                           ?>
 <?php edit_post_link( __( '&nbsp;<i class="fa fa-edit"></i></i>'), '<span class="left1 ">', '</span>' ); ?>
                           <button type="button" class=" btn btn-default read-more" data-container="body" data-toggle="popover" data-placement="bottom" data-content='<?php echo $content;?>'>

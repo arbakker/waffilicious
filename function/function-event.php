@@ -126,6 +126,7 @@ function uep_render_event_info_metabox( $post ) {
   <label for="external"><?php _e( 'External:', 'uep' ); ?></label></th>
 
     <input class="widefat"  type="checkbox"  name="uep-event-external" id="external"<?php if ($event_external==="on"){echo "checked";} ?>>
+      <span class="description"><?php _e("External events members cannot sign up for. You will need to create a new form and append that to the event."); ?></span>
 </p>
 
 
