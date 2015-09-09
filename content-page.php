@@ -4,15 +4,13 @@
  *
  */
 ?>
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
       <?php
         $postID=get_the_ID();
         $thumbnail=get_the_post_thumbnail( $postID, 'large' );
 
         $thumbnail=str_replace( 'class="', 'class="img-rounded img-responsive  img-page ', $thumbnail );
       ?>
-      <div class="row" itemscope itemtype="https://schema.org/WebPage">
-            <div class="row">
+      <div class="row" id="post-<?php the_ID(); ?>" <?php post_class(); ?> itemscope itemtype="https://schema.org/WebPage">
               <div class="col-sm-12 col-md-12 col-lg-12">
                 <h1 itemprop="name">
                   <?php the_title(); ?>
@@ -42,4 +40,3 @@
            </p>
           </div>
       </div>
-</article>

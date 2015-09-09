@@ -12,7 +12,6 @@
       <div class="row">
         <div class="col-sm-8 col-md-8 col-xs-12 bottomdot5" itemscope itemtype="http://schema.org/BlogPosting" >
           <div class="row">
-            <div class="row">
               <div class="col-sm-12 col-md-12 col-lg-12">
                 <h1 itemprop="headLine">
                   <?php the_title(); ?>

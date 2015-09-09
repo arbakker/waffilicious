@@ -34,7 +34,7 @@ if (is_page("contact")){
 
 
  </div>
- </main>
+ </div>
 
 
 <?php get_footer(); ?>
