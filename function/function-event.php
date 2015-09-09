@@ -79,6 +79,8 @@ function uep_render_event_info_metabox( $post ) {
     $event_start_date = get_post_meta( $post->ID, 'event-start-date', true );
     $event_end_date = get_post_meta( $post->ID, 'event-end-date', true );
     $event_deadline = get_post_meta( $post->ID, 'event-deadline', true );
+
+    $event_external = get_post_meta( $post->ID, 'event-external', true );
     $event_venue = get_post_meta( $post->ID, 'event-venue', true );
     //address
     $event_address = get_post_meta( $post->ID, 'event-address', true );
@@ -87,6 +89,8 @@ function uep_render_event_info_metabox( $post ) {
     // locality
     $event_locality = get_post_meta( $post->ID, 'event-locality', true );
     $event_country = get_post_meta( $post->ID, 'event-country', true );
+
+
 
     $event_organizer = get_post_meta( $post->ID, 'event-organizer', true );
     $event_url = get_post_meta( $post->ID, 'event-url', true );
@@ -115,6 +119,15 @@ function uep_render_event_info_metabox( $post ) {
 
 <label for="deadline"><?php _e( 'Registration Deadline:', 'uep' ); ?></label>
         <input class="date  widefat uep-event-date-input" id="deadline" type="text" name="uep-event-deadline" placeholder="" value="<?php echo date( 'd F Y',   $event_deadline ); ?>" />
+
+<p>
+
+
+  <label for="external"><?php _e( 'External:', 'uep' ); ?></label></th>
+
+    <input class="widefat"  type="checkbox"  name="uep-event-external" id="external"<?php if ($event_external==="on"){echo "checked";} ?>>
+</p>
+
 
 <label for="venue"><?php _e( 'Venue:', 'uep' ); ?></label>
         <input class="widefat" id="venue" type="text" name="uep-event-venue" placeholder="de Bongerd" value="<?php echo $event_venue; ?>" />
@@ -185,6 +198,11 @@ function uep_save_event_info( $post_id ) {
     }
     if ( isset( $_POST['uep-event-country'] ) ) {
         update_post_meta( $post_id, 'event-country', sanitize_text_field( $_POST['uep-event-country'] ) );
+    }
+    if ( isset( $_POST['uep-event-external'] ) ) {
+      update_post_meta( $post_id, 'event-external', sanitize_text_field( $_POST['uep-event-external'] ) );
+    }else {
+      update_post_meta( $post_id, 'event-external', "off" );
     }
     if ( isset( $_POST['uep-event-organizer'] ) ) {
       if (sanitize_text_field( $_POST['uep-event-organizer'] )){

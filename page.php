@@ -10,8 +10,18 @@
  */
 
 get_header(); ?>
- <div class="row">
-   <div class="col-sm-12 col-md-12">
+ <div class="row"
+<?php
+if (is_page("contact")){
+  echo 'itemscope itemtype="https://schema.org/ContactPage"';
+}else{
+  echo 'itemscope itemtype="https://schema.org/WebPage"';
+}
+ ?>
+ >
+
+
+   <div class="col-sm-12 col-md-12" >
 
   <?php while ( have_posts() ) : the_post(); ?>
 

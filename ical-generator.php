@@ -7,6 +7,10 @@ date_default_timezone_set('Europe/Amsterdam');
 function alldaydateToCal($timestamp) {
 return date('Ymd', $timestamp);
 }
+$eventID = intval($_GET["eventid"]);
+
+$query_start_date= get_post_field( 'event-start-date', $eventID );
+$query_end_date= get_post_field( 'event-end-date', $eventID );
 
 $start_time=  date( 'H:i',$query_start_date );
 $end_time=  date( 'H:i',$query_end_date );
@@ -15,40 +19,17 @@ $end_day=  date( 'Y-m-d',$query_end_date );
 
 $allday=False;
 $oneday=False;
-if ($start_time==$end_time){
+if ($start_time===$end_time){
   $allday=True;
-  if($start_day!==$end_day){
+  if($start_day===$end_day){
     $oneday=True;
 }
 }
-
-  $eventID = intval($_GET["eventid"]);
-
-  $query_start_date= get_post_field( 'event-start-date', $eventID );
-  $query_end_date= get_post_field( 'event-end-date', $eventID );
-
   $content =  wp_strip_all_tags(get_post_field('post_content', $eventID));
   $title =  get_the_title( $eventID);
 
   header("Content-type: text/plain");
   header("Content-Disposition: attachment; filename='".$title.".ics'");
-
-  /*
-  BEGIN:VCALENDAR
-  VERSION:2.0
-  PRODID:-//hacksw/handcal//NONSGML v1.0//EN
-  BEGIN:VEVENT
-  UID:uid1@example.com
-  DTSTAMP:19970714T170000Z
-  ORGANIZER;CN=John Doe:MAILTO:john.doe@example.com
-  DTSTART:19970714T170000Z
-  DTEND:19970715T035959Z
-  SUMMARY:Bastille Day Party
-  END:VEVENT
-  END:VCALENDAR
-  */
-
-
   $eol = "\r\n";
   // do your Db stuff here to get the content into $content
   print "BEGIN:VCALENDAR".$eol ;

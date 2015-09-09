@@ -12,21 +12,22 @@ $title=$post->post_title;
 $form="";
 $script="";
 $thumbnail=get_the_post_thumbnail( $postID, 'medium' );
-$thumbnail=str_replace( 'class="', 'class="img-thumbnail img-responsive img-event ', $thumbnail );
+$thumbnail=str_replace( 'class="', 'class="img-rounded img-responsive img-event ', $thumbnail );
+$imageurl = wp_get_attachment_image_src( get_post_thumbnail_id($postID), 'large' )[0];
+
+
 // Get event dates
-$date=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-start-date', $postID ) ), 'F j, Y' );
-$start_day=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-start-date', $postID ) ), 'j' );
-$start_month=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-start-date', $postID ) ), 'M' );
-$start_month_full=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-start-date', $postID ) ), 'F' );
-$end_day=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-end-date', $postID ) ), 'j' );
-$end_month=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-end-date', $postID ) ), 'M' );
-$end_month_full=get_date_from_gmt( date( 'Y-m-d H:i:s', get_post_field( 'event-end-date', $postID ) ), 'F' );
-$start_date=get_post_field( 'event-start-date', $postID );
-$end_date=get_post_field( 'event-end-date', $postID );
+$query_start_date= get_post_field( 'event-start-date', $postID );
+$query_end_date= get_post_field( 'event-end-date', $postID );
+$iso_start_date = date( 'Y-m-d\TH:i',$query_start_date )."</br>";
+$iso_end_date= date( 'Y-m-d\TH:i',$query_end_date )."</br>";
+$fulldate=get_event_date_string($query_start_date,$query_end_date);
+
 $sort_date=get_post_field('event-sort-date', $postID);
 $deadline=get_post_field( 'event-deadline', $postID );
 $daystodeadline=intval(($deadline - time())/(3600*24));
 // Get other event information
+$external=get_post_field( 'event-external', $postID );
 $location=get_post_field( 'event-venue', $postID );
 $price=get_post_field( 'price', $postID );
 $icon_register='<i class="fa text-right registered  '.$postID.'  fa-check-square-o fa-lg"></i>';
@@ -34,6 +35,7 @@ $icon_unregister='<i class="fa text-right notregistered  '.$postID.' fa-square-o
 $fulldate=get_event_date_string($start_date,$end_date);
 $members = get_post_meta($post->ID, 'members', true);
 $guest_players = get_post_meta($post->ID, 'guest_players', true);
+
 
 
 
@@ -56,7 +58,7 @@ $nr_members = $total_players;
 
 if (!$registered){
 
-  if (! is_user_logged_in()){
+  if (! is_user_logged_in() && $external!=="on"){
     $registered_string="";
 
   }else{
@@ -69,7 +71,7 @@ if (!$registered){
             Registration deadline has passed!
             </div>';
   }else{
-    if (is_user_logged_in()){
+    if (is_user_logged_in() && $external!=="on"){
 
     $button='<button style="display:none;" class="btn btn-default unregister  topdot5 '.$name." ".$postID.' pull-right" name="'.$name.'">Unregister</button>'.
             '<div class="input-group  '.$name.'">
@@ -95,7 +97,7 @@ if (!$registered){
 
   }
 }else{
-  if (! is_user_logged_in()){
+  if (! is_user_logged_in() && $external!=="on"){
 
     $registered_string="";
   }else{
@@ -121,16 +123,23 @@ if (!$registered){
 
   ?>
 
-       <div class="row event" name="<?php echo $name;?>" id-event="<?php echo $postID;?>">
+       <div class="row event" itemscope itemtype="<?php
+       if (custom_taxonomies_term()=="Activity"){
+         echo "https://schema.org/SocialEvent";
+       }else{
+         echo "https://schema.org/SportsEvent";
+       }
+       ?>" name="<?php echo $name;?>" id-event="<?php echo $postID;?>">
         <div class="col-xs-12 col-sm-4 col-md-3">
           <div class="row">
             <div class="col-md-12">
-              <h2>
+              <h2 itemprop="name">
                 <?php the_title(); ?>
               </h2>
               <div>
                 <a href="<?php the_permalink()?>">
                   <?php echo $thumbnail ;?>
+                   <meta itemprop="image"content="<?php echo $imageurl;?>" >
                 </a>
               </div>
             </div>
@@ -140,7 +149,11 @@ if (!$registered){
               <?php edit_post_link( __( '&nbsp;<i class="fa fa-edit"></i></i>'), '<span class=" ">', '</span>' ); ?>
               <div class="top1">
                 <ul class="list-group">
-                  <li class="list-group-item details"><i class="fa fa-calendar-o"></i>&nbsp;<?php echo $fulldate;?></li>
+                  <li class="list-group-item details"><i class="fa fa-calendar-o"></i>
+                    <meta itemprop="startDate" content="<?php echo $iso_start_date;?>">
+                    &nbsp;<?php echo $fulldate;?></li>
+                    <meta itemprop="endDate" content="<?php echo $iso_end_date;?>">
+                  </li>
                   <li class="list-group-item details"><i class="fa fa-map-marker"></i>&nbsp;<?php echo $location;?></li>
                 <?php if (! empty($price)){  ?>
                   <li class="list-group-item details"><i class="fa fa-euro"></i>&nbsp;<?php echo $price;?></li>
@@ -148,6 +161,17 @@ if (!$registered){
                 }
                 ?>
               </ul>
+              <div class="dropdown topdot5">
+                <button class="btn btn-default dropdowntoggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  Add to calendar
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                  <li><a href="/wp-content/themes/<?php echo get_template(); ?>/ical-generator.php?eventid=<?php echo $postID; ?>">Download ical</a></li>
+                  <!--<li><a href="#">Another action</a></li>-->
+                </ul>
+              </div>
+
             </div>
           </div>
         </div>
@@ -156,7 +180,7 @@ if (!$registered){
             <ul class="nav nav-tabs" role="tablist">
               <li class="active"><a href="#event_<?php echo $name; ?>" role="tab" data-toggle="tab"><?php echo custom_taxonomies_term();?></a></li>
               <?php
-              if (is_user_logged_in()){
+              if (is_user_logged_in() && $external!=="on"){
                 ?>
               <li><a href="#people_<?php echo $name; ?>" role="tab" data-toggle="tab">People
                 <?php
@@ -175,6 +199,85 @@ if (!$registered){
                   <?php
                   the_content();
                   ?>
+
+                  <div class="row top2">
+                    <div class="col-md-6  col-xs-6">
+                      <h4>Location</h4>
+                      <div itemprop="location" itemscope itemtype="http://schema.org/Place">
+                        <?php
+                        if ($location){
+                          ?>
+                          <div itemprop="name"><?php echo $location;?></div>
+                          <?php
+                        }
+                        ?>
+                        <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                        <?php
+                        if ($address){
+                          ?>
+                          <span itemprop="streetAddress"><?php echo $address;?></span>
+                          <?php
+                        }
+                        if ($postal){
+                          ?>
+                        </br><span itemprop="postalCode"><?php echo $postal;?> </span>
+                          <?php
+                        }
+                        if ($locality){
+                          ?>
+                            <span itemprop="addressLocality"><?php echo $locality;?></span>
+
+                          <?php
+                        }
+                        if ($country=="the Netherlands"){
+                            ?>
+                              <meta itemprop="addressCountry" content="<?php echo $country;?>">
+                            <?php
+                          }else {
+                            ?>
+                              <span itemprop="addressCountry"><?php echo $country;?></span>
+                            <?php
+                          }
+                          ?>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 col-xs-6">
+                      <?php
+                      if ($organizer ||$organizer_url ){
+                      ?>
+                      <h4>Organization</h4>
+                      <?php
+                    }
+                      if ($organizer){
+                        ?>
+
+
+                        <div itemprop="organizer" itemscope itemtype="http://schema.org/Organization">
+
+                          <span itemprop="name"><?php echo $organizer;?></span>
+
+                          </div>
+                        <?php
+                      }
+                      if ($organizer_url){
+
+                        ?>
+
+<a href="<?php echo $organizer_url ?>" itemprop="url"><?php the_title(); ?></a>
+
+                        <?php
+
+                      }
+
+                      ?>
+
+                  </div>
+                  </div>
+
+
+
                   <hr>
                   <div class="row event-button">
                     <div class="col-md-12">
@@ -216,7 +319,7 @@ if (!$registered){
               </div>
             </div>
             <?php
-            if (is_user_logged_in()){
+            if (is_user_logged_in() && $external!=="on"){
             ?>
             <div class="tab-pane" id="people_<?php echo $name; ?>">
               <table class="table top1" >

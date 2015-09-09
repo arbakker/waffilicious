@@ -11,7 +11,7 @@ get_header();
 
 
 
-echo '<div class="panel-group" id="accordion">';
+echo '<div class="panel-group" id="accordion" itemscope itemtype="https://schema.org/CollectionPage">';
 
 $query = new WP_Query( array(
   'post_type' => 'event',
@@ -50,7 +50,9 @@ $form="";
 $script="";
 
 $thumbnail=get_the_post_thumbnail( $postID, 'medium' );
-$thumbnail=str_replace( 'class="', 'class="img-thumbnail img-responsive img-event ', $thumbnail );
+$thumbnail=str_replace( 'class="', 'class="img-rounded img-responsive img-event ', $thumbnail );
+$imageurl = wp_get_attachment_image_src( get_post_thumbnail_id($postID), 'large' )[0];
+
 $query_start_date= get_post_field( 'event-start-date', $postID );
 $query_end_date= get_post_field( 'event-end-date', $postID );
 
@@ -63,6 +65,7 @@ $deadline=get_post_field( 'event-deadline', $postID );
 $daystodeadline=intval(($deadline - time())/(3600*24));
 
 $location=get_post_field( 'event-venue', $postID );
+$external=get_post_field( 'event-external', $postID );
 $address=get_post_field( 'event-address', $postID );
 $postal=get_post_field( 'event-postal', $postID );
 $locality=get_post_field( 'event-locality', $postID );
@@ -162,7 +165,7 @@ if (! $registered){
 if (get_post_field( 'event-start-date', $postID )>time() ){
   ?>
 
-  <div class="panel panel-default event"  itemtype="<?php
+  <div class="panel panel-default event" itemscope itemtype="<?php
 
   if (custom_taxonomies_term()=="Activity"){
     echo "https://schema.org/SocialEvent";
@@ -176,8 +179,8 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
       </div>
       <h1 class="panel-title"  data-toggle="collapse" data-parent="#accordion" data-target="#<?php echo $postID; ?>">
       <div class="accordion-title">
-        <a class="accordion-toggle" itemprop="name">
-          <?php the_title();?>
+        <a class="accordion-toggle" >
+          <span itemprop="name" ><?php the_title();?></span>
         </a>
       </div>
         <?php echo $registered_string ;?>
@@ -193,6 +196,7 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
               <div>
                 <a href="<?php the_permalink()?>">
                   <?php echo $thumbnail ;?>
+                   <meta itemprop="image"content="<?php echo $imageurl;?>" >
                 </a>
               </div>
             </div>
@@ -219,15 +223,15 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
 
 
               <div class="dropdown topdot5">
-<button class="btn btn-default dropdowntoggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-Add to calendar
-<span class="caret"></span>
-</button>
-<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-<li><a onclick="location.href='../wp-content/themes/<?php echo get_template(); ?>/ical-generator.php?eventid=<?php echo $postID; ?>';">Download ical</a></li>
-<li><a href="#">Another action</a></li>
-</ul>
-</div>
+                <button class="btn btn-default dropdowntoggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  Add to calendar
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                  <li><a href="/wp-content/themes/<?php echo get_template(); ?>/ical-generator.php?eventid=<?php echo $postID; ?>">Download ical</a></li>
+                  <!--<li><a href="#">Another action</a></li>-->
+                </ul>
+              </div>
 
 
 
@@ -244,7 +248,7 @@ Add to calendar
             <ul class="nav nav-tabs" role="tablist">
               <li class="active"><a href="#event_<?php echo $name; ?>" role="tab" data-toggle="tab"><?php echo custom_taxonomies_term();?></a></li>
               <?php
-              if (is_user_logged_in()){
+              if (is_user_logged_in() && $external!=="on" ){
                 ?>
               <li class="loggedin"><a href="#people_<?php echo $name; ?>" role="tab" data-toggle="tab">People
                 <?php
@@ -265,13 +269,16 @@ Add to calendar
                     <div class="row top2">
                       <div class="col-md-6  col-xs-6">
                         <h4>Location</h4>
-                        <div itemprop="location" itemscope itemtype="http://schema.org/PostalAddress">
+                        <div itemprop="location" itemscope itemtype="http://schema.org/Place">
                           <?php
                           if ($location){
                             ?>
                             <div itemprop="name"><?php echo $location;?></div>
                             <?php
                           }
+                          ?>
+                          <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                          <?php
                           if ($address){
                             ?>
                             <span itemprop="streetAddress"><?php echo $address;?></span>
@@ -298,6 +305,7 @@ Add to calendar
                               <?php
                             }
                             ?>
+                          </div>
                         </div>
                       </div>
 
@@ -305,7 +313,7 @@ Add to calendar
                         <?php
                         if ($organizer ||$organizer_url ){
                         ?>
-                        <h4>Organization</h4>  
+                        <h4>Organization</h4>
                         <?php
                       }
                         if ($organizer){
@@ -314,7 +322,7 @@ Add to calendar
 
                           <div itemprop="organizer" itemscope itemtype="http://schema.org/Organization">
 
-                              Organizer: <span itemprop="name"><?php echo $organizer;?></span>
+                              <span itemprop="name"><?php echo $organizer;?></span>
 
                             </div>
                           <?php
@@ -350,6 +358,11 @@ Add to calendar
                               style="display:none"
                           <?php } ?>
                                       class=" reg-details <?php echo " ".$postID;  ?>">
+
+                                      <?php
+                                        if (is_user_logged_in() && $external!=="on" ){
+                                       ?>
+
                                       <div class="row">
                                         <div class="col-md-12">
                                         <div class="btn-group pull-right btn-group-details btn-group-sm loggedin">
@@ -364,6 +377,8 @@ Add to calendar
                                       </div>
                                       </div>
                                       <textarea id="form-details-<?php echo $postID; ?>" class="form-control loggedin" rows="3" disabled="disabled" data-toggle="tooltip" data-placement="left" title="Edit your registration details"><?php echo  get_post_meta( $postID, 'members', true )["$user_id"];?></textarea>
+                                      <?php }
+                                      ?>
                       </div>
                         <?php
                         echo $button;
@@ -374,7 +389,7 @@ Add to calendar
               </div>
             </div>
             <?php
-            if (is_user_logged_in()){
+            if (is_user_logged_in() && $external!=="on"){
 
             ?>
             <div class="tab-pane loggedin" id="people_<?php echo $name; ?>">

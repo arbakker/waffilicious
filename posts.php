@@ -23,7 +23,7 @@ $paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
 $the_query = new WP_Query( 'paged=' . $paged );
 
 
-echo '<div class="list-group">';
+echo '<div class="list-group" itemscope itemtype="https://schema.org/CollectionPage">';
 if( $the_query->have_posts() ) {
 
   $i = 0;
@@ -31,26 +31,39 @@ if( $the_query->have_posts() ) {
 while ($the_query->have_posts()) : $the_query->the_post();
 
 $image = get_the_post_thumbnail( $post->ID, 'thumbnail' );
-$image=str_replace( 'class="', 'class="img-rounded img-responsive img-news ', $image );
-if (! $image){
-  // TODO: Replace placeholder image with WAF image
-  $url=catch_that_image( $post->ID );
-  $image='<img src="'.$url.'" class="img-rounded img-responsive img-news attachment-thumbnail wp-post-image"  height="80" width="80">';
+$url = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'thumbnail' )[0];
+if (!$url){
+  $url =catch_that_image( $post->ID );
 }
+
+$urlLarge = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'large' )[0];
+if (!$urlLarge){
+  $urlLarge =catch_that_image( $post->ID );
+}
+
+
+
+
+$image='<img property="thumbnailUrl" src="'.$url.'" class="img-rounded img-responsive img-news attachment-thumbnail wp-post-image"  height="80" width="80">';
+
+
 $ID=$post->ID;
 $time=get_the_date();
 $excerpt=get_the_excerpt();?>
 
 
-<a href="<?php the_permalink() ?>" title="Permanent Link to <?php the_title_attribute(); ?>" class="list-group-item list-group-news ">
+
+<a span itemscope itemtype="http://schema.org/BlogPosting" href="<?php the_permalink() ?>" title="Permanent Link to <?php the_title_attribute(); ?>" class="list-group-item list-group-news ">
+  <meta  itemprop="url" content"<?php the_permalink() ?>">
   <div class="image-news">
   <?php
 
     echo $image ;?>
+    <meta itemprop="image"content="<?php echo $urlLarge;?>" >
 </div>
 <span>
-  <h4 class="list-group-item-heading"><?php  the_title();?></h4>
-  <p class="list-group-item-text"><?php echo $excerpt;?></p>
+  <h4 itemprop="headLine" class="list-group-item-heading"><?php  the_title();?></h4>
+  <p class="list-group-item-text" itemprop="description"><?php echo $excerpt;?></p>
 </span>
 <div class="label posts">
   <time itemprop="datePublished" datetime="<?php echo get_the_date('c');?>"><strong><?php echo get_the_date( );?></strong></time>
