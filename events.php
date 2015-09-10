@@ -43,7 +43,7 @@ setup_postdata( $post );
 $user_id = get_current_user_id();
 $postID = get_the_ID();
 $registered=is_user_registered ($user_id, $postID);
-
+date_default_timezone_set('Europe/Amsterdam');
 $name=$post->post_name;
 $title=$post->post_title;
 $content = $post->post_content;
@@ -240,14 +240,12 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
                   <li>
                     <?php
                         $location_string=urlencode($location." ".$adress." ".$postal." ".$locality." ".$country)
-
-
                      ?>
 
                   <a href="<?php echo "http://www.google.com/calendar/render?action=TEMPLATE&text=" . urlencode($title)
                   . "&dates=". $google_start_date ."/". $google_end_date . "&details=" . wp_strip_all_tags($content) .
                   "&location=".  $location_string . "&sf=true&output=xml" ;?>"
-                  target="_blank" rel="nofollow">Add to Google calendar</a></li>            
+                  target="_blank" rel="nofollow">Add to Google calendar</a></li>
                 </ul>
               </div>
 

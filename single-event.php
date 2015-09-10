@@ -3,7 +3,7 @@
   <div class="col-md-12">
 <?php
 if(have_posts()): while(have_posts()): the_post();
-
+date_default_timezone_set('Europe/Amsterdam');
 $user_id = get_current_user_id();
 $postID = get_the_ID();
 $registered=is_user_registered ($user_id, $postID);
