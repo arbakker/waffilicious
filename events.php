@@ -46,6 +46,8 @@ $registered=is_user_registered ($user_id, $postID);
 
 $name=$post->post_name;
 $title=$post->post_title;
+$content = $post->post_content;
+
 $form="";
 $script="";
 
@@ -57,8 +59,12 @@ $query_start_date= get_post_field( 'event-start-date', $postID );
 $query_end_date= get_post_field( 'event-end-date', $postID );
 
 
-$iso_start_date = date( 'Y-m-d\TH:i',$query_start_date )."</br>";
-$iso_end_date= date( 'Y-m-d\TH:i',$query_end_date )."</br>";
+$iso_start_date = date( 'Y-m-d\TH:i',$query_start_date );
+$iso_end_date= date( 'Y-m-d\TH:i',$query_end_date );
+
+$google_start_date=date( 'Ymd\THis',$query_start_date )."Z";
+$google_end_date= date( 'Ymd\THis',$query_end_date )."Z";
+
 $fulldate=get_event_date_string($query_start_date,$query_end_date);
 $sort_date=get_post_field('event-sort-date', $postID);
 $deadline=get_post_field( 'event-deadline', $postID );
@@ -105,7 +111,7 @@ $nr_members = $total_players;
 
 
 if (! $registered){
-  if (! is_user_logged_in() && $external!=="on"){
+  if (! is_user_logged_in() || $external==="on"){
     $registered_string="";
   }else{
     $registered_string=$icon_unregister;
@@ -139,7 +145,7 @@ if (! $registered){
             </div>';
   }
 }else{
-  if (! is_user_logged_in() && $external!=="on"){
+  if (! is_user_logged_in() || $external==="on"){
     $registered_string="";
   }else{
     $registered_string=$icon_register;
@@ -222,14 +228,26 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
               </ul>
 
 
-              <div class="dropdown topdot5">
+              <div class="dropdown topdot5 bottom1">
                 <button class="btn btn-default dropdowntoggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                   Add to calendar
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                  <li><a href="/wp-content/themes/<?php echo get_template(); ?>/ical-generator.php?eventid=<?php echo $postID; ?>">Download ical</a></li>
-                  <!--<li><a href="#">Another action</a></li>-->
+                  <li><a href="/wp-content/themes/<?php echo get_template(); ?>/ical-generator.php?eventid=<?php echo $postID; ?>">Download iCal</a></li>
+
+
+                  <li>
+                    <?php
+                        $location_string=urlencode($location." ".$adress." ".$postal." ".$locality." ".$country)
+
+
+                     ?>
+
+                  <a href="<?php echo "http://www.google.com/calendar/render?action=TEMPLATE&text=" . urlencode($title)
+                  . "&dates=". $google_start_date ."/". $google_end_date . "&details=" . wp_strip_all_tags($content) .
+                  "&location=".  $location_string . "&sf=true&output=xml" ;?>"
+                  target="_blank" rel="nofollow">Add to Google calendar</a></li>            
                 </ul>
               </div>
 
@@ -264,7 +282,7 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
                 <div class="row top2">
                   <div class="col-md-12">
                   <?php
-                  the_content();
+                echo $content;
                   ?>
                     <div class="row top2">
                       <div class="col-md-6  col-xs-6">

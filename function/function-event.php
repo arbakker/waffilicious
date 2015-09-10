@@ -156,6 +156,7 @@ function uep_render_event_info_metabox( $post ) {
 function uep_save_event_info( $post_id ) {
     // checking if the post being saved is an 'event',
     // if not, then return
+    date_default_timezone_set('Europe/Amsterdam');
     if ( 'event' != $_POST['post_type'] ) {
         return;
     }
