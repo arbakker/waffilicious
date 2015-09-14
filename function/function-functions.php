@@ -531,4 +531,23 @@ foreach ($pages as $page) {
 return false;
 }
 
+function remove_shortcode_from_index( $content ) {
+  $content = strip_shortcode( "ninja_form" ,$content );
+  return $content;
+}
+
+function strip_shortcode($code, $content)
+{
+    global $shortcode_tags;
+
+    $stack = $shortcode_tags;
+    $shortcode_tags = array($code => 1);
+
+    $content = strip_shortcodes($content);
+
+    $shortcode_tags = $stack;
+    return $content;
+}
+
+
 ?>

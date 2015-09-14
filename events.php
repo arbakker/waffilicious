@@ -11,6 +11,7 @@ get_header();
 
 
 
+
 echo '<div class="panel-group" id="accordion" itemscope itemtype="https://schema.org/CollectionPage">';
 
 $query = new WP_Query( array(
@@ -62,13 +63,12 @@ $query_end_date= get_post_field( 'event-end-date', $postID );
 $iso_start_date = date( 'Y-m-d\TH:i',$query_start_date );
 $iso_end_date= date( 'Y-m-d\TH:i',$query_end_date );
 
-$google_start_date=date( 'Ymd\THis',$query_start_date )."Z";
-$google_end_date= date( 'Ymd\THis',$query_end_date )."Z";
+$google_start_date=date( 'Ymd\THis',$query_start_date );
+$google_end_date= date( 'Ymd\THis',$query_end_date );
 
 $fulldate=get_event_date_string($query_start_date,$query_end_date);
 $sort_date=get_post_field('event-sort-date', $postID);
 $deadline=get_post_field( 'event-deadline', $postID );
-$daystodeadline=intval(($deadline - time())/(3600*24));
 
 $location=get_post_field( 'event-venue', $postID );
 $external=get_post_field( 'event-external', $postID );
@@ -95,76 +95,84 @@ if (!$guest_players){
 }else{
   $nr_guest=count($guest_players);
 }
-
 if (!$members){
   $nr_member=0;
 }else{
   $nr_member=count($members);
 }
-
-
-
-
 $total_players=$nr_member+$nr_guest;
 $nr_members = $total_players;
 
-
-
-if (! $registered){
-  if (! is_user_logged_in() || $external==="on"){
+$alert_closed='<div class="alert  alert-danger fade in" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+Registration closed!
+</div>';
+$alert_open='<div class="alert  alert-warning fade in" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        '.   waf_alert_string($deadline) .'</div>';
+// User not logged in
+if (! is_user_logged_in()){
+  // External event show deadline alerts
+  if ($external){
     $registered_string="";
-  }else{
-    $registered_string=$icon_unregister;
-  }
-
-  if ($daystodeadline<0){
     $button="";
-    $alert='<div class="alert  alert-danger fade in" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-            Registration deadline has passed!
-            </div>';
-  }else{
-    if (is_user_logged_in() && $external!=="on"){
-    $button='<button style="display:none;" class="btn ladda-button btn-default unregister  topdot5 loggedin '.$name." ".$postID.' pull-right" name="'.$name.'" data-style="expand-left" data-spinner-color="#333"><span class="ladda-label">Unregister</span></button>'.
-            '<div class="input-group  loggedin '.$name.'">
-            <input data-toggle="tooltip" data-placement="left" title="Additional details for registration" type="text" id="registration-input-'.$name.'" class="form-control">
-            <span class="input-group-btn">
-            <button class="btn ladda-button btn-default register '.$name.'" type="button" data-style="expand-left" data-spinner-color="#333" name="'.$name.'"><span class="ladda-label">Register</span></button>
-            </span>
-            </div>';
-          }else{
-            $button="";
-          }
-
-    $weeks = floor($daystodeadline/7);
-    $days= $daystodeadline % 7;
-    $alert_string=waf_alert_string($days,$weeks);
-
-
-    $alert='<div class="alert  alert-warning fade in" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-            '.    $alert_string .'
-            </div>';
+    // Registation closed
+    if (time()>$deadline){
+      $alert=$alert_closed;
+    }
+    // Registration still open
+    else{
+      $alert=$alert_open;
+    }
   }
-}else{
-  if (! is_user_logged_in() || $external==="on"){
+  // Internal event hide deadline alerts
+  else{
     $registered_string="";
-  }else{
-    $registered_string=$icon_register;
-  }
-  if ($daystodeadline<0){
     $button="";
-    $alert='<div class="alert  alert-danger fade in" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-    Registration deadline has passed!
-    </div>';
-  }else{
     $alert="";
-    $button='<button  class="btn ladda-button btn-default unregister loggedin '.$name." ".$postID.' pull-right topdot5" data-style="expand-left" data-spinner-color="#333" name="'.$name.'" ><span class="ladda-label">Unregister</span></button>'.
-            '<div class="input-group loggedin '.$name.'" style="display:none;">
-            <input type="text" id="registration-input-'.$name.'" class="form-control">
-            <span class="input-group-btn">
-            <button class="btn ladda-button btn-default register '.$name.'" type="button" data-style="expand-left" data-spinner-color="#333"  name="'.$name.'"><span class="ladda-label">Register</span></button>
-            </span>
-            </div>';
   }
+}
+// User logged in
+else{
+  if (!$external){
+      // User registered
+      if ($registered){
+        // Registation closed
+        if (time()>$deadline){
+          $button="";
+        }
+        // Registration still open
+        else{
+          $button=get_unreg_button($name,$postID);
+        }
+        $alert="";
+        $registered_string=$icon_register;
+      }
+      // User not registered
+      else{
+        // Registation closed
+        if (time()>$deadline){
+            $button="";
+            $alert=$alert_closed;
+        }
+        // Registration still open
+        else{
+          $alert=$alert_open;
+          $button=get_reg_button($name,$postID);
+        }
+        $registered_string=$icon_unregister;
+      }
+    }
+    else{
+      $registered_string="";
+      $button="";
+      // Registation closed
+      if (time()>$deadline){
+        $alert=$alert_closed;
+      }
+      // Registration still open
+      else{
+        $alert=$alert_open;
+      }
+    }
 }
 
 // Do not show event when start date of event has already passed
@@ -280,7 +288,14 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
                 <div class="row top2">
                   <div class="col-md-12">
                   <?php
-                echo $content;
+
+                if (time()>$deadline){
+                  add_filter( 'the_content', 'remove_shortcode_from_index' );
+                }
+                the_content();
+                if (time()>$deadline){
+                remove_filter('the_content', 'remove_shortcode_from_index');
+                }
                   ?>
                     <div class="row top2">
                       <div class="col-md-6  col-xs-6">
@@ -392,7 +407,7 @@ if (get_post_field( 'event-start-date', $postID )>time() ){
                                         </button>
                                       </div>
                                       </div>
-                                      <textarea id="form-details-<?php echo $postID; ?>" class="form-control loggedin" rows="3" disabled="disabled" data-toggle="tooltip" data-placement="left" title="Edit your registration details"><?php echo  get_post_meta( $postID, 'members', true )["$user_id"];?></textarea>
+                                      <textarea id="form-details-<?php echo $postID; ?>" class="form-control loggedin bottomdot5" rows="3" disabled="disabled" data-toggle="tooltip" data-placement="left" title="Edit your registration details"><?php echo  get_post_meta( $postID, 'members', true )["$user_id"];?></textarea>
                                       <?php }
                                       ?>
                       </div>

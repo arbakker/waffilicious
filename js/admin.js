@@ -43,8 +43,9 @@ jQuery().ready(function() {
           //jQuery( '#start-date' ).datepicker(  'option', 'maxDate', selectedDate);
         }
     });
-    jQuery( '#deadline' ).datepicker({
+    jQuery( '#deadline' ).datetimepicker({
       dateFormat: 'dd MM yy',
+      timeFormat:'HH:mm',
         minDate: 0,
         onClose: function( selectedDate ){
         }

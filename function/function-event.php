@@ -118,7 +118,7 @@ function uep_render_event_info_metabox( $post ) {
         <input class="date required  widefat uep-event-date-input" id="end-date" type="text" name="uep-event-end-date" placeholder="" value="<?php echo date( 'd F Y  H:i', $event_end_date ); ?>" />
 
 <label for="deadline"><?php _e( 'Registration Deadline:', 'uep' ); ?></label>
-        <input class="date  widefat uep-event-date-input" id="deadline" type="text" name="uep-event-deadline" placeholder="" value="<?php echo date( 'd F Y',   $event_deadline ); ?>" />
+        <input class="date  widefat uep-event-date-input" id="deadline" type="text" name="uep-event-deadline" placeholder="" value="<?php echo date( 'd F Y H:i',   $event_deadline ); ?>" />
 
 <p>
 
@@ -706,13 +706,58 @@ function get_event_date_string($query_start_date,$query_end_date){
 
 }
 
-function waf_alert_string($days, $weeks){
+function get_unreg_button($name, $postID){
+
+return '<button  class="btn ladda-button btn-default unregister loggedin '.$name." ".$postID.' pull-right topdot5" data-style="expand-left" data-spinner-color="#333" name="'.$name.'" ><span class="ladda-label">Unregister</span></button>'.
+  '<div class="input-group loggedin '.$name.'" style="display:none;">
+  <input type="text" id="registration-input-'.$name.'" class="form-control">
+  <span class="input-group-btn">
+  <button class="btn ladda-button btn-default register '.$name.'" type="button" data-style="expand-left" data-spinner-color="#333"  name="'.$name.'"><span class="ladda-label">Register</span></button>
+  </span>
+  </div>';
+
+
+}
+
+function get_reg_button($name,$postID){
+  return '<button style="display:none;" class="btn ladda-button btn-default unregister  topdot5 loggedin '.$name." ".$postID.' pull-right" name="'.$name.'" data-style="expand-left" data-spinner-color="#333"><span class="ladda-label">Unregister</span></button>'.
+          '<div class="input-group  loggedin '.$name.'">
+          <input data-toggle="tooltip" data-placement="left" title="Additional details for registration" type="text" id="registration-input-'.$name.'" class="form-control">
+          <span class="input-group-btn">
+          <button class="btn ladda-button btn-default register '.$name.'" type="button" data-style="expand-left" data-spinner-color="#333" name="'.$name.'"><span class="ladda-label">Register</span></button>
+          </span>
+          </div>';}
+
+
+
+function waf_alert_string($deadline){
+
+  $message="";
+
+  $daystodeadline=intval($deadline - time())/(3600*24);
+
+  $weeks = floor($daystodeadline/7);
+  $days= $daystodeadline % 7;
+
+  if ($days==0){
+    $hours=intval(($deadline - time())/3600);
+  }
   if ($weeks==0){
     // Case final day
     if ($days==0){
-      $message="Hurry with the speed of a laser disc, final day to sign up!";
+      if ($hours>1){
+        $h_string="hours";
+        $message="Hurry with the speed of a laser disc ". $hours ." ".$h_string." left to sign up!";
+      }elseif ($hours==1){
+        $h_string="hour";
+        $message="Hurry with the speed of a laser disc ". $hours ." ".$h_string." left to sign up!";
+      }else{
+        date_default_timezone_set('Europe/Amsterdam');
+        $deadline_date = date( 'H:i',$deadline );
+        $message="Hurry with the speed of a laser disc, deadline is at ".$deadline_date."!";
+      }
     }elseif($days==1){
-      $message="Scooberdabadoo, second last day to sign up!";
+      $message="Scooberdabadoo, one more day left to sign up!";
     }elseif($days>1){
       $message= '<strong> '.$days.'</strong> days left to sign up!';
     }
@@ -735,6 +780,7 @@ function waf_alert_string($days, $weeks){
   }
   return $message ;
 }
+
 
 
 ?>
