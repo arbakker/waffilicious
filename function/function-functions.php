@@ -231,6 +231,28 @@ function custom_taxonomies_term(){
   return implode('', $out );
 }
 
+function custom_taxonomies_term_by_id($id){
+  // get post by post id
+  $post = get_post( $id );
+  // get post type by post
+  $post_type = $post->post_type;
+  // get post type taxonomies
+  $taxonomies = get_object_taxonomies( $post_type, 'objects' );
+  $out = array();
+  foreach ( $taxonomies as $taxonomy_slug => $taxonomy ){
+    // get the terms related to post
+    $terms = get_the_terms( $post->ID, $taxonomy_slug );
+    if ( !empty( $terms ) ) {
+      $out[] = "";
+      foreach ( $terms as $term ) {
+        $out[] = $term->name;
+        break;
+    }
+  }
+  }
+  return implode('', $out );
+}
+
 
 
 function breezer_addDivToImage( $content ) {

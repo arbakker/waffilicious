@@ -458,7 +458,7 @@ function addguest_ajax() {
     $query_end_date= get_post_field( 'event-end-date', $post_id );
     $fulldate=get_event_date_string($query_start_date,$query_end_date);
     $msg = 
-    "<table border=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td><td width=\"350\">".
+    "<table border=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td><td width=\"400\">".
 "Hi ".$guest_player."!<br>
 We are delighted that you are  going to join WAF with <a href='".get_permalink($post_id)."'>" .get_the_title( $post_id )."</a> on ". $fulldate.". ";
   if ($guest_veggie!=='false') {
@@ -466,7 +466,7 @@ We are delighted that you are  going to join WAF with <a href='".get_permalink($
   }else{
     $msg=$msg."You have been registered as a non-veggie. ";
   }
-$msg=$msg."Reply to this email if you would like to change anything.<br>
+$msg=$msg."Reply to this email if you would like to change anything about your registration for this ".strtolower(custom_taxonomies_term_by_id($post_id)).".<br>
 Cheers,<br>
 Woef<br>
 Official WAF Mascot</td><td></td></tr></table> ";
@@ -533,10 +533,10 @@ Official WAF Mascot</td><td></td></tr></table> ";
     $query_end_date= get_post_field( 'event-end-date', $post_id );
     $fulldate=get_event_date_string($query_start_date,$query_end_date);
     $msg = 
-    "<table border=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td><td width=\"350\">".
+    "<table border=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td><td width=\"400\">".
 "Hi ".$guest_player.",<br>
 We are very sad that you are not going to join WAF after all with <a href='".get_permalink($post_id)."'>" .get_the_title( $post_id )."</a> on ". $fulldate.". ";
-$msg=$msg."You have been <strong>unregistered</strong> for this tournament.<br>
+$msg=$msg."You have been <strong>unregistered</strong> for this ".strtolower(custom_taxonomies_term_by_id($post_id)).".<br>
 Cheers,<br>
 Woef<br>
 Official WAF Mascot</td><td></td></tr></table> ";
