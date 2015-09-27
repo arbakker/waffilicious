@@ -424,7 +424,7 @@ function addguest_ajax() {
   // Get ajax request post parameters
   $post_id = intval($_POST['id']);
   $guest_player = sanitize_text_field($_POST['guest_player']);
-  $guest_email = sanitize_text_field($_POST['guest_email']);
+  $guest_email = filter_var($_POST['guest_email'],FILTER_SANITIZE_EMAIL);
   $guest_details = sanitize_text_field($_POST['guest_details']);
   $guest_veggie = sanitize_text_field($_POST['guest_veggie']);
   $guest_players = get_post_meta($post_id, 'guest_players', true);
@@ -448,9 +448,33 @@ function addguest_ajax() {
   }
   if ($result===true){
     $message = "You have succesfully added a guest player.";
+
+    // Send email to guest player
+    $headers  = 'MIME-Version: 1.0' . "\r\n";
+    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+    $query_start_date= get_post_field( 'event-start-date', $post_id );
+    $query_end_date= get_post_field( 'event-end-date', $post_id );
+    $fulldate=get_event_date_string($query_start_date,$query_end_date);
+    $msg = 
+    "<table border=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td><td width=\"350\">".
+"Hi ".$guest_player."!<br>
+We are delighted that you are  going to join WAF with <a href='".get_permalink($post_id)."'>" .get_the_title( $post_id )."</a> on ". $fulldate.". ";
+  if ($guest_veggie!=='false') {
+    $msg=$msg."You have been registered as a veggie. ";
+  }else{
+    $msg=$msg."You have been registered as a non-veggie. ";
+  }
+$msg=$msg."Reply to this email if you would like to change anything.<br>
+Cheers,<br>
+Woef<br>
+Official WAF Mascot</td><td></td></tr></table> ";
+    mail($guest_email, get_the_title( $post_id ),$msg, $headers);
+
+
     $return = array(
       'result' => $result,
       'message'	=> $message,
+      'email'=> $guest_email,
       );
       wp_send_json_success($return);
   }else{
@@ -488,6 +512,7 @@ function addguest_ajax() {
       // $a=array();
       // $a["b"]="c";
       // unset($a["b"]);
+      $guest_email= $guest_players[$guest_player][0];
       unset($guest_players[$guest_player]);
       $result=update_post_meta($post_id,'guest_players',$guest_players);
       $message = "You have succesfully removed a guest player.";
@@ -496,6 +521,23 @@ function addguest_ajax() {
       $message="You are not allowed to create, update or delete registrations for other users than yourself for this event.";
     }
     if ($result===true){
+      // Send email
+// Send email to guest player
+    $headers  = 'MIME-Version: 1.0' . "\r\n";
+    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+    $query_start_date= get_post_field( 'event-start-date', $post_id );
+    $query_end_date= get_post_field( 'event-end-date', $post_id );
+    $fulldate=get_event_date_string($query_start_date,$query_end_date);
+    $msg = 
+    "<table border=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td><td width=\"350\">".
+"Hi ".$guest_player.",<br>
+We are very sad that you are not going to join WAF after all with <a href='".get_permalink($post_id)."'>" .get_the_title( $post_id )."</a> on ". $fulldate.". ";
+$msg=$msg."You have been <strong>unregistered</strong> for this tournament.<br>
+Cheers,<br>
+Woef<br>
+Official WAF Mascot</td><td></td></tr></table> ";
+    // send email
+    mail($guest_email, get_the_title( $post_id ),$msg, $headers);
       $return = array(
         'result' => $result,
         'message'	=> $message,
@@ -653,6 +695,7 @@ function render_guest_players($post ) {
     ?>
     </tbody>
     </table>
+    <span class="description"><?php _e("Removing a guest player will automatically send the guest player an email to notify them they are unregistered."); ?></span>
     </div>
 
     <LABEL  style="margin:0.5em;" for="guest_player">Guest player</LABEL>
@@ -663,7 +706,9 @@ function render_guest_players($post ) {
     <textarea  style="margin:0.5em;"  id="guest_details"></textarea></br>
     <LABEL  style="margin:0.5em;" for="guest_veggie">Veggie</LABEL>
     <input type="checkbox" id="guest_veggie">
+     
     <button type="button" style="height:2.2em;margin:0.5em;" id="addGuest">Add guest player</button>
+     <span class="description"><?php _e("Adding a guest player will automatically send an email to the guest player to notify them they are registered."); ?></span>
     <?php
 }
 }
