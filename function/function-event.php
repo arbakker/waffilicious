@@ -452,6 +452,8 @@ function addguest_ajax() {
     // Send email to guest player
     $headers  = 'MIME-Version: 1.0' . "\r\n";
     $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+    $headers .= "From: WAF <waf@wur.nl>". "\r\n";
+    $headers .= "Reply-To: WAF <waf@wur.nl>". "\r\n";
     $query_start_date= get_post_field( 'event-start-date', $post_id );
     $query_end_date= get_post_field( 'event-end-date', $post_id );
     $fulldate=get_event_date_string($query_start_date,$query_end_date);
@@ -525,6 +527,8 @@ Official WAF Mascot</td><td></td></tr></table> ";
 // Send email to guest player
     $headers  = 'MIME-Version: 1.0' . "\r\n";
     $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+    $headers .= "From: WAF <waf@wur.nl>". "\r\n";
+    $headers .= "Reply-To: WAF <waf@wur.nl>". "\r\n";
     $query_start_date= get_post_field( 'event-start-date', $post_id );
     $query_end_date= get_post_field( 'event-end-date', $post_id );
     $fulldate=get_event_date_string($query_start_date,$query_end_date);
