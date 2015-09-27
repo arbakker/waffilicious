@@ -32,13 +32,14 @@ $args = array(
 
 $latest_posts=get_posts( $args );
 
-$query = array(
-  'post_type' => 'event',
-  'orderby' => 'meta_value_num',
-  'meta_key' =>'event-sort-date',
-  'post_status'      => 'publish',
-  'order' => 'ASC',
-);
+ $query = array(
+            'post_type' => 'event',
+            'orderby' => 'meta_value_num',
+            'meta_key' =>'event-sort-date',
+            'post_status' => 'publish',
+            'order' => 'DESC',
+          );
+
 $events=array();
 $upcoming_event= wp_get_recent_posts($query);
 foreach( $upcoming_event as $upcoming ){
@@ -47,6 +48,8 @@ foreach( $upcoming_event as $upcoming ){
       array_push($events,$upcoming);
   }
 }
+
+
 
 function fancy_smancy_item($array,$index){
   $postID=$array[$index]->ID;
@@ -81,7 +84,6 @@ function fancy_smancy_item($array,$index){
     </a>
     </article>
 
-</div>   <!-- class="col-md-6" -->
 
   <?php
 }
@@ -108,8 +110,6 @@ function fancy_smancy_page($object){
       </div>
     </a>
     </article>
-</div>   <!-- class="col-md-6" -->
-
 <?php
 }
 
@@ -136,7 +136,7 @@ function fancy_smancy_event($array,$index){
       </div>
     </a>
     </article>
-</div>   <!-- class="col-md-6" -->
+
   <?php
 }
 
@@ -149,26 +149,26 @@ function fancy_smancy_event($array,$index){
     <?php
     fancy_smancy_item($latest_posts,0);
     ?>
-
+  </div>   <!-- class="col-md-6" -->
 
   <!-- Show upcoming event or second latest news item-->
-<div class="col-md-6 col-sm-6" >
-<?php
+  <div class="col-md-6 col-sm-6" >
+  <?php
 
-  if (count($events)<2){
-  // Show second last news item
-  fancy_smancy_item($latest_posts,1);
-  }else{
-  // Show upcoming event
-  fancy_smancy_event($events,0);
+    if (count($events)<2){
+    // Show second last news item
+    fancy_smancy_item($latest_posts,1);
+    }else{
+    // Show upcoming event
+    fancy_smancy_event($events,0);
+    }
+
+  function sortFunction( $a, $b ) {
+      return date($a["post_date"]) < date($b["post_date"]);
   }
 
-function sortFunction( $a, $b ) {
-    return date($a["post_date"]) < date($b["post_date"]);
-}
-
-?>
-
+  ?>
+  </div>   <!-- class="col-md-6" -->
 </div>  <!-- class="row" -->
 <div class="row no-pad">
 
@@ -198,6 +198,7 @@ function sortFunction( $a, $b ) {
       fancy_smancy_page($page);
     }
      ?>
+  </div>
   <!-- Show "waf_frontpagepage2" or "Contact" page if not configured-->
   <div class="col-md-6 col-sm-6">
     <?php
@@ -210,6 +211,7 @@ function sortFunction( $a, $b ) {
       fancy_smancy_page($page);
     }
     ?>
+    </div>
 </div>
 
 <!--<div class="row">
