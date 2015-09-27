@@ -429,7 +429,7 @@ function addguest_ajax() {
   $guest_veggie = sanitize_text_field($_POST['guest_veggie']);
   $guest_players = get_post_meta($post_id, 'guest_players', true);
   // Check if member edits own userdetails or has rights to edit post
-  if (current_user_can('edit_post', $post_id or ! empty($guest_player) ) ){
+  if (current_user_can('edit_post', $post_id) or ! empty($guest_player) ){
     // $a=array();
     // $a["b"]="c";
     // unset($a["b"]);
