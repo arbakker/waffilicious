@@ -64,9 +64,10 @@ Registration closed!
 $alert_open='<div class="alert  alert-warning fade in" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
         '.   waf_alert_string($deadline) .'</div>';
 // User not logged in
+
 if (! is_user_logged_in()){
   // External event show deadline alerts
-  if ($external){
+  if ($external==="on"){
     $registered_string="";
     $button="";
     // Registation closed
@@ -87,7 +88,8 @@ if (! is_user_logged_in()){
 }
 // User logged in
 else{
-  if (!$external){
+  if ($external==="off"){
+
       // User registered
       if ($registered){
         // Registation closed
