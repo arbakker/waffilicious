@@ -33,7 +33,7 @@ function yoursite_extra_user_profile_fields( $user ) {
     <tr>
       <th><label for="dob"><?php _e("Date of Birth"); ?></label></th>
       <td>
-        <input class="date" id="dob" type="text" value="<?php echo  esc_attr( get_the_author_meta( 'dob', $user->ID ) ) ; ?>" />
+        <input class="date" id="dob" type="text" name="dob" value="<?php echo  esc_attr( get_the_author_meta( 'dob', $user->ID ) ) ; ?>" />
         <br />
         <span class="description"><?php _e("Please enter your date of birth."); ?></span>
       </td>
