@@ -75,7 +75,7 @@ if ( is_home() || is_front_page() )
 <?php wp_head(); ?>
 </head>
 <body  <?php body_class(); ?>>
-
+<?php include_once("analyticstracking.php") ?>
 <!--onload="creator()"-->
 
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
