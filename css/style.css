@@ -993,3 +993,24 @@ Fix for windows phone 8 older than update 3
 .addressitem span{
   display:block;
 }
+.cc_container{
+  background-color: #0C9AF7 !important;
+}
+.cc_container a{
+  color:white !important;
+  font-style:bold;
+}
+.cc_container a:hover{
+  color:#FF8E00 !important;
+}
+.cc_container .cc_btn{
+  background-color:white !important;
+  color:#FF8E00 !important;
+}
+.cc_container .cc_btn:hover{
+  background-color:#FF8E00 !important;
+  color:white !important;
+}
+.cc_container .cc_logo{
+  background-image: none !important;
+}

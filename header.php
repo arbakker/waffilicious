@@ -14,6 +14,15 @@
 <html <?php language_attributes(); ?>>
 <!--<![endif]-->
 
+<!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+<script type="text/javascript">
+    window.cookieconsent_options = {"message":"This website uses cookies to track visitor numbers | ","dismiss":"Got it!","learnMore":"More info","link":"http://localhost:8888/2015/12/17/privacy-policy/","theme":"dark-bottom"};
+</script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"></script>
+<!-- End Cookie Consent plugin -->
+
+
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
 <meta name="viewport" content="width=device-width" />
