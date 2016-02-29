@@ -96,13 +96,15 @@ function redirect_sub_to_home( $redirect_to, $request, $user ) {
 add_filter( 'login_redirect', 'redirect_sub_to_home', 10, 3 );
 
 // not sure what the function of this function is
-function restrict_admin()
-{
-  if ( ! current_user_can( 'edit_posts' ) && '/wp-admin/admin-ajax.php' != $_SERVER['PHP_SELF'] ) {
-                wp_redirect( site_url() );
-  }
+function redirect_non_admin_user(){
+    if ( !defined( 'DOING_AJAX' ) && !current_user_can('contributor') ){
+        wp_redirect( site_url() );  exit;
+    } 
 }
-add_action( 'admin_init', 'restrict_admin', 1 );
+
+add_action( 'admin_init', 'redirect_non_admin_user' );
+
+
 
 // function for adding styling when user is logged in, makes sure that the page does not overlap with the wp-admin toolbar
 function waf_wp_head(){

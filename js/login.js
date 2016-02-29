@@ -56,4 +56,50 @@ $('#signin').click(function(e) {
        l.stop();
        });
 });
+
+
+$('#password').keypress(function(e) {
+    if (e.which == 13) {
+        e.preventDefault();
+        var username=$('#username').val();
+         var l = Ladda.create(this);
+         l.start();
+        var data = {
+            'action'    : 'loginCheck',
+            'username'  : $('#username').val(),
+            'password'  : $('#password').val(),
+            'rememberme': $('#rememberme').is( ':checked' ) ? true : false,
+            'security'  : $('#security').val()
+        };
+
+        $.ajax({
+            url: ajaxurl, // your ajax url
+            type: 'POST',
+            dataType: 'json',
+            data: data,
+            error: function(jqXHR, textStatus, errorThrown) {
+
+              $('#danger-message-modal').html('Server connection error: could not sign in, please try again later.');
+              $('#alert-danger-modal').fadeIn('slow');
+
+               },
+            success: function(data) {
+                if ( data.success !== true){
+                  $('#danger-message-modal').html(data.message);
+                  $('#alert-danger-modal').fadeIn('slow');
+                  return;
+                }
+                // reload on success
+                location.reload ();
+            }
+    }).always(function(){
+       l.stop();
+       });
+  }
+});
+
+
+
+
+
 });
