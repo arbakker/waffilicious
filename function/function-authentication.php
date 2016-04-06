@@ -95,9 +95,9 @@ function redirect_sub_to_home( $redirect_to, $request, $user ) {
 }
 add_filter( 'login_redirect', 'redirect_sub_to_home', 10, 3 );
 
-// not sure what the function of this function is
+
 function redirect_non_admin_user(){
-    if ( !defined( 'DOING_AJAX' ) && !current_user_can('contributor') ){
+    if ( !defined( 'DOING_AJAX' ) && current_user_can('contributor') ){
         wp_redirect( site_url() );  exit;
     } 
 }
