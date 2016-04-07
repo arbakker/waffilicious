@@ -14,6 +14,15 @@ function yoursite_extra_user_profile_fields( $user ) {
 ?>
   <h3><?php _e("Extra profile information", "blank"); ?></h3>
   <table class="form-table">
+  <tr>
+      <th><label for="account_disabled"><?php _e("Account Disabled"); ?></label></th>
+      <td>
+        <?php $account_disabled=esc_attr( get_the_author_meta( 'account_disabled', $user->ID ) );
+        ?>
+        <INPUT  type="checkbox"  name="account_disabled" id="account_disabled"<?php if ($account_disabled){echo "checked";} ?>>
+          <span class="description"><?php _e("Account Disabled"); ?></span>
+        </td>
+    </tr>
     <tr>
       <th><label for="phone"><?php _e("Phone"); ?></label></th>
       <td>
@@ -91,7 +100,7 @@ function yoursite_extra_user_profile_fields( $user ) {
         <INPUT  type="checkbox"  name="veggie" id="veggie"<?php if ($veggie){echo "checked";} ?>>
           <span class="description"><?php _e("Veggie?"); ?></span>
         </td>
-      </tr>
+    </tr>
     <tr>
       <th><label for="allergies"><?php _e("Allergies"); ?></label></th>
       <td>
@@ -108,6 +117,7 @@ function yoursite_extra_user_profile_fields( $user ) {
 function yoursite_save_extra_user_profile_fields( $user_id ) {
   $saved = false;
   if ( current_user_can( 'edit_user', $user_id ) ) {
+    update_user_meta( $user_id, 'account_disabled', $_POST['account_disabled'] );
     update_user_meta( $user_id, 'phone', $_POST['phone'] );
     update_user_meta( $user_id, 'adress', $_POST['adress'] );
     update_user_meta( $user_id, 'WBA_ID', $_POST['WBA_ID'] );
@@ -170,9 +180,10 @@ function updatememberdetails_ajax() {
 
   if ($member==$userid or current_user_can('edit_user', $member )){
     // Check if post parameter was used in request, if so extract and update user meta
+    if(array_key_exists('account_disabled', $_POST) == TRUE){
+      $account_disabled = sanitize_text_field($_POST['account_disabled']);
+      update_user_meta( $member, 'account_disabled', $account_disabled );}
     if(array_key_exists('telephone', $_POST) == TRUE){
-
-
       $telephone =sanitize_text_field( $_POST['telephone']);
       update_user_meta( $member, 'phone', $telephone );}
     if(array_key_exists('displayname', $_POST) == TRUE){

@@ -31,7 +31,7 @@ function loginCheck() {
 
     // check for empty fields
     if( empty( $creds['user_login'] ) || empty( $creds['user_password'] ) ) {
-        echo json_encode( array( 'success' => true, 'message' => 'The username or password is cannot be empty' ) );
+        echo json_encode( array( 'success' => false, 'message' => 'The username or password is cannot be empty' ) );
         die;
     }
     // check login
@@ -49,6 +49,14 @@ function loginCheck() {
             die;
         }
     }
+    if ($user->account_disabled=="on"){
+       wp_logout();
+       echo json_encode( array(
+              'success' => false,
+               'message' => 'Your account is disabled.' ) );
+            die;
+    }
+
     echo json_encode( array(
       'success' => true,
       'message' => 'Login successful' ,
@@ -147,4 +155,15 @@ function waf_body_class( $wp_classes, $extra_classes )
     }
 }
 add_filter( 'body_class', 'waf_body_class', 10, 2 );
+
+
+add_action('init','custom_login');
+
+function custom_login(){
+ global $pagenow;
+ if( 'wp-login.php' == $pagenow && $_GET['action']!="logout") {
+  wp_redirect(get_home_url());
+ }
+}
+
 ?>

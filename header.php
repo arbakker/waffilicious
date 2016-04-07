@@ -119,10 +119,14 @@ if ( is_home() || is_front_page() )
 
 
             echo wp_nav_menu( $menuParameters ) ;
+            echo $current_user->account_disabled;
             echo "</ul>";
-            if ( is_user_logged_in() ) {
-              global $current_user;
-              get_currentuserinfo();
+
+            global $current_user;
+            get_currentuserinfo();
+
+            if ( is_user_logged_in() and $current_user->account_disabled!="on" ) {
+              
               $link_user_page=$site_url."/member/".$current_user->user_login.'/';
               ?>
               <ul class='nav navbar-nav navbar-right'>
@@ -147,6 +151,34 @@ if ( is_home() || is_front_page() )
               </li>
             </ul>
               <?php
+
+            }elseif  ( is_user_logged_in() and $current_user->account_disabled=="on" ){
+            $link_user_page=$site_url."/member/";
+              ?>
+              <ul class='nav navbar-nav navbar-right'>
+              <li id='modal-login' data-original-title='Show modal' data-toggle='tooltip'><a class='menu-item menu-item-type-post_type menu-item-object-page' data-target="#loginmodal" data-toggle="modal"  href="#" ><i class='fa registration fa-sign-in fa-lg'></i>&nbsp;&nbsp; Sign in</a></li>
+              <li style="display:none;" class="dropdown" id="menu-loggedin">
+                <!--<a href='". ."' id='welcome' class=''><i class='fa registration fa-paw fa'></i>&nbsp;&nbsp;".$current_user->user_login ."</a>-->
+
+                <a href="#" id="dropdown-button" class="menu-item menu-item-type-post_type menu-item-object-page dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"></a>
+                <ul class="dropdown-menu" role="menu" style="color:#0C9AF7 !important;">
+                  <li><a id="a-userpage" href="<?php echo  $link_user_page;?>"><i class='fa fa-user ' ></i>&nbsp;&nbsp;&nbsp;  Edit My Profile</a></li>
+                  <li><a href="<?php echo site_url();?>/members/"><i class='fa fa-users ' ></i>&nbsp;&nbsp; Members List</a></li>
+                  <?php
+                  $page = get_page_by_name('information');
+                  if (!empty($page)) {
+                    ?>
+                    <li><a href="<?php echo site_url();?>/information/"><i class='fa fa-bookmark ' ></i>&nbsp;&nbsp; Official Stuff</a></li>
+                    <?php
+                  }
+                  ?>
+                  <li class="divider"></li>
+                  <li  data-original-title='Sign out' data-toggle='tooltip'><a id='logout'  class='' href='#'><i class='fa fa-sign-out ' ></i>&nbsp;&nbsp; Sign Out</a></li>
+                </ul>
+              </li>
+              </ul>
+              <?php
+
 
             }
             else{

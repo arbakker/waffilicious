@@ -16,6 +16,6 @@ include get_template_directory() . '/function/function-settingspage.php';
 include get_template_directory() . '/function/function-widget.php';
 include get_template_directory() . '/function/function-ical.php';
 //include get_template_directory() . '/function/function-selectedtalks.php';
-
+include get_template_directory() . '/function/function-customsignup.php';
 
 ?>
