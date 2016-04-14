@@ -24,6 +24,8 @@ get_header();
     $userinfo = get_userdata( $user_id );
     $username = $userinfo->user_login;
     $display_name= $userinfo->display_name;
+    $first_name= $userinfo->first_name;
+    $last_name= $userinfo->last_name;
     $user_pass =   $userinfo->user_pass;
     $user_email=   $userinfo->user_email;
     $author_registered = $userinfo->user_registered;
@@ -31,10 +33,11 @@ get_header();
     $phone_nr= get_the_author_meta( 'phone',   $user_id  );
     $veggie = get_the_author_meta( 'veggie',   $user_id  );
     $adress = get_the_author_meta( 'adress',   $user_id  );
+    $postal_code = get_the_author_meta( 'postal_code',   $user_id  );
+    $city = get_the_author_meta( 'city',   $user_id  );
     $allergies = get_the_author_meta( 'allergies',   $user_id  );
     $WBA_ID = get_the_author_meta( 'WBA_ID',   $user_id  );
     $studentnr = get_the_author_meta( 'studentnr',   $user_id  );
-    $institute = get_the_author_meta( 'institute',   $user_id  );
     $member_type = get_the_author_meta( 'member_type',   $user_id  );
     $dob = get_the_author_meta( 'dob',   $user_id  );
 
@@ -54,14 +57,15 @@ get_header();
       var email="<?php echo $user_email; ?>";
       var password="<?php echo $user_pass; ?>";
       var telephone="<?php echo $phone_nr; ?>";
-      var adress="<?php echo $adress; ?>";
+      var adress="<?php echo $adress; ?>"
+      var postal_code="<?php echo $postal_code; ?>"
+      var city="<?php echo $city; ?>"
       var WBA_ID="<?php echo $WBA_ID; ?>";
       var display_name="<?php echo $display_name; ?>";
       var veggie="<?php echo $veggie; ?>";
       var studentnr="<?php echo $studentnr; ?>";
       var allergies="<?php echo $allergies; ?>";
       var member_type="<?php echo $member_type; ?>";
-      var institute="<?php echo $institute; ?>";
       var dob="<?php echo $dob; ?>";
     </script>
 
@@ -106,7 +110,6 @@ get_header();
                         <td>Full Name</td>
                         <td id="displayname_display"><?php echo $display_name; ?></td>
                       </tr>
-
                       <tr>
                         <td>Telephone number</td>
                         <td id="phone_nr_display"> <?php echo $phone_nr;?></td>
@@ -115,6 +118,16 @@ get_header();
                       <tr>
                         <td>Adress</td>
                         <td id="adress_display"> <?php echo $adress;?></td>
+                      </tr>
+
+                      <tr>
+                        <td>Postal code</td>
+                        <td id="postalcode_display"> <?php echo $postal_code;?></td>
+                      </tr>
+                      
+                      <tr>
+                        <td>City</td>
+                        <td id="city_display"> <?php echo $city;?></td>
                       </tr>
 
                       <tr>
@@ -134,10 +147,6 @@ get_header();
                       <tr>
                         <td>Type of member</td>
                         <td id="member_type_display"> <?php echo $member_type;?></td>
-                      </tr>
-                      <tr>
-                        <td>Institution</td>
-                        <td id="institute_display"> <?php echo $institute;?></td>
                       </tr>
                       <tr>
                         <td>Veggie</td>
@@ -255,8 +264,12 @@ get_header();
 
         <form class="form-horizontal" id="userdetails">
           <div class="form-group">
-            <LABEL class="control-label col-md-4 col-xs-4" for="displayname">Full Name</LABEL>
-            <div class="col-md-6 col-xs-6"><INPUT class="required form-control input-details" type="text" id="displayname" value="<?php echo $display_name; ?>"></div>
+            <LABEL class="control-label col-md-4 col-xs-4" for="firstname">First Name</LABEL>
+            <div class="col-md-6 col-xs-6"><INPUT class="required form-control input-details" type="text" id="firstname" value="<?php echo $first_name; ?>"></div>
+          </div>
+          <div class="form-group">
+            <LABEL class="control-label col-md-4 col-xs-4" for="lastname">Last Name</LABEL>
+            <div class="col-md-6 col-xs-6"><INPUT class="required form-control input-details" type="text" id="lastname" value="<?php echo $last_name; ?>"></div>
           </div>
           <div class="form-group">
             <LABEL class="control-label col-md-4 col-xs-4" for="telephone">Telephone number</LABEL>
@@ -265,6 +278,14 @@ get_header();
           <div class="form-group">
             <LABEL class="control-label col-md-4 col-xs-4" for="adress">Adress</LABEL>
             <div class="col-md-6 col-xs-6"><INPUT class="required form-control input-details" type="text" id="adress" value="<?php echo $adress;?>"></div>
+          </div>
+           <div class="form-group">
+            <LABEL class="control-label col-md-4 col-xs-4" for="postal_code">Postal Code</LABEL>
+            <div class="col-md-6 col-xs-6"><INPUT class="required form-control input-details" type="text" id="postal_code" value="<?php echo $postal_code;?>"></div>
+          </div>
+           <div class="form-group">
+            <LABEL class="control-label col-md-4 col-xs-4" for="city">City</LABEL>
+            <div class="col-md-6 col-xs-6"><INPUT class="required form-control input-details" type="text" id="city" value="<?php echo $city;?>"></div>
           </div>
           <div class="form-group">
             <LABEL class="control-label col-md-4 col-xs-4"  for="dob">Date of birth</LABEL>
@@ -289,20 +310,10 @@ get_header();
               <option <?php if ($member_type=="PHD") echo 'selected="selected"'; ?>>PHD</option>
               <option <?php if ($member_type=="Clubcard") echo 'selected="selected"'; ?>>Clubcard</option>
               <option <?php if ($member_type=="Trainer") echo 'selected="selected"'; ?>>Trainer</option>
+              <option <?php if ($member_type=="Employee") echo 'selected="selected"'; ?>>Employee</option>
             </select></div>
           </div>
-          <div class="form-group">
-            <LABEL class="control-label col-md-4 col-xs-4" for="institute">
-              Institution
-            </LABEL>
-            <div class="col-md-6 col-xs-6"><select id='institute'>
-              <option <?php if ($institute=="WUR") echo 'selected="selected"'; ?>>WUR</option>
-              <option <?php if ($institute=="VHL") echo 'selected="selected"'; ?>>VHL</option>
-              <option <?php if ($institute=="None" or $institute==="") echo 'selected="selected"'; ?>>None</option>
-              <option <?php if ($institute=="Other") echo 'selected="selected"'; ?>>Other</option>
-            </select></div>
-          </div>
-
+    
           <div class="form-group">
               <LABEL class="control-label col-md-4 col-xs-4" for="veggie">
                 Vegetarian

@@ -14,21 +14,68 @@ function yoursite_extra_user_profile_fields( $user ) {
 ?>
   <h3><?php _e("Extra profile information", "blank"); ?></h3>
   <table class="form-table">
-  <tr>
+
+  
+<?php 
+//
+// Add userinfo here that only admins can view/change
+//
+if ( current_user_can( 'manage_options' ) ) { ?>
+    <tr>
       <th><label for="account_disabled"><?php _e("Account Disabled"); ?></label></th>
       <td>
         <?php $account_disabled=esc_attr( get_the_author_meta( 'account_disabled', $user->ID ) );
+        
         ?>
-        <INPUT  type="checkbox"  name="account_disabled" id="account_disabled"<?php if ($account_disabled){echo "checked";} ?>>
+          <INPUT  type="checkbox"  name="account_disabled" id="account_disabled"<?php if ($account_disabled==="on"){echo "checked";} ?>>
           <span class="description"><?php _e("Account Disabled"); ?></span>
         </td>
     </tr>
+    <tr>
+      <th><label for="registered_scb"><?php _e("Register with SCB"); ?></label></th>
+      <td>
+        <?php $registered_scb=esc_attr( get_the_author_meta( 'registered_scb', $user->ID ) );
+        
+        ?>
+          <INPUT  type="checkbox"  name="registered_scb" id="registered_scb"<?php if ($registered_scb==="on"){echo "checked";} ?>>
+          <span class="description"><?php _e("Registered with SCB"); ?></span>
+        </td>
+    </tr>
+    <tr>
+      <th><label for="registered_nfb"><?php _e("Register with NFB"); ?></label></th>
+      <td>
+        <?php $registered_nfb=esc_attr( get_the_author_meta( 'registered_nfb', $user->ID ) );
+        
+        ?>
+          <INPUT  type="checkbox"  name="registered_nfb" id="registered_nfb"<?php if ($registered_nfb==="on"){echo "checked";} ?>>
+          <span class="description"><?php _e("Registered with NFB"); ?></span>
+        </td>
+    </tr>
+     <tr>
+      <th><label for="start_member"><?php _e("Start membership"); ?></label></th>
+      <td>
+        <input class="date" id="start_member" type="text" name="start_member" value="<?php echo  esc_attr( get_the_author_meta( 'start_member', $user->ID ) ) ; ?>" />
+        <br />
+        <span class="description"><?php _e("Set start of membership"); ?></span>
+      </td>
+    </tr>
+     <tr>
+      <th><label for="end_member"><?php _e("End membership"); ?></label></th>
+      <td>
+        <input class="date" id="end_member" type="text" name="end_member" value="<?php echo  esc_attr( get_the_author_meta( 'end_member', $user->ID ) ) ; ?>" />
+        <br />
+        <span class="description"><?php _e("Set end of membership."); ?></span>
+      </td>
+    </tr>
+    <?php
+}
+     ?>
     <tr>
       <th><label for="phone"><?php _e("Phone"); ?></label></th>
       <td>
         <input type="text" name="phone" id="phone" class="regular-text"
             value="<?php echo esc_attr( get_the_author_meta( 'phone', $user->ID ) ); ?>" /><br />
-        <span class="description"><?php _e("Please enter your phone."); ?></span>
+        <span class="description"><?php _e("Please enter your phone nr.."); ?></span>
     </td>
     </tr>
     <tr>
@@ -37,6 +84,22 @@ function yoursite_extra_user_profile_fields( $user ) {
         <input type="text" name="adress" id="adress" class="regular-text"
         value="<?php echo esc_attr( get_the_author_meta( 'adress', $user->ID ) ); ?>" /><br />
         <span class="description"><?php _e("Please enter your adress."); ?></span>
+      </td>
+    </tr>
+    <tr>
+      <th><label for="postal_code"><?php _e("Postal Code"); ?></label></th>
+      <td>
+        <input type="text" name="postal_code" id="postal_code" class="regular-text"
+        value="<?php echo esc_attr( get_the_author_meta( 'postal_code', $user->ID ) ); ?>" /><br />
+        <span class="description"><?php _e("Please enter your postal code."); ?></span>
+      </td>
+    </tr>
+    <tr>
+      <th><label for="city"><?php _e("City"); ?></label></th>
+      <td>
+        <input type="text" name="city" id="city" class="regular-text"
+        value="<?php echo esc_attr( get_the_author_meta( 'city', $user->ID ) ); ?>" /><br />
+        <span class="description"><?php _e("Please enter your city."); ?></span>
       </td>
     </tr>
     <tr>
@@ -71,25 +134,11 @@ function yoursite_extra_user_profile_fields( $user ) {
           <option <?php if ($member_type=="Student" or $member_type==="") echo 'selected="selected"'; ?>>Student</option>
           <option <?php if ($member_type=="PHD") echo 'selected="selected"'; ?>>PHD</option>
           <option <?php if ($member_type=="Clubcard") echo 'selected="selected"'; ?>>Clubcard</option>
+          <option <?php if ($member_type=="Employee") echo 'selected="selected"'; ?>>Employee</option>
           <option <?php if ($member_type=="Trainer") echo 'selected="selected"'; ?>>Trainer</option>
         </select>
         <br />
-        <span class="description"><?php _e("Type of student (regular/phd/verenigingskaart)."); ?></span>
-      </td>
-    </tr>
-    <tr>
-      <th><label for="institute"><?php _e("Institution"); ?></label></th>
-      <td>
-        <select id='institute' name="institute">
-          <?php $institute=esc_attr( get_the_author_meta( 'institute', $user->ID ) ); echo esc_attr( get_the_author_meta( 'institute', $user->ID ) );?>
-
-          <option <?php if ($institute=="WUR") echo 'selected="selected"'; ?> value="WUR">WUR</option>
-          <option <?php if ($institute=="VHL") echo 'selected="selected"'; ?> value="VHL">VHL</option>
-          <option <?php if ($institute=="None" or $institute==="") echo 'selected="selected"'; ?> value="None">None</option>
-          <option <?php if ($institute=="Other") echo 'selected="selected"'; ?> value="Other">Other</option>
-        </select>
-       <br />
-        <span class="description"><?php _e("Institute (VHL/WUR)."); ?></span>
+        <span class="description"><?php _e("Type of student (student/phd/clubcar/employee/trainer)."); ?></span>
       </td>
     </tr>
     <tr>
@@ -117,17 +166,24 @@ function yoursite_extra_user_profile_fields( $user ) {
 function yoursite_save_extra_user_profile_fields( $user_id ) {
   $saved = false;
   if ( current_user_can( 'edit_user', $user_id ) ) {
-    update_user_meta( $user_id, 'account_disabled', $_POST['account_disabled'] );
     update_user_meta( $user_id, 'phone', $_POST['phone'] );
     update_user_meta( $user_id, 'adress', $_POST['adress'] );
+    update_user_meta( $user_id, 'postal_code', $_POST['postal_code'] );
+    update_user_meta( $user_id, 'city', $_POST['city'] );
     update_user_meta( $user_id, 'WBA_ID', $_POST['WBA_ID'] );
     update_user_meta( $user_id, 'studentnr', $_POST['studentnr'] );
     update_user_meta( $user_id, 'veggie', $_POST['veggie'] );
-    update_user_meta( $user_id, 'institute', $_POST['institute'] );
     update_user_meta( $user_id, 'allergies', $_POST['allergies'] );
     update_user_meta( $user_id, 'member_type', $_POST['member_type'] );
     update_user_meta( $user_id, 'dob', $_POST['dob'] );
     $saved = true;
+  }
+  if ( current_user_can( 'manage_options' ) ) {
+    update_user_meta( $user_id, 'account_disabled', $_POST['account_disabled'] );
+    update_user_meta( $user_id, 'registered_scb', $_POST['registered_scb'] );
+    update_user_meta( $user_id, 'registered_nfb', $_POST['registered_nfb'] );
+    update_user_meta( $user_id, 'start_member', $_POST['start_member'] );
+    update_user_meta( $user_id, 'end_member', $_POST['end_member'] );
   }
   return true;
 }
@@ -186,15 +242,28 @@ function updatememberdetails_ajax() {
     if(array_key_exists('telephone', $_POST) == TRUE){
       $telephone =sanitize_text_field( $_POST['telephone']);
       update_user_meta( $member, 'phone', $telephone );}
-    if(array_key_exists('displayname', $_POST) == TRUE){
-      $displayname =sanitize_text_field( $_POST['displayname']);
-      wp_update_user( array( 'ID' => $member,'display_name' => $displayname ));}
+    if(array_key_exists('firstname', $_POST) == TRUE){
+      $firstname =sanitize_text_field( $_POST['firstname']);
+      wp_update_user( array( 'ID' => $member,' first_name ' => $firstname ));}
+    if(array_key_exists('lastname', $_POST) == TRUE){
+      $lastname =sanitize_text_field( $_POST['lastname']);
+      wp_update_user( array( 'ID' => $member,'last_name' => $lastname ));}
+    $user_info = get_userdata($member);
+    $first_name = $user_info->first_name;
+    $last_name = $user_info->last_name;
+    wp_update_user( array( 'ID' => $member,'display_name' => $firstname." ".$lastname));
     if(array_key_exists('veggie', $_POST) == TRUE){
       $veggie = sanitize_text_field($_POST['veggie']);
       update_user_meta( $member, 'veggie', $veggie );}
     if(array_key_exists('adress', $_POST) == TRUE){
       $adress = sanitize_text_field($_POST['adress']);
       update_user_meta( $member, 'adress', $adress );}
+    if(array_key_exists('postal_code', $_POST) == TRUE){
+      $postal_code = sanitize_text_field($_POST['postal_code']);
+      update_user_meta( $member, 'postal_code', $postal_code );}
+    if(array_key_exists('city', $_POST) == TRUE){
+      $city = sanitize_text_field($_POST['city']);
+      update_user_meta( $member, 'city', $city );}
     if(array_key_exists('WBA_ID', $_POST) == TRUE){
       $WBA_ID = sanitize_text_field($_POST['WBA_ID']);
       update_user_meta( $member, 'WBA_ID', $WBA_ID );}

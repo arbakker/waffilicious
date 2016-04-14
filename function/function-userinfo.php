@@ -46,7 +46,7 @@ function my_delete_user( $user_id ) {
         $user_obj = get_userdata( $user_id );
         $email = $user_obj->user_email;
 
-  $headers = 'From: ' . get_bloginfo( "name" ) . ' <' . get_bloginfo( "admin_email" ) . '>' . "\r\n";
+  $headers = 'From: ' . get_bloginfo( "name" ) . ' <' .  "a.r.bakker1@gmail.com" . '>' . "\r\n";
    wp_mail( $email, 'You are being deleted, brah', 'Your account at ' . get_bloginfo("name") . ' is being deleted right now.', $headers );
 }
 add_action( 'delete_user', 'my_delete_user' );

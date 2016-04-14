@@ -145,14 +145,15 @@ jQuery().ready(function() {
 
       var userinfo = {};
       //a['name'] = 'oscar';
-      userinfo.displayname= $("#displayname").val();
+      userinfo.firstname= $("#firstname").val();
+      userinfo.lastname= $("#lastname").val();
       userinfo.telephone= $("#telephone").val();
       userinfo.veggie=$("#veggie").is(":checked").toString()  ;
       userinfo.adress= $("#adress").val();
       userinfo.WBA_ID= $("#WBA_ID").val();
       userinfo.studentnr= $("#studentnr").val();
       userinfo.allergies= $("#allergies").val();
-      userinfo.institute= $("#institute").val();
+      userinfo.city= $("#city").val();
       userinfo.member_type= $("#member_type").val();
       userinfo.dob= $("#dob").val();
 

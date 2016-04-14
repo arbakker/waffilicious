@@ -116,6 +116,7 @@ function complete_registration() {
         );
         $user = wp_insert_user( $userdata );
         update_user_meta( $user , 'account_disabled', "on" );
+        update_user_meta( $user , 'start_member', date('d-m-Y') );
         echo 'Registration complete. Goto <a href="' . get_site_url() . '/wp-login.php">login page</a>.';   
     }
 }

@@ -36,6 +36,7 @@ function loginCheck() {
     }
     // check login
     $user = wp_signon( $creds, false );
+    
     if ( is_wp_error( $user ) ) {
         if ( $user->get_error_code() == "invalid_username" || $user->get_error_code() == "incorrect_password" ) {
             echo json_encode( array(
@@ -66,8 +67,49 @@ function loginCheck() {
     ) );
     die;
 }
+
+
+function user_login( $user_login, $user = null ) {
+  if (!(defined('DOING_AJAX') && DOING_AJAX)) {
+  setcookie( 'account_disabled', '0',time()+600, COOKIEPATH, COOKIE_DOMAIN, false);
+    if ( !$user ) {
+      $user = get_user_by('login', $user_login);
+    }
+    if ( !$user ) {
+      // not logged in - definitely not disabled
+      return;
+    }
+    // Get user meta
+    $disabled = get_user_meta( $user->ID, 'account_disabled', true );
+    
+    // Is the use logging in disabled?
+    if ( $disabled === "on" ) {
+      // Clear cookies, a.k.a log user out
+      wp_clear_auth_cookie();
+
+      // Build login URL and then redirect
+      $login_url = add_query_arg( 'disabled', '1', $login_url );
+      setcookie( 'account_disabled', '1',time()+600, COOKIEPATH, COOKIE_DOMAIN, false);
+      wp_redirect( $login_url );
+      exit;
+    }
+  }
+}
+
+function user_login_message( $message ) {
+
+    // Show the error message if it seems to be a disabled user
+    if ( isset( $_GET['disabled'] ) && $_GET['disabled'] == 1 ) 
+      $message =  '<div id="login_error">' . apply_filters( 'ja_disable_users_notice', __( 'Your account is disabled.', 'account_disabled' ) ) . '</div>';
+
+    return $message;
+  }
+
 add_action( 'wp_ajax_nopriv_loginCheck', 'loginCheck' );
 add_action( 'wp_ajax_loginCheck', 'loginCheck' );
+add_action( 'wp_login',  'user_login');
+add_filter( 'login_message', 'user_login_message');
+
 
 function check_user_role( $role, $user_id = null ) {
     if ( is_numeric( $user_id ) ){
@@ -156,14 +198,15 @@ function waf_body_class( $wp_classes, $extra_classes )
 }
 add_filter( 'body_class', 'waf_body_class', 10, 2 );
 
-
-add_action('init','custom_login');
-
-function custom_login(){
- global $pagenow;
- if( 'wp-login.php' == $pagenow && $_GET['action']!="logout") {
-  wp_redirect(get_home_url());
- }
+/**
+ * Redirect back to homepage and not allow access to 
+ * WP admin for Subscribers.
+ */
+function themeblvd_redirect_admin(){
+  if ( ! defined('DOING_AJAX') && ! current_user_can('edit_posts') ) {
+    wp_redirect( site_url() );
+    exit;   
+  }
 }
-
+add_action( 'admin_init', 'themeblvd_redirect_admin' );
 ?>
