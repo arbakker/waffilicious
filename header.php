@@ -224,7 +224,7 @@ if ( is_home() || is_front_page() )
             <h4 class="modal-title" id="loginmodal"><img src="<?php echo get_template_directory_uri();?>/img/modal-header.png" style="height:35px;position:relative;top:-3px;margin-right:1em" alt="WAF Logo">Sign in with your WAF account</h4>
             </div>
             <div class="modal-body">
-              <form class="form-horizontal" id="userdetails">
+              <div class="form-horizontal" id="userdetails">
                 <div class="form-group">
                   <LABEL class="control-label col-md-4 col-xs-4" for="username">Username</LABEL>
                   <div class="col-md-6 col-xs-6"><INPUT class="required form-control" type="text" id="username"></div>
@@ -263,7 +263,7 @@ if ( is_home() || is_front_page() )
 
                   <button class="btn ladda-button btn-primary register" id="signin" type="button" data-style="expand-left" data-spinner-color="#333"><span class="ladda-label">Sign in</span></button>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>

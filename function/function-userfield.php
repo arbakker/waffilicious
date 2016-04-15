@@ -52,6 +52,16 @@ if ( current_user_can( 'manage_options' ) ) { ?>
         </td>
     </tr>
      <tr>
+      <th><label for="sleeping_dog"><?php _e("Sleeping Dog"); ?></label></th>
+      <td>
+        <?php $sleeping_dog=esc_attr( get_the_author_meta( 'sleeping_dog', $user->ID ) );
+        
+        ?>
+          <INPUT  type="checkbox"  name="sleeping_dog" id="sleeping_dog"<?php if ($sleeping_dog==="on"){echo "checked";} ?>>
+          <span class="description"><?php _e("Sleeping Dog"); ?></span>
+        </td>
+    </tr>
+     <tr>
       <th><label for="start_member"><?php _e("Start membership"); ?></label></th>
       <td>
         <input class="date" id="start_member" type="text" name="start_member" value="<?php echo  esc_attr( get_the_author_meta( 'start_member', $user->ID ) ) ; ?>" />
@@ -144,9 +154,10 @@ if ( current_user_can( 'manage_options' ) ) { ?>
     <tr>
       <th><label for="veggie"><?php _e("Veggie"); ?></label></th>
       <td>
+
         <?php $veggie=esc_attr( get_the_author_meta( 'veggie', $user->ID ) );
         ?>
-        <INPUT  type="checkbox"  name="veggie" id="veggie"<?php if ($veggie){echo "checked";} ?>>
+        <INPUT  type="checkbox"  name="veggie" id="veggie "<?php if ($veggie=="on"){echo "checked";} ?>>
           <span class="description"><?php _e("Veggie?"); ?></span>
         </td>
     </tr>
@@ -172,7 +183,15 @@ function yoursite_save_extra_user_profile_fields( $user_id ) {
     update_user_meta( $user_id, 'city', $_POST['city'] );
     update_user_meta( $user_id, 'WBA_ID', $_POST['WBA_ID'] );
     update_user_meta( $user_id, 'studentnr', $_POST['studentnr'] );
-    update_user_meta( $user_id, 'veggie', $_POST['veggie'] );
+
+    if (! $_POST['veggie']){
+      update_user_meta( $user_id, 'veggie', "" );
+    }
+    else{
+      update_user_meta( $user_id, 'veggie', $_POST['veggie'] );
+    }
+
+    
     update_user_meta( $user_id, 'allergies', $_POST['allergies'] );
     update_user_meta( $user_id, 'member_type', $_POST['member_type'] );
     update_user_meta( $user_id, 'dob', $_POST['dob'] );
@@ -184,6 +203,7 @@ function yoursite_save_extra_user_profile_fields( $user_id ) {
     update_user_meta( $user_id, 'registered_nfb', $_POST['registered_nfb'] );
     update_user_meta( $user_id, 'start_member', $_POST['start_member'] );
     update_user_meta( $user_id, 'end_member', $_POST['end_member'] );
+    update_user_meta( $user_id, 'sleeping_dog', $_POST['sleeping_dog'] );
   }
   return true;
 }
@@ -277,9 +297,6 @@ function updatememberdetails_ajax() {
     if(array_key_exists('member_type', $_POST) == TRUE){
       $member_type = sanitize_text_field($_POST['member_type']);
       update_user_meta( $member, 'member_type', $member_type );}
-    if(array_key_exists('institute', $_POST) == TRUE){
-      $institute = sanitize_text_field($_POST['institute']);
-      update_user_meta( $member, 'institute', $institute );}
     if(array_key_exists('dob', $_POST) == TRUE){
       $dob = sanitize_text_field($_POST['dob']);
       update_user_meta( $member, 'dob', $dob );}
@@ -318,8 +335,82 @@ function updatememberdetails_ajax() {
 
 
 
+function mysite_column_company( $defaults ) {
+    $defaults['account_disabled'] = __('Disabled', 'user-column');
+     $defaults['sleeping_dog'] = __('Sleeping Dog', 'user-column');
+    $defaults['registered_nfb'] = __('Registered NFB', 'user-column');
+    $defaults['registered_scb'] = __('Registered SCB', 'user-column');
+    $defaults['adress'] = __('Address', 'user-column');
+    $defaults['postal_code'] = __('Postal code', 'user-column');
+
+    $defaults['city'] = __('City', 'user-column');
+    unset($defaults['posts']);
+    return $defaults;
+}
+function mysite_custom_column_company($value, $column_name, $id) {
+    if( $column_name == 'postal_code' ) {
+        return get_the_author_meta( 'postal_code', $id );
+    }
+    elseif( $column_name == 'adress' ) {
+        return get_the_author_meta( 'adress', $id );
+    }
+    elseif( $column_name == 'account_disabled' ) {
+        if (get_the_author_meta( 'account_disabled', $id )=="on"){
+          return '<i class="fa fa-check green"></i>';
+        }else{
+          return '<i class="fa fa-remove red"></i>';
+        }   
+    }
+    elseif( $column_name == 'registered_scb' ) {
+        if (get_the_author_meta( 'registered_scb', $id )=="on"){
+          return '<i class="fa fa-check green"></i>';
+        }else{
+          return '<i class="fa fa-remove red"></i>';
+        }   
+    }
+    elseif( $column_name == 'registered_nfb' ) {
+        if (get_the_author_meta( 'registered_nfb', $id )=="on"){
+          return '<i class="fa fa-check green"></i>';
+        }else{
+          return '<i class="fa fa-remove red"></i>';
+        }   
+    }elseif( $column_name == 'sleeping_dog' ) {
+        if (get_the_author_meta( 'sleeping_dog', $id )=="on"){
+          return '<i class="fa fa-check green"></i>';
+        }else{
+          return '<i class="fa fa-remove red"></i>';
+        }   
+    }
+    elseif( $column_name == 'city' ) {
+        return get_the_author_meta( 'city', $id );
+    }
+}
 
 
+add_action('manage_users_custom_column', 'mysite_custom_column_company', 15, 3);
+add_filter('manage_users_columns', 'mysite_column_company', 15, 1);
 
 
+function my_report_button(){
+
+echo "</div><div><button class='button'>Export to csv</button></div>";
+
+}
+
+add_action('restrict_manage_users','my_report_button');
+
+
+function custom_button_example($wp_admin_bar){
+$args = array(
+'id' => 'custom-button',
+'title' => 'Custom Button',
+'href' => 'http://example.com/',
+'meta' => array(
+'class' => 'custom-button-class'
+)
+);
+$wp_admin_bar->add_node($args);
+}
+
+add_action('admin_bar_menu', 'custom_button_example', 50);
 ?>
