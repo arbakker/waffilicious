@@ -70,9 +70,7 @@ get_header();
     </script>
 
 <div class="container">
-
       <div class="row">
-
         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xlg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-2 col-lg-offset-2 col-xlg-offset-3 toppad" >
               <div class="panel panel-default">
             <div class="panel-heading">
@@ -142,12 +140,19 @@ get_header();
                         <td>WBA ID</td>
                         <td id="WBA_ID_display"> <?php echo $WBA_ID;?></td>
                       </tr>
-
-
                       <tr>
                         <td>Type of member</td>
                         <td id="member_type_display"> <?php echo $member_type;?></td>
                       </tr>
+                      <tr>
+                        <td>IBAN nr.</td>
+                        <td id="IBAN_display"> <?php echo $IBAN;?></td>
+                      </tr>
+                        <tr>
+                        <td>Name on bank account</td>
+                        <td id="bank_name_display"> <?php echo $bank_name;?></td>
+                      </tr>
+
                       <tr>
                         <td>Veggie</td>
                         <td id="veggie_display"> <?php if ($veggie=="true"){
@@ -262,7 +267,7 @@ get_header();
       </div>
       <div class="modal-body">
 
-        <form class="form-horizontal" id="userdetails">
+        <form class="form-horizontal" id="userdetails" enctype="multipart/form-data">
           <div class="form-group">
             <LABEL class="control-label col-md-4 col-xs-4" for="firstname">First Name</LABEL>
             <div class="col-md-6 col-xs-6"><INPUT class="required form-control input-details" type="text" id="firstname" value="<?php echo $first_name; ?>"></div>
@@ -300,8 +305,8 @@ get_header();
           <div class="form-group">
             <LABEL class="control-label col-md-4 col-xs-4" for="WBA_ID">WBA ID</LABEL>
             <div class="col-md-6 col-xs-6"><INPUT class="required form-control input-details" type="text" id="WBA_ID" value="<?php echo $WBA_ID;?>"></div>
-            </div>
-                      <div class="form-group">
+          </div>
+          <div class="form-group">
             <LABEL class="control-label col-md-4 col-xs-4" for="member_type">
               Type of member
             </LABEL>
@@ -313,7 +318,15 @@ get_header();
               <option <?php if ($member_type=="Employee") echo 'selected="selected"'; ?>>Employee</option>
             </select></div>
           </div>
-    
+          <div class="form-group">
+            <LABEL class="control-label col-md-4 col-xs-4" for="IBAN">IBAN nr.</LABEL>
+            <div class="col-md-6 col-xs-6"><INPUT class="required form-control input-details" type="text" id="IBAN" value="<?php echo $IBAN;?>"></div>
+          </div>
+          <div class="form-group">
+            <LABEL class="control-label col-md-4 col-xs-4" for="bank_name">Name on bankaccount</LABEL>
+            <div class="col-md-6 col-xs-6"><INPUT class="required form-control input-details" type="text" id="bank_name" value="<?php echo $bank_name;?>"></div>
+          </div>
+
           <div class="form-group">
               <LABEL class="control-label col-md-4 col-xs-4" for="veggie">
                 Vegetarian
@@ -323,6 +336,11 @@ get_header();
           <div class="form-group">
             <LABEL class="control-label col-md-4 col-xs-4" for="allergies">Allergies</LABEL>
             <div class="col-md-6 col-xs-6"><input class="form-control  input-details" type="text" id="allergies" value="<?php echo $allergies;?>"></div>
+          </div>
+          <!-- File upload-->
+           <div class="form-group">
+            <LABEL class="control-label col-md-4 col-xs-4" for="bank_transfer">Allow automatic bank transfer</LABEL>
+            <div class="col-md-6 col-xs-6"><input class="form-control  input-details" type="file" name="Upload" id="bank_transfer" accept="application/pdf"></div>
           </div>
           <div class="alert alert-danger" id="alert-warning-details" style="display: none;">
             <button type="button" onclick="$('.alert').hide();" class="close" >

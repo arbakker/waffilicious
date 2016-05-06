@@ -6,6 +6,7 @@
  */
 ?>
 <?php
+
 get_header();
 
 
@@ -13,7 +14,6 @@ get_header();
 
 
 echo '<div class="panel-group" id="accordion" itemscope itemtype="https://schema.org/CollectionPage">';
-
 $query = new WP_Query( array(
   'post_type' => 'event',
   'posts_per_page' => -1,
@@ -32,7 +32,8 @@ foreach($posts as $post) {
     }
 }
 
-if (count($posts)==0){
+
+if (count($filter_post)==0){
   ?>
  <h1>There is nothing here</h1>
  <p>There are no scheduled events.</p>
@@ -78,7 +79,6 @@ $locality=get_post_field( 'event-locality', $postID );
 $country=get_post_field( 'event-country', $postID );
 $organizer=get_post_field( 'event-organizer', $postID );
 $organizer_url=get_post_field( 'event-url', $postID );
-
 $price=get_post_field( 'price', $postID );
 
 $icon_register='<i class="fa text-right registered loggedin  '.$postID.'  fa-check-square-o fa-lg"></i>';
